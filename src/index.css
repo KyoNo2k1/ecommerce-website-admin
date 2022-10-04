@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .text-body-sm {
+    @apply text-h6 font-satoshi;
+  }
+
+  .text-body-md {
+    @apply text-h5 font-satoshi;
+  }
+
+  .text-body-lg {
+    @apply text-[18px] font-satoshi;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Clash Display', sans-serif;
+}
