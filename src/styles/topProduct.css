@@ -1,0 +1,19 @@
+table,
+td {
+    /* border: 1px solid #333; */
+    background: rgba(78,77,147, .2);
+    padding: 15px;
+}
+th {
+    /* border: 1px solid #333; */
+    color: rgb(78,77,147);
+    background: white;
+    padding: 10px;
+    text-align: left;
+}
+
+thead,
+tfoot {
+    background-color: #333;
+    color: #fff;
+}
