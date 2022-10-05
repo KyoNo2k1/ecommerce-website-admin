@@ -15,10 +15,16 @@ const Analytics = () => {
             <p>2.056</p>
           </div>
           <div>
-            <FontAwesomeIcon icon={faSackDollar} />
+            <FontAwesomeIcon icon={faSackDollar} border />
             <div>
               <p>0.05%</p>
-              <FontAwesomeIcon icon={faArrowUpRightDots} size="xs" />
+              <div className="bg-primary rounded w-[30px] h-[30px] overflow-hidden flex justify-center align-middle cursor-pointer">
+                <FontAwesomeIcon
+                  icon={faArrowUpRightDots}
+                  className="block my-auto"
+                  inverse
+                />
+              </div>
             </div>
           </div>
         </div>

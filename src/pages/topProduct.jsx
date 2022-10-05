@@ -22,8 +22,8 @@ const TopProduct = () => {
   ];
   return (
     <div className="mt-3">
-      <p>Top Products</p>
-      <table className="w-[100%]">
+      <p className="font-bold">Top Products</p>
+      <table className="w-[98%]">
         <tr>
           <th>STT</th>
           <th>Name</th>
