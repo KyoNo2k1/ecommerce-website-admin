@@ -3,7 +3,7 @@ import Analytics from "./pages/analytics";
 import Chart from "./pages/chart";
 import TopProduct from "./pages/topProduct";
 
-const App = () => {
+const Dashboard = () => {
   return (
     <div className="flex px-24 my-4 justify-between">
       <div className="w-[58%]">
@@ -17,4 +17,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Dashboard;
