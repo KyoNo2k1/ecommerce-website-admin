@@ -20,7 +20,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const Chart = () => {
+const ChartUser = () => {
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
@@ -69,9 +69,9 @@ const Chart = () => {
     <div className="w-[98%] mt-5 bg-gray-100">
       <div
         style={{
-          height: "40vh",
+          height: "30vh",
           position: "relative",
-          padding: "0 2% 2%",
+          padding: "2%",
         }}
       >
         <Line data={data} options={{ maintainAspectRatio: false }} />
@@ -80,4 +80,4 @@ const Chart = () => {
   );
 };
 
-export default Chart;
+export default ChartUser;
