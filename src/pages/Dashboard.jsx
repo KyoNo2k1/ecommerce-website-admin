@@ -1,8 +1,8 @@
 import React from "react";
-import Analytics from "./pages/analytics";
-import Chart from "./pages/chart";
-import TopProduct from "./pages/topProduct";
-import ChartUser from "./pages/chartUser";
+import Analytics from "../components/analytics";
+import Chart from "../components/chart";
+import TopProduct from "../components/topProduct";
+import ChartUser from "../components/chartUser";
 
 const Dashboard = () => {
   return (

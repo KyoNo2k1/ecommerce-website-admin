@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Dashboard from "./Dashboard";
+import Dashboard from "./pages/Dashboard";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Header from "./pages/header";
-import Navbar from "./pages/navbar";
-import Product from "./Product";
-import Customer from "./Customer";
-import Checkout from "./Checkout";
-import Report from "./Report";
+import Header from "./components/header";
+import Navbar from "./components/navbar";
+import Product from "./pages/Product";
+import Customer from "./pages/Customer";
+import Checkout from "./pages/Checkout";
+import Report from "./pages/Report";
 
 const router = createBrowserRouter([
   {
