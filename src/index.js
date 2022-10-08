@@ -10,6 +10,8 @@ import Product from "./pages/Product";
 import Customer from "./pages/Customer";
 import Checkout from "./pages/Checkout";
 import Report from "./pages/Report";
+import RUDProduct from "./pages/RUDProduct";
+import RUDCustomer from "./pages/RUDCustomer";
 
 const router = createBrowserRouter([
   {
@@ -21,8 +23,16 @@ const router = createBrowserRouter([
     element: <Product />,
   },
   {
+    path: "Product/:ProductId/:Type",
+    element: <RUDProduct />,
+  },
+  {
     path: "/Customer",
     element: <Customer />,
+  },
+  {
+    path: "Customer/:CustomerId",
+    element: <RUDCustomer />,
   },
   {
     path: "/Checkout",
