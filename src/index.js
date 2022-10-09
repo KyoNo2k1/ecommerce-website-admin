@@ -13,6 +13,7 @@ import Report from "./pages/Report";
 import RUDProduct from "./pages/RUDProduct";
 import RUDCustomer from "./pages/RUDCustomer";
 import DetailCheckout from "./pages/DetailCheckout";
+import Category from "./pages/Category";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "Product/:ProductId/:Type",
     element: <RUDProduct />,
+  },
+  {
+    path: "/Category",
+    element: <Category />,
   },
   {
     path: "/Customer",

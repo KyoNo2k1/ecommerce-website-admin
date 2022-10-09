@@ -50,10 +50,12 @@ function Button({
   IconRight = false,
   IconRightClick = () => {},
   children = "Button",
+  textColor = "",
+  width = "",
 }) {
   return (
     <button
-      className={`text-body-md min-w-fit min-h-fit flex-1 flex items-center justify-center gap-4 relative ease-out duration-300 ${colors[Color][State]} ${sizes[Size]}`}
+      className={`border-primary border-[1px] text-body-md min-w-fit min-h-fit flex-1 flex items-center justify-center gap-4 relative ease-out duration-300 ${colors[Color][State]} ${sizes[Size]} ${textColor} ${width}`}
     >
       {children}
       {IconRight && (

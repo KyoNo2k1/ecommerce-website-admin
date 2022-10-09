@@ -25,6 +25,7 @@ module.exports = {
         light_grey: "#f9f9f9",
         border_grey: "#ebe8f4",
         border_dark: "#cac6da",
+        invisible_rgba: "rgba(0, 0, 0, 0.2)",
       },
     },
   },

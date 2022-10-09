@@ -10,6 +10,9 @@ const Navbar = () => {
         <a href="/Product" className="active:text-primary cursor-pointer">
           Product
         </a>
+        <a href="/Category" className="active:text-primary cursor-pointer">
+          Category
+        </a>
         <a href="/Customer" className="active:text-primary cursor-pointer">
           Customer
         </a>
