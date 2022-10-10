@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import ButtonIcon from "../components/buttonIcon";
 
 const Checkout = () => {
@@ -44,14 +44,17 @@ const Checkout = () => {
               <td>{checkout.price}</td>
               <td>{checkout.status}</td>
               <td>{checkout.checkoutTime}</td>
-              <td className="border-none">
+              <td className="border-none w-[8%]">
                 <FontAwesomeIcon icon={faPenToSquare} />
+                <div className="ml-3 inline">
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <ButtonIcon />
+      <ButtonIcon position="bottom" />
     </div>
   );
 };
