@@ -236,7 +236,7 @@ const RUDProduct = () => {
             {/*Group button */}
             <div className="flex-col">
               <div className="flex">
-                <Button Color="primary">Confirm</Button>
+                <Button Color="primary">Update/Add new</Button>
               </div>
               <div className="flex justify-between mt-2">
                 <div className="w-[48%]">
