@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/topProduct.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import ButtonIcon from "../components/buttonIcon";
 
 const Product = () => {
@@ -46,14 +46,17 @@ const Product = () => {
               <td>{product.remainQuantity}</td>
               <td>{product.supplier}</td>
               <td>{product.importTime}</td>
-              <td className="border-none">
+              <td className="border-none w-[8%]">
                 <FontAwesomeIcon icon={faPenToSquare} />
+                <div className="ml-3 inline">
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <ButtonIcon />
+      <ButtonIcon position="bottom" />
     </div>
   );
 };

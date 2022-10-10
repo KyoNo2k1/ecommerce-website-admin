@@ -1,12 +1,43 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-function ButtonIcon(color, icon) {
+const colors = {
+  dark: {
+    default: "bg-dark_primary hover:bg-[#1e193e] text-white",
+    disabled: "bg-dark_primary text-white opacity-50",
+  },
+  light: {
+    default: "transparent text-black",
+    disabled: "transparent text-black opacity-50",
+  },
+};
+
+const positions = {
+  bottom: "fixed right-24 bottom-8",
+  custom: "",
+};
+
+const icons = {
+  add: faAdd,
+  back: faArrowLeft,
+};
+
+const ButtonIcon = ({
+  color = "dark",
+  icon = "add",
+  state = "default",
+  position = "custom",
+  customPos = "",
+  handleEvent,
+}) => {
   return (
-    <button className="bg-dark_primary text-white hover:bg-[#1e193e] py-3 px-5 rounded fixed right-24 bottom-8">
-      <FontAwesomeIcon icon={faAdd} />
+    <button
+      className={`py-3 px-5 rounded ${colors[color][state]} ${positions[position]} ${customPos}`}
+      onClick={() => handleEvent()}
+    >
+      <FontAwesomeIcon icon={icons[icon]} />
     </button>
   );
-}
+};
 
 export default ButtonIcon;
