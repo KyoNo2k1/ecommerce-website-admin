@@ -3,13 +3,12 @@ import React, { useState } from "react";
 const LabelInput = ({
   name,
   value,
+  id,
   className = "",
   halfWidth = "",
   textArea = false,
+  onChange,
 }) => {
-  // <Button Size="medium" State="default" Color="white">
-  //   Sign up
-  // </Button>
   const [inputValue, setInputValue] = useState(value);
   return (
     <div className={`w-[100%] my-4 ${halfWidth}`}>
@@ -22,6 +21,7 @@ const LabelInput = ({
             onChange={(e) => {
               setInputValue(e.target.value);
             }}
+            id={id}
             value={inputValue}
           />
         ) : (

@@ -1,6 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import showListProducts from "../../services/product/show";
+import showListCategories, {
+  getOneCategory,
+} from "./../../services/category/show";
+import createNewCategory from "./../../services/category/create";
+import createNewProduct from "./../../services/product/create";
+import { getDoc } from "firebase/firestore";
 
+//PRODUCTS
 export const getProducts = createAsyncThunk(
   "product/getProducts",
   async (data, { rejectWithValue }) => {
@@ -8,34 +15,98 @@ export const getProducts = createAsyncThunk(
     if (response == null) {
       return rejectWithValue(response);
     }
-
     return response;
   }
 );
-//initial values
+export const createProduct = createAsyncThunk(
+  "product/createProducts",
+  async (data, { rejectWithValue }) => {
+    const response = await createNewProduct(data);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    console.log(response);
+    return response;
+  }
+);
+
+//CATEGORIES
+export const getCategories = createAsyncThunk(
+  "product/getCategories",
+  async (data, { rejectWithValue }) => {
+    const response = await showListCategories();
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    return response;
+  }
+);
+export const createCategory = createAsyncThunk(
+  "product/createCategory",
+  async (name, { rejectWithValue }) => {
+    const response = await createNewCategory(name);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    return response;
+  }
+);
+export const getCategory = createAsyncThunk(
+  "product/getCategory",
+  async (doc, { rejectWithValue }) => {
+    const response = await getOneCategory(doc);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    return {
+      id: response.id,
+      data: response.data(),
+    };
+  }
+);
 
 //create product slice
 export const productSlice = createSlice({
   name: "product",
   initialState: {
     arrProducts: [],
-    statusGet: "",
+    statusGetProduct: "",
+    arrCategories: [],
+    statusGetCategories: "",
+    statusCreateCategories: "",
+    categoryName: "",
   },
   extraReducers: {
     [getProducts.pending]: (state, action) => {
-      state.statusGet = "loading";
+      state.statusGetProduct = "loading";
     },
     [getProducts.fulfilled]: (state, action) => {
-      state.statusGet = "success";
+      state.statusGetProduct = "success";
       state.arrProducts = action.payload;
     },
     [getProducts.rejected]: (state, action) => {
-      state.statusGet = "failed";
+      state.statusGetProduct = "failed";
+    },
+    [getCategories.pending]: (state, action) => {
+      state.statusGetCategories = "loading";
+    },
+    [getCategories.fulfilled]: (state, action) => {
+      state.statusGetCategories = "success";
+      state.arrCategories = action.payload;
+    },
+    [getCategories.rejected]: (state, action) => {
+      state.statusGetCategories = "failed";
+    },
+    [createCategory.fulfilled]: (state, action) => {
+      state.statusCreateCategories = "success";
+    },
+    [getCategory.fulfilled]: (state, action) => {
+      state.categoryName = action.payload;
     },
   },
   reducers: {},
 });
 //aciton products
-// export const {} = productSlice.actions;
+// export const {  } = productSlice.actions;
 //reducer products
 export default productSlice.reducer;

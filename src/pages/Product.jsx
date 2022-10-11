@@ -1,25 +1,59 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/topProduct.css";
 
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../redux/productSlice/productSlice";
-//css
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { getProducts, createProduct } from "../redux/productSlice/productSlice";
 import ButtonIcon from "../components/buttonIcon";
 
 //setting
-import { timeConvert } from "../components/convertTime";
+import Modal from "../components/modal";
+import { getCategories } from "./../redux/productSlice/productSlice";
+import ProductList from "./../components/productList";
 
 const Product = () => {
-  const { arrProducts } = useSelector((store) => store.products);
-
+  //show modal add new product
+  const [modalAddProduct, setModalAddProduct] = useState(false);
+  //get data product from store redux
+  const { arrProducts, arrCategories } = useSelector((store) => store.products);
   const dispatch = useDispatch();
-
+  console.log(arrCategories);
+  //get data firsttime
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getCategories());
   }, []);
+  const contentData = [
+    {
+      id: "productName",
+      label: "Product Name",
+      input: "",
+    },
+    {
+      id: "productPrice",
+      label: "Price",
+      input: "",
+    },
+    {
+      id: "productQuantity",
+      label: "Quantity",
+      input: "",
+    },
+    {
+      id: "productCategory",
+      label: "Category",
+      input: "",
+    },
+  ];
+  const handleCreateProduct = async () => {
+    const dataCreate = {
+      category: document.getElementById("productCategory").value,
+      name: document.getElementById("productName").value,
+      quantity: document.getElementById("productQuantity").value,
+      price: document.getElementById("productPrice").value,
+    };
+    dispatch(createProduct(dataCreate));
+  };
 
   return (
     <div className="px-24 my-2">
@@ -30,32 +64,27 @@ const Product = () => {
             <th>Name</th>
             <th>Price</th>
             <th>Remain Quantity</th>
-            <th>Supplier</th>
+            <th>Category</th>
             <th>Import Time</th>
             <th></th>
           </tr>
           {arrProducts?.map((product) => {
-            var timeConverted = timeConvert(product.create_date.seconds);
-            return (
-              <tr className="border-b-2" key={product.uuid}>
-                <td>1</td>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.quantity}</td>
-                <td>{product.supplier}</td>
-                <td>{timeConverted}</td>
-                <td className="border-none w-[8%]">
-                  <FontAwesomeIcon icon={faPenToSquare} />
-                  <div className="ml-3 inline">
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </div>
-                </td>
-              </tr>
-            );
+            //convert time from timestamp to time
+            return <ProductList key={product.name} product={product} />;
           })}
         </tbody>
       </table>
-      <ButtonIcon position="bottom" />
+      <ButtonIcon
+        position="bottom"
+        handleEvent={() => setModalAddProduct(true)}
+      />
+      {/*Model create new product */}
+      <Modal
+        isInvisible={modalAddProduct}
+        onClose={() => setModalAddProduct(false)}
+        arrInput={contentData}
+        onSubmit={handleCreateProduct}
+      />
     </div>
   );
 };

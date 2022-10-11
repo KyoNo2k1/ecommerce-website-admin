@@ -17,6 +17,17 @@ import Category from "./pages/Category";
 
 import store from "./redux/store";
 import { Provider } from "react-redux";
+import showListProducts from "./services/product/show";
+import { getDoc } from "firebase/firestore";
+
+// const test = async () => {
+//   const doc = await showListProducts();
+//   console.log(doc[0].category);
+//   const docSnap = await getDoc(doc[0].category);
+//   console.log(docSnap.data());
+// };
+
+// test();
 
 const router = createBrowserRouter([
   {

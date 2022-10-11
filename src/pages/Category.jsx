@@ -1,23 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/topProduct.css";
 import Modal from "../components/modal";
-
+//css
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import ButtonIcon from "../components/buttonIcon";
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getCategories,
+  createCategory,
+} from "../redux/productSlice/productSlice";
+import { timeConvert } from "./../components/convertTime";
 
 const Category = () => {
-  const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
 
-  const categories = [
+  //get data categories from store redux
+  const { arrCategories } = useSelector((store) => store.products);
+
+  const [showModal, setShowModal] = useState(false);
+  const dataCreateCate = [
     {
-      id: 1,
-      name: "Product Name",
-      quantity: 200,
-      createTime: "02-02-2022",
-      updateTime: "02-02-2022",
+      id: "categoryName",
+      label: "Category Name",
+      input: "",
     },
   ];
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, []);
+
+  const handleCreateCategory = (category) => {
+    dispatch(createCategory(document.getElementById("categoryName").value));
+  };
 
   return (
     <div className="px-24 my-2">
@@ -31,21 +48,26 @@ const Category = () => {
             <th>Update Time</th>
             <th></th>
           </tr>
-          {categories?.map((category) => (
-            <tr className="border-b-2" key={category.id}>
-              <td>{category.id}</td>
-              <td>{category.name}</td>
-              <td>{category.quantity}</td>
-              <td>{category.createTime}</td>
-              <td>{category.updateTime}</td>
-              <td className="border-none w-[8%]">
-                <FontAwesomeIcon icon={faPenToSquare} />
-                <div className="ml-3 inline">
-                  <FontAwesomeIcon icon={faTrashCan} />
-                </div>
-              </td>
-            </tr>
-          ))}
+          {arrCategories?.map((category) => {
+            //convert time from timestamp to time
+            var timeCreate = timeConvert(category.create_date);
+            var timeUpdate = timeConvert(category.update_date);
+            return (
+              <tr className="border-b-2" key={category.uuid}>
+                <td>1</td>
+                <td>{category.name}</td>
+                <td>{category.quantity}</td>
+                <td>{timeCreate}</td>
+                <td>{timeUpdate}</td>
+                <td className="border-none w-[8%]">
+                  <FontAwesomeIcon icon={faPenToSquare} />
+                  <div className="ml-3 inline">
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <ButtonIcon
@@ -55,7 +77,12 @@ const Category = () => {
         position="bottom"
         handleEvent={() => setShowModal(true)}
       />
-      <Modal isInvisible={showModal} onClose={() => setShowModal(false)} />
+      <Modal
+        isInvisible={showModal}
+        onClose={() => setShowModal(false)}
+        arrInput={dataCreateCate}
+        onSubmit={handleCreateCategory}
+      />
     </div>
   );
 };
