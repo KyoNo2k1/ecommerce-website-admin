@@ -15,6 +15,9 @@ import RUDCustomer from "./pages/RUDCustomer";
 import DetailCheckout from "./pages/DetailCheckout";
 import Category from "./pages/Category";
 
+import { store } from "./redux/store.js";
+import { Provider } from "react-redux";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -56,10 +59,10 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <Header />
     <Navbar />
     <RouterProvider router={router} />
     {/* <Modal /> */}
-  </React.StrictMode>
+  </Provider>
 );
