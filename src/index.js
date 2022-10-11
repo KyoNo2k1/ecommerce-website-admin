@@ -15,8 +15,6 @@ import RUDCustomer from "./pages/RUDCustomer";
 import DetailCheckout from "./pages/DetailCheckout";
 import Category from "./pages/Category";
 
-import Model from "./components/modal";
-
 const router = createBrowserRouter([
   {
     path: "/",
