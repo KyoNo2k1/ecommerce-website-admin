@@ -1,9 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../components/button";
 import LabelInput from "../components/labelInput";
 import ImageHover from "../components/imageHover";
 
+//redux
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getProduct } from "../redux/productSlice/productSlice";
+
+import { collection, getDoc, doc, getDocs } from "firebase/firestore";
+import { db } from "../services/firebase.config";
+import { PRODUCTS } from "../services/constant/firestore";
+
 const RUDProduct = () => {
+  const { ProductId } = useParams();
+  console.log(ProductId);
+
+  //get product form id
+  const { product } = useSelector((store) => store.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProduct());
+  }, []);
+
+  const handleGetProduct = async () => {
+    dispatch(getProduct(ProductId));
+  };
+
+  //em hong redux duoc, em get truc tiep :(
+  const getOneProduct = async (uuid) => {
+    const querySnapshot = await getDoc(doc(db, PRODUCTS, uuid));
+    if (querySnapshot.exists()) {
+      console.log("Document data:", querySnapshot.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+    return querySnapshot.data();
+  };
+
+  getOneProduct(ProductId);
+  console.log(product);
+
   return (
     <div className="w-[100%]">
       <div className="w-[86%] mx-auto flex justify-between">
@@ -26,7 +65,7 @@ const RUDProduct = () => {
         {/*Col middle : Product name, category, dimension description*/}
         <div className="w-[72%] flex justify-between">
           <div className="w-[54%]">
-            <LabelInput name={"Product name"} value={"Name product"} />
+            <LabelInput name={"Product name"} value={product.name} />
             {/*Category input*/}
             <div className="w-[100%] my-4">
               <label className="text-[20px] font-[400]">Category</label>

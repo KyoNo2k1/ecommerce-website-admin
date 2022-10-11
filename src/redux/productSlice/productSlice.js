@@ -3,6 +3,7 @@ import showListProducts from "../../services/product/show";
 import showListCategories, {
   getOneCategory,
 } from "./../../services/category/show";
+import getOneProduct from "../../services/product/get";
 import createNewCategory from "./../../services/category/create";
 import createNewProduct from "./../../services/product/create";
 import { getDoc } from "firebase/firestore";
@@ -18,6 +19,17 @@ export const getProducts = createAsyncThunk(
     return response;
   }
 );
+export const getProduct = createAsyncThunk(
+  "product/getProduct",
+  async (data, { rejectWithValue }) => {
+    const response = await getOneProduct(data);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    console.log(response);
+    return response;
+  }
+);
 export const createProduct = createAsyncThunk(
   "product/createProducts",
   async (data, { rejectWithValue }) => {
@@ -25,7 +37,7 @@ export const createProduct = createAsyncThunk(
     if (response == null) {
       return rejectWithValue(response);
     }
-    console.log(response);
+    // console.log(response);
     return response;
   }
 );
@@ -71,6 +83,8 @@ export const productSlice = createSlice({
   initialState: {
     arrProducts: [],
     statusGetProduct: "",
+    product: {},
+    statusGetOneProduct: "",
     arrCategories: [],
     statusGetCategories: "",
     statusCreateCategories: "",
@@ -86,6 +100,16 @@ export const productSlice = createSlice({
     },
     [getProducts.rejected]: (state, action) => {
       state.statusGetProduct = "failed";
+    },
+    [getProduct.pending]: (state, action) => {
+      state.statusGetOneProduct = "loading";
+    },
+    [getProduct.fulfilled]: (state, action) => {
+      state.statusGetOneProduct = "success";
+      state.product = action.payload;
+    },
+    [getProduct.rejected]: (state, action) => {
+      state.statusGetOneProduct = "failed";
     },
     [getCategories.pending]: (state, action) => {
       state.statusGetCategories = "loading";
