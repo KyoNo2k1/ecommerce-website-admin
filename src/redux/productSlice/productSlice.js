@@ -1,20 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import showListProducts from "../../services/product/show";
 
-const initialState = {
-  uuid: 0,
-  name: "",
-  quantity: 0,
-  create_date: "",
-  update_date: "",
-  status: "",
-};
+export const getProducts = createAsyncThunk(
+  "product/getProducts",
+  async (data, { rejectWithValue }) => {
+    const response = await showListProducts();
+    if (response == null) {
+      return rejectWithValue(response);
+    }
 
+    return response;
+  }
+);
+//initial values
+
+//create product slice
 export const productSlice = createSlice({
   name: "product",
-  initialState,
+  initialState: {
+    arrProducts: [],
+    statusGet: "",
+  },
+  extraReducers: {
+    [getProducts.pending]: (state, action) => {
+      state.statusGet = "loading";
+    },
+    [getProducts.fulfilled]: (state, action) => {
+      state.statusGet = "success";
+      state.arrProducts = action.payload;
+    },
+    [getProducts.rejected]: (state, action) => {
+      state.statusGet = "failed";
+    },
+  },
   reducers: {},
 });
-
-export const { increment, decrement, incrementByAmount } = productSlice.actions;
-
+//aciton products
+// export const {} = productSlice.actions;
+//reducer products
 export default productSlice.reducer;

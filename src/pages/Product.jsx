@@ -1,29 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/topProduct.css";
 
+//redux
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../redux/productSlice/productSlice";
+//css
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import ButtonIcon from "../components/buttonIcon";
 
+//setting
+import { timeConvert } from "../components/convertTime";
+
 const Product = () => {
-  const products = [
-    {
-      id: 1,
-      name: "Product Name",
-      price: 20.0,
-      remainQuantity: 200,
-      supplier: "Supplier Name",
-      importTime: "02-02-2022",
-    },
-    {
-      id: 2,
-      name: "Product Name",
-      price: 20.0,
-      remainQuantity: 200,
-      supplier: "Supplier Name",
-      importTime: "02-02-2022",
-    },
-  ];
+  const { arrProducts } = useSelector((store) => store.products);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
 
   return (
     <div className="px-24 my-2">
@@ -38,22 +34,25 @@ const Product = () => {
             <th>Import Time</th>
             <th></th>
           </tr>
-          {products?.map((product) => (
-            <tr className="border-b-2" key={product.id}>
-              <td>{product.id}</td>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td>{product.remainQuantity}</td>
-              <td>{product.supplier}</td>
-              <td>{product.importTime}</td>
-              <td className="border-none w-[8%]">
-                <FontAwesomeIcon icon={faPenToSquare} />
-                <div className="ml-3 inline">
-                  <FontAwesomeIcon icon={faTrashCan} />
-                </div>
-              </td>
-            </tr>
-          ))}
+          {arrProducts?.map((product) => {
+            var timeConverted = timeConvert(product.create_date.seconds);
+            return (
+              <tr className="border-b-2" key={product.uuid}>
+                <td>1</td>
+                <td>{product.name}</td>
+                <td>{product.price}</td>
+                <td>{product.quantity}</td>
+                <td>{product.supplier}</td>
+                <td>{timeConverted}</td>
+                <td className="border-none w-[8%]">
+                  <FontAwesomeIcon icon={faPenToSquare} />
+                  <div className="ml-3 inline">
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <ButtonIcon position="bottom" />

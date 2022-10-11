@@ -15,7 +15,7 @@ import RUDCustomer from "./pages/RUDCustomer";
 import DetailCheckout from "./pages/DetailCheckout";
 import Category from "./pages/Category";
 
-import { store } from "./redux/store.js";
+import store from "./redux/store";
 import { Provider } from "react-redux";
 
 const router = createBrowserRouter([
