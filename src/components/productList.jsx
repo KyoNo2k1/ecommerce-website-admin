@@ -1,31 +1,40 @@
-import React, { useEffect } from "react";
-import { timeConvert } from "../components/convertTime";
-import { getOneCategory } from "./../services/category/show";
+import React from "react";
 
 //css
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { getCategory } from "../redux/productSlice/productSlice";
+import { timeConvert } from "./convertTime";
+import { useDispatch } from "react-redux";
+import { deleteProduct } from "../redux/productSlice/productSlice";
 
-const ProductList = ({ product }) => {
+const ProductList = ({ product, stt }) => {
   const dispatch = useDispatch();
-  const { categoryName } = useSelector((store) => store.products);
-  console.log(categoryName);
-  useEffect(() => {
-    dispatch(getCategory(product.category));
-  }, []);
+  var timeCreate = timeConvert(product?.create_date?.seconds);
+  const handleUpdate = () => {
+    // navigate(`/Product/Update/${product.uuid}`, { state: product });
+  };
+  const handleDelete = async (id) => {
+    let text = "You want to delete this product?";
+    if (window.confirm(text) === true) {
+      dispatch(deleteProduct(id));
+    }
+  };
   return (
     <tr className="border-b-2">
+      <td>{stt}</td>
       <td>{product.name}</td>
       <td>{product.price}</td>
       <td>{product.quantity}</td>
-      <td>1</td>
-      <td>{categoryName.data.name}</td>
-      <td>1</td>
-      <td className="border-none w-[8%]">
-        <FontAwesomeIcon icon={faPenToSquare} />
-        <div className="ml-3 inline">
+      <td>{product.category}</td>
+      <td>{timeCreate}</td>
+      <td className="border-none flex">
+        <div className="cursor-pointer" onClick={() => handleUpdate()}>
+          <FontAwesomeIcon icon={faPenToSquare} />
+        </div>
+        <div
+          className="ml-3 cursor-pointer"
+          onClick={() => handleDelete(product.uuid)}
+        >
           <FontAwesomeIcon icon={faTrashCan} />
         </div>
       </td>

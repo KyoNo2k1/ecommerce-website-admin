@@ -17,8 +17,6 @@ import Category from "./pages/Category";
 
 import store from "./redux/store";
 import { Provider } from "react-redux";
-import showListProducts from "./services/product/show";
-import { getDoc } from "firebase/firestore";
 
 // const test = async () => {
 //   const doc = await showListProducts();
@@ -39,7 +37,11 @@ const router = createBrowserRouter([
     element: <Product />,
   },
   {
-    path: "Product/:ProductId/:Type",
+    path: "Product/:Type",
+    element: <RUDProduct />,
+  },
+  {
+    path: "Product/:Type/:Id",
     element: <RUDProduct />,
   },
   {

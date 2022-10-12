@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "./button";
 import ButtonIcon from "./buttonIcon";
 import LabelInput from "./labelInput";
 
-const Modal = ({ isInvisible, onClose, arrInput, onSubmit }) => {
+const Modal = ({
+  isInvisible,
+  onClose,
+  arrInput,
+  onSubmit,
+  update,
+  handleClose,
+  setNewNameCategory,
+  newNameCategory,
+}) => {
   if (!isInvisible) return false;
   //data form input to submit
 
@@ -11,10 +20,14 @@ const Modal = ({ isInvisible, onClose, arrInput, onSubmit }) => {
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
       <div className="w-[600px] bg-white rounded px-16 pt-14 pb-10 pointer-events-auto">
         {arrInput?.map((data) => {
-          // setDataSubmited(...dataSubmited, data);
           return (
             <React.Fragment key={data.id}>
-              <LabelInput name={data.label} value={data.input} id={data.id} />
+              <LabelInput
+                name={data.label}
+                value={data.input || newNameCategory}
+                id={data.id}
+                setNewNameCategory={setNewNameCategory}
+              />
             </React.Fragment>
           );
         })}
@@ -24,11 +37,18 @@ const Modal = ({ isInvisible, onClose, arrInput, onSubmit }) => {
             color="light"
             icon="back"
             customPos="mr-8"
-            handleEvent={() => onClose()}
+            handleEvent={handleClose}
           ></ButtonIcon>
-          <Button Color="primary" onSubmit={onSubmit}>
-            Add New
-          </Button>
+
+          {update ? (
+            <Button Color="primary" onSubmit={onSubmit}>
+              Update
+            </Button>
+          ) : (
+            <Button Color="primary" onSubmit={onSubmit}>
+              Add New
+            </Button>
+          )}
         </div>
       </div>
       <button>close</button>

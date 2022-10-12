@@ -3,14 +3,17 @@ import { db } from "../firebase.config";
 import { PRODUCTS } from "../constant/firestore";
 
 // Function create new category
-const createNewProduct = async (item) => {
+const createNewProduct = (item) => {
+  console.log(item);
   try {
-    await addDoc(collection(db, PRODUCTS), {
-      category: `/categories/${item.categoryId}`,
+    addDoc(collection(db, PRODUCTS), {
+      category: item.category,
       name: item.name,
       quantity: item.quantity,
       price: item.price,
-      supplier: item.supplier,
+      remain: item.remain,
+      dimension: item.dimension,
+      description: item.description,
       create_date: serverTimestamp(),
       update_date: serverTimestamp(),
     });

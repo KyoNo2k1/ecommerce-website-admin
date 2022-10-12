@@ -1,4 +1,4 @@
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { CATEGORIES } from "../constant/firestore";
 
@@ -11,11 +11,6 @@ const showListCategories = async () => {
     listCategories[listCategories.length - 1].uuid = doc.id;
   });
   return listCategories;
-};
-export const getOneCategory = async (doc) => {
-  // get data from doc
-  const dataCategory = await getDoc(doc);
-  return dataCategory;
 };
 
 export default showListCategories;

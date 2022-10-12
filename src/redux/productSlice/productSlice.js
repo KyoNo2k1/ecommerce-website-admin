@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import showListProducts from "../../services/product/show";
-import showListCategories, {
-  getOneCategory,
-} from "./../../services/category/show";
+import showListCategories from "./../../services/category/show";
 import createNewCategory from "./../../services/category/create";
 import createNewProduct from "./../../services/product/create";
-import { getDoc } from "firebase/firestore";
+import updateOneProduct from "./../../services/product/update";
+import updateOneCategory from "./../../services/category/update";
+import deleteOneCategory from "./../../services/category/delete";
+import deleteOneProduct from "./../../services/product/delete";
 
 //PRODUCTS
 export const getProducts = createAsyncThunk(
@@ -19,13 +20,34 @@ export const getProducts = createAsyncThunk(
   }
 );
 export const createProduct = createAsyncThunk(
-  "product/createProducts",
+  "product/createProduct",
   async (data, { rejectWithValue }) => {
     const response = await createNewProduct(data);
     if (response == null) {
       return rejectWithValue(response);
     }
+    return response;
+  }
+);
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  async (data, { rejectWithValue }) => {
+    const response = await updateOneProduct(data);
+    console.log(data);
     console.log(response);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    return response;
+  }
+);
+export const deleteProduct = createAsyncThunk(
+  "product/deleteProduct",
+  async (id, { rejectWithValue }) => {
+    const response = await deleteOneProduct(id);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
     return response;
   }
 );
@@ -51,17 +73,24 @@ export const createCategory = createAsyncThunk(
     return response;
   }
 );
-export const getCategory = createAsyncThunk(
-  "product/getCategory",
-  async (doc, { rejectWithValue }) => {
-    const response = await getOneCategory(doc);
+export const updateCategory = createAsyncThunk(
+  "product/updateCategory",
+  async (data, { rejectWithValue }) => {
+    const response = await updateOneCategory(data);
     if (response == null) {
       return rejectWithValue(response);
     }
-    return {
-      id: response.id,
-      data: response.data(),
-    };
+    return response;
+  }
+);
+export const deleteCategory = createAsyncThunk(
+  "product/deleteCategory",
+  async (id, { rejectWithValue }) => {
+    const response = await deleteOneCategory(id);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    return response;
   }
 );
 
@@ -75,6 +104,7 @@ export const productSlice = createSlice({
     statusGetCategories: "",
     statusCreateCategories: "",
     categoryName: "",
+    statusUpdateCategories: "",
   },
   extraReducers: {
     [getProducts.pending]: (state, action) => {
@@ -100,8 +130,8 @@ export const productSlice = createSlice({
     [createCategory.fulfilled]: (state, action) => {
       state.statusCreateCategories = "success";
     },
-    [getCategory.fulfilled]: (state, action) => {
-      state.categoryName = action.payload;
+    [updateCategory.fulfilled]: (state, action) => {
+      state.statusUpdateCategories = "success";
     },
   },
   reducers: {},

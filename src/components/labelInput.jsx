@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const LabelInput = ({
   name,
@@ -7,9 +7,39 @@ const LabelInput = ({
   className = "",
   halfWidth = "",
   textArea = false,
-  onChange,
+  inputValue,
+  setInputValue,
+  setNewNameCategory,
 }) => {
-  const [inputValue, setInputValue] = useState(value);
+  const handleSetInput = (e) => {
+    switch (name) {
+      case "Product name":
+        setInputValue({ ...inputValue, name: e.target.value });
+        break;
+      case "Dimension ( width x height x lengtht)":
+        setInputValue({
+          ...inputValue,
+          dimension: e.target.value,
+        });
+        break;
+      case "Description":
+        setInputValue({ ...inputValue, description: e.target.value });
+        break;
+      case "Price":
+        setInputValue({ ...inputValue, price: e.target.value });
+        break;
+      case "Quantity":
+        setInputValue({ ...inputValue, quantity: e.target.value });
+        break;
+      case "Remain":
+        setInputValue({ ...inputValue, remain: e.target.value });
+        break;
+      case "Category Name":
+        setNewNameCategory(e.target.value);
+        break;
+      default:
+    }
+  };
   return (
     <div className={`w-[100%] my-4 ${halfWidth}`}>
       <label className="text-[20px] font-[400]">{name}</label>
@@ -19,10 +49,10 @@ const LabelInput = ({
             type="text"
             className={`w-[100%] bg-[rgba(255,255,255,0.15)] grow-[1] pl-5 border-spacing-2 border-2 flex py-2 w-374 border-primary ${className}`}
             onChange={(e) => {
-              setInputValue(e.target.value);
+              handleSetInput(e);
             }}
             id={id}
-            value={inputValue}
+            value={value}
           />
         ) : (
           <textarea
@@ -30,9 +60,9 @@ const LabelInput = ({
             rows={5}
             className="w-[100%] border-2 border-primary"
             onChange={(e) => {
-              setInputValue(e.target.value);
+              handleSetInput(e);
             }}
-            value={inputValue}
+            value={value}
           ></textarea>
         )}
       </div>
