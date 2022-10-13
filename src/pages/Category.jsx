@@ -36,7 +36,7 @@ const Category = () => {
     dispatch(getCategories());
   }, []);
 
-  const handleCreateCategory = async (category) => {
+  const handleCreateCategory = async () => {
     await dispatch(
       createCategory(document.getElementById("categoryName").value)
     );

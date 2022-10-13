@@ -1,24 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ProductImage from "../images/productImage.png";
 
-const ImageHover = ({ top = "", left = "" }) => {
+const ImageHover = ({
+  index,
+  top = "",
+  left = "",
+  fileDataURL,
+  setFileDataURL,
+  setImgName,
+  imgName,
+  inputValue,
+}) => {
+  const [currentArrImg, setCurrentArrImg] = useState([]);
   const [file, setFile] = useState(null);
-  const [fileDataURL, setFileDataURL] = useState(ProductImage);
   //set Type input required for image
   const imageMimeType = /image\/(png|jpg|jpeg)/i;
-
   //if file exist change to fileReader to render UI
   useEffect(() => {
     let fileReader,
       isCancel = false;
     if (file) {
+      var newArrImgName = [...imgName];
+      newArrImgName[index] = file.name;
+      setImgName(newArrImgName);
       fileReader = new FileReader();
       fileReader.onload = (e) => {
         const { result } = e.target;
+
         if (result && !isCancel) {
-          setFileDataURL(result);
+          // const index = fileDataURL.indexOf(result);
+          if (index !== -1) {
+            const newArrImg = [...fileDataURL];
+            newArrImg[index] = file;
+            setFileDataURL(newArrImg);
+
+            const currentImg = [...currentArrImg];
+            currentImg[index] = result;
+            setCurrentArrImg(currentImg);
+          }
         }
       };
       fileReader.readAsDataURL(file);
@@ -35,6 +55,7 @@ const ImageHover = ({ top = "", left = "" }) => {
   const handleChangeImage = () => {
     let input = document.createElement("input");
     input.type = "file";
+
     input.onchange = () => {
       if (!input.files[0]?.type.match(imageMimeType)) {
         alert("Image mime type is not valid");
@@ -47,7 +68,10 @@ const ImageHover = ({ top = "", left = "" }) => {
   return (
     <div className="relative group cursor-pointer" onClick={handleChangeImage}>
       <img
-        src={fileDataURL}
+        src={
+          inputValue?.arrImg[index] ||
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/OOjs_UI_icon_add.svg/60px-OOjs_UI_icon_add.svg.png"
+        }
         alt="ProductImage"
         width={305}
         height={332}

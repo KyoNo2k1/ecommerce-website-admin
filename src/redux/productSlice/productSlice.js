@@ -3,7 +3,9 @@ import showListProducts from "../../services/product/show";
 import showListCategories from "./../../services/category/show";
 import createNewCategory from "./../../services/category/create";
 import createNewProduct from "./../../services/product/create";
-import updateOneProduct from "./../../services/product/update";
+import updateOneProduct, {
+  updateImgUrl,
+} from "./../../services/product/update";
 import updateOneCategory from "./../../services/category/update";
 import deleteOneCategory from "./../../services/category/delete";
 import deleteOneProduct from "./../../services/product/delete";
@@ -45,6 +47,16 @@ export const deleteProduct = createAsyncThunk(
   "product/deleteProduct",
   async (id, { rejectWithValue }) => {
     const response = await deleteOneProduct(id);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    return response;
+  }
+);
+export const updateArrImg = createAsyncThunk(
+  "product/updateImgUrl",
+  async (data, { rejectWithValue }) => {
+    const response = await updateImgUrl(data);
     if (response == null) {
       return rejectWithValue(response);
     }
@@ -113,6 +125,9 @@ export const productSlice = createSlice({
     [getProducts.fulfilled]: (state, action) => {
       state.statusGetProduct = "success";
       state.arrProducts = action.payload;
+    },
+    [createProduct.fulfilled]: (state, action) => {
+      return action.payload;
     },
     [getProducts.rejected]: (state, action) => {
       state.statusGetProduct = "failed";

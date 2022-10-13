@@ -19,4 +19,11 @@ const updateOneProduct = async (item) => {
   });
 };
 
+export const updateImgUrl = async (item) => {
+  const productItem = doc(db, PRODUCTS, item.uuid);
+  await updateDoc(productItem, {
+    arrImg: item.arrImg,
+  });
+};
+
 export default updateOneProduct;

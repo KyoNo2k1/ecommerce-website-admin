@@ -6,12 +6,14 @@ import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { timeConvert } from "./convertTime";
 import { useDispatch } from "react-redux";
 import { deleteProduct } from "../redux/productSlice/productSlice";
+import { useNavigate } from "react-router-dom";
 
 const ProductList = ({ product, stt }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   var timeCreate = timeConvert(product?.create_date?.seconds);
   const handleUpdate = () => {
-    // navigate(`/Product/Update/${product.uuid}`, { state: product });
+    navigate(`/Product/Update/${product.uuid}`, { state: product });
   };
   const handleDelete = async (id) => {
     let text = "You want to delete this product?";
