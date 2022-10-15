@@ -6,21 +6,30 @@ const ImageHover = ({
   index,
   top = "",
   left = "",
-  fileDataURL,
-  setFileDataURL,
+  fileData,
+  setFileData,
   setImgName,
   imgName,
   inputValue,
 }) => {
-  const [currentArrImg, setCurrentArrImg] = useState([]);
+  //get file when onchange image file data
   const [file, setFile] = useState(null);
+  const [currentArrImg, setCurrentArrImg] = useState(inputValue.arrImg);
+
+  //set currentArrImg to render with inital values is image from firestore
+  useEffect(() => {
+    if (inputValue.arrImg) {
+      setCurrentArrImg(inputValue.arrImg);
+    }
+  }, [inputValue.arrImg]);
   //set Type input required for image
-  const imageMimeType = /image\/(png|jpg|jpeg)/i;
+  const imageMimeType = /image\/(png|jpg|jpeg|jfif)/i;
   //if file exist change to fileReader to render UI
   useEffect(() => {
     let fileReader,
       isCancel = false;
     if (file) {
+      //if onChange is file => get image name, url file to render in upload to storage to get URL image
       var newArrImgName = [...imgName];
       newArrImgName[index] = file.name;
       setImgName(newArrImgName);
@@ -29,12 +38,12 @@ const ImageHover = ({
         const { result } = e.target;
 
         if (result && !isCancel) {
-          // const index = fileDataURL.indexOf(result);
           if (index !== -1) {
-            const newArrImg = [...fileDataURL];
+            //get file to Upload storage
+            const newArrImg = [...fileData];
             newArrImg[index] = file;
-            setFileDataURL(newArrImg);
-
+            setFileData(newArrImg);
+            //get file to render image
             const currentImg = [...currentArrImg];
             currentImg[index] = result;
             setCurrentArrImg(currentImg);
@@ -69,7 +78,7 @@ const ImageHover = ({
     <div className="relative group cursor-pointer" onClick={handleChangeImage}>
       <img
         src={
-          inputValue?.arrImg[index] ||
+          currentArrImg[index] ||
           "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/OOjs_UI_icon_add.svg/60px-OOjs_UI_icon_add.svg.png"
         }
         alt="ProductImage"

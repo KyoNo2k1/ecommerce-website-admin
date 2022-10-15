@@ -35,8 +35,6 @@ export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async (data, { rejectWithValue }) => {
     const response = await updateOneProduct(data);
-    console.log(data);
-    console.log(response);
     if (response == null) {
       return rejectWithValue(response);
     }
@@ -116,7 +114,10 @@ export const productSlice = createSlice({
     statusGetCategories: "",
     statusCreateCategories: "",
     categoryName: "",
+    statusCreateProduct: "",
     statusUpdateCategories: "",
+    statusDeleteProduct: "",
+    statusUpdateProduct: "",
   },
   extraReducers: {
     [getProducts.pending]: (state, action) => {
@@ -127,6 +128,7 @@ export const productSlice = createSlice({
       state.arrProducts = action.payload;
     },
     [createProduct.fulfilled]: (state, action) => {
+      state.statusCreateProduct = "success";
       return action.payload;
     },
     [getProducts.rejected]: (state, action) => {
@@ -147,6 +149,12 @@ export const productSlice = createSlice({
     },
     [updateCategory.fulfilled]: (state, action) => {
       state.statusUpdateCategories = "success";
+    },
+    [updateProduct.fulfilled]: (state, action) => {
+      state.statusUpdateProduct = "success";
+    },
+    [deleteCategory.fulfilled]: (state, action) => {
+      state.statusDeleteProduct = "success";
     },
   },
   reducers: {},

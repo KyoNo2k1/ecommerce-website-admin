@@ -14,6 +14,7 @@ const updateOneProduct = async (item) => {
     dimension: item.dimension,
     price: item.price,
     remain: item.remain,
+    arrImg: item.arrImg,
     create_date: item.create_date,
     update_date: serverTimestamp(),
   });

@@ -3,24 +3,37 @@ import Button from "../components/button";
 import LabelInput from "../components/labelInput";
 import ImageHover from "../components/imageHover";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import {
   createProduct,
   deleteProduct,
   updateArrImg,
 } from "../redux/productSlice/productSlice";
 import { updateProduct } from "./../redux/productSlice/productSlice";
-import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
+import {
+  getDownloadURL,
+  uploadBytes,
+  ref,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "../services/firebase.config";
 
 const RUDProduct = () => {
-  const { arrCategories } = useSelector((store) => store.products);
-  const [fileDataURL, setFileDataURL] = useState([]);
+  //get category from store
+  const {
+    arrCategories,
+    statusCreateProduct,
+    statusDeleteProduct,
+    statusUpdateProduct,
+  } = useSelector((store) => store.products);
+  //fire data after change (add, update)
+  const [fileData, setFileData] = useState([]);
   const [imgName, setImgName] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  let { Type } = useParams();
+  const { Type, Id } = useParams();
+
   //All value in input fields
   const [inputValue, setInputValue] = useState({
     name: "",
@@ -37,6 +50,10 @@ const RUDProduct = () => {
       setInputValue(location.state);
     }
   }, [location.state]);
+  useEffect(() => {
+    if (statusCreateProduct || statusDeleteProduct || statusUpdateProduct)
+      navigate("../Product");
+  }, [statusUpdateProduct, statusDeleteProduct, statusCreateProduct]);
 
   //function add product
   const handleAddProduct = async () => {
@@ -57,23 +74,24 @@ const RUDProduct = () => {
     const idAdded = await dispatch(createProduct(inputValue));
     if (idAdded) {
       let arrUrl = [];
-      await fileDataURL.forEach(async function (link, i) {
-        const imgRef = ref(
-          storage,
-          `products/${idAdded.payload}/${imgName[i]}`
-        );
-        const snap = await uploadBytes(imgRef, fileDataURL[i]);
+      await fileData.forEach(async function (link, i) {
+        //get Ref and add to storage
+        const imgRef = ref(storage, `products/${idAdded.payload}/${i}`);
+        const snap = await uploadBytes(imgRef, fileData[i]);
         const pictureURL = await getDownloadURL(
           ref(storage, snap.ref.fullPath)
         );
         arrUrl.push(pictureURL);
+        //update firestore
         await dispatch(updateArrImg({ uuid: idAdded.payload, arrImg: arrUrl }));
       });
     }
+    navigate("../Product");
   };
 
   //function update product
-  const handleUpdateProduct = () => {
+  const handleUpdateProduct = async () => {
+    // Check fill all blank
     var checkField = false;
     Object.values(inputValue).forEach(function check(value) {
       if (check.stop) {
@@ -87,6 +105,27 @@ const RUDProduct = () => {
     });
     if (checkField) return;
 
+    //update image storage
+    if (fileData) {
+      await fileData.forEach(async function (link, i) {
+        //delete old image on storage
+        const oldImg = ref(storage, `products/${Id}/${i}`);
+        await deleteObject(oldImg)
+          .then(async () => {
+            //add new image to storage
+            var newArrUrl = [...inputValue.arrImg];
+            const newImgRef = ref(storage, `products/${Id}/${i}`);
+            const snap = await uploadBytes(newImgRef, fileData[i]);
+            const pictureURL = await getDownloadURL(
+              ref(storage, snap.ref.fullPath)
+            );
+            newArrUrl[i] = pictureURL;
+            await dispatch(updateArrImg({ uuid: Id, arrImg: newArrUrl }));
+          })
+          .catch((error) => console.log(error));
+      });
+    }
+
     dispatch(updateProduct(inputValue));
     navigate("../Product");
   };
@@ -97,7 +136,6 @@ const RUDProduct = () => {
       dispatch(deleteProduct(id));
     }
   };
-  console.log(inputValue);
 
   return (
     <div className="w-[100%]">
@@ -108,8 +146,8 @@ const RUDProduct = () => {
             index={0}
             top="top-[48%]"
             left="left-[48%]"
-            fileDataURL={fileDataURL}
-            setFileDataURL={setFileDataURL}
+            fileData={fileData}
+            setFileData={setFileData}
             setImgName={setImgName}
             imgName={imgName}
             inputValue={inputValue}
@@ -121,8 +159,8 @@ const RUDProduct = () => {
                 index={1}
                 top="top-[40%]"
                 left="left-[40%]"
-                fileDataURL={fileDataURL}
-                setFileDataURL={setFileDataURL}
+                fileData={fileData}
+                setFileData={setFileData}
                 imgName={imgName}
                 setImgName={setImgName}
                 inputValue={inputValue}
@@ -133,8 +171,8 @@ const RUDProduct = () => {
                 index={2}
                 top="top-[40%]"
                 left="left-[40%]"
-                fileDataURL={fileDataURL}
-                setFileDataURL={setFileDataURL}
+                fileData={fileData}
+                setFileData={setFileData}
                 imgName={imgName}
                 setImgName={setImgName}
                 inputValue={inputValue}
@@ -145,8 +183,8 @@ const RUDProduct = () => {
                 index={3}
                 top="top-[40%]"
                 left="left-[40%]"
-                fileDataURL={fileDataURL}
-                setFileDataURL={setFileDataURL}
+                fileData={fileData}
+                setFileData={setFileData}
                 imgName={imgName}
                 setImgName={setImgName}
                 inputValue={inputValue}

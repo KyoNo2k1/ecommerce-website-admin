@@ -8,7 +8,7 @@ const Header = () => {
     <div>
       <div className="flex justify-between p-5 border-b-2 border-primary-300">
         <FontAwesomeIcon icon={faSearch} />
-        <p className="text-h4 font-semibold">Ecommerce</p>
+        <p className="text-h4 font-semibold">Avion</p>
         <div>
           <FontAwesomeIcon icon={faBell} className="px-3" />
           <FontAwesomeIcon icon={faUser} className="px-3" />
