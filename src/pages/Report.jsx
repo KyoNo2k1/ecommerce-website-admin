@@ -11,7 +11,7 @@ const Report = () => {
   return (
     <div className="w-[100%] bg-[#F9F9F9]">
       <div className="w-[90%] ml-[5%] mt-[0%]">
-        <div className="grid grid-cols-2 gap-4 gap-x-10 bg-[#F9F9F9]">
+        <div className="grid grid-cols-2 gap-4 gap-x-[20px] bg-[#F9F9F9]">
           <div>
             <div className="grid grid-cols-3 gap-3 p-[20px]">
               <div>
@@ -83,7 +83,7 @@ const Report = () => {
               </div>
             </div>
           </div>
-          <div className="p-[20px] pl-[0px]">
+          <div className="p-[20px] pl-[0px] ml-[8%]">
             <div className="grid grid-rows-2">
               <div className="grid grid-cols-4">
                 <div
@@ -127,7 +127,7 @@ const Report = () => {
                   </label>
                 </div>
                 <div
-                  className="p-[20px] w-[169px] h-[87px] pt-5 ml-[20px]"
+                  className="p-[20px] w-[169px] h-[87px] pt-5 ml-[20%]"
                   style={box_shadow}
                 >
                   <p className="text-h6">Visited Page</p>
@@ -144,7 +144,7 @@ const Report = () => {
             </div>
           </div>
           <Chart />
-          <div>
+          <div className="ml-[8%]">
             {/* table  */}
             <ReportProduct></ReportProduct>
           </div>

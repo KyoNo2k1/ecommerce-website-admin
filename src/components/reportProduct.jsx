@@ -18,7 +18,7 @@ const ReportProduct = () => {
   ];
   return (
     <div className="mt-3">
-      <table className="w-[80%]">
+      <table className="w-[90%]">
         <tbody>
           <tr>
             <th>STT</th>
