@@ -4,36 +4,115 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleDollarToSlot,
   faSackDollar,
-  faDollarSign,
   faListCheck,
   faCoins,
-  faArrowUpRightDots,
 } from "@fortawesome/free-solid-svg-icons";
 import AnalyticItem from "./analyticItem";
 
 const Analytics = () => {
+  const checkouts = [
+    {
+      address: "Ho chi minh, Viet Nam",
+      checkoutId: 201,
+      customer: "abcd@gm.uit.edu.vn",
+      price: 20,
+      status: "Waiting",
+      checkoutTime: "2022/10/16",
+    },
+    {
+      address: "Ho chi minh, Viet Nam",
+      checkoutId: 203,
+      customer: "abcd@gm.uit.edu.vn",
+      price: 40,
+      status: "Waiting",
+      checkoutTime: "2022/10/02",
+    },
+    {
+      address: "Ho chi minh, Viet Nam",
+      checkoutId: 203,
+      customer: "abcd@gm.uit.edu.vn",
+      price: 10,
+      status: "Delivering",
+      checkoutTime: "2022/09/02",
+    },
+  ];
+
+  const calQuantityOfPendingCheckout = () => {
+    var result = 0;
+
+    checkouts.forEach((element) => {
+      if (element.status == "Waiting") result++;
+    });
+
+    return result;
+  };
+
+  const calTotalEarning = () => {
+    var result = 0;
+
+    checkouts.forEach((element) => {
+      const date = new Date(element.checkoutTime);
+      if (
+        date.getMonth() === today.getMonth() &&
+        date.getYear() === today.getYear()
+      )
+        result += element.price;
+    });
+
+    return result;
+  };
+
+  const timeElapsed = Date.now();
+  const today = new Date(timeElapsed);
+
+  const calSalesToday = () => {
+    var result = 0;
+
+    checkouts.forEach((element) => {
+      const date = new Date(element.checkoutTime);
+      if (date.getDate() === today.getDate()) result += element.price;
+    });
+
+    return result;
+  };
+
+  const calTotalEarningInLastMonth = () => {
+    var result = 0;
+
+    checkouts.forEach((element) => {
+      const date = new Date(element.checkoutTime);
+      if (
+        date.getMonth() === today.getMonth() - 1 &&
+        date.getYear() === today.getYear()
+      )
+        result += element.price;
+    });
+
+    return result;
+  };
+
   const analytics = [
     {
       title: "Sales Today",
-      count: 30,
+      count: calSalesToday(),
       percent: 0.05,
       icon: faCircleDollarToSlot,
     },
     {
-      title: "Last month Sales",
-      count: 2.502,
+      title: "Last month",
+      count: calTotalEarningInLastMonth(),
       percent: 0.05,
       icon: faCoins,
     },
     {
       title: "Total Earning",
-      count: 2.056,
+      count: calTotalEarning(),
       percent: 0.05,
       icon: faSackDollar,
     },
     {
       title: "Pending Orders",
-      count: 20,
+      count: calQuantityOfPendingCheckout(),
       percent: 0.05,
       icon: faListCheck,
     },

@@ -1,14 +1,7 @@
 import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleDollarToSlot,
-  faSackDollar,
-  faDollarSign,
-  faListCheck,
-  faCoins,
-  faArrowUpRightDots,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightDots } from "@fortawesome/free-solid-svg-icons";
 
 const AnalyticItem = ({ item }) => {
   console.log(item);
