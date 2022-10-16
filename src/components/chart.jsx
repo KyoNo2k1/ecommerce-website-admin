@@ -20,20 +20,20 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const Chart = () => {
+const Chart = ({ d }) => {
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
-        label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65],
+        label: d.d1.title,
+        data: d.d1.data != null ? d.d1.data : [33, 53, 85, 41, 44, 65],
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)",
       },
       {
-        label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76],
+        label: d.d2.title,
+        data: d.d2.data != null ? d.d2.data : [33, 25, 35, 51, 54, 76],
         fill: false,
         borderColor: "#742774",
       },
