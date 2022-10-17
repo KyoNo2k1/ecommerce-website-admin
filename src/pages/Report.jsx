@@ -86,6 +86,7 @@ const Report = () => {
         case 12:
           result[5]++;
           break;
+        default:
       }
     });
     console.log(result);
@@ -124,6 +125,7 @@ const Report = () => {
         case 12:
           result[5] += element.price;
           break;
+        default:
       }
     });
     console.log(result);
