@@ -1,5 +1,3 @@
-//
-
 import React from "react";
 import Chart from "../components/chart";
 import ReportProduct from "../components/reportProduct";

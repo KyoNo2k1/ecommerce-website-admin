@@ -120,7 +120,6 @@ export const productSlice = createSlice({
     //category
     arrCategories: [],
     statusGetCategory: "",
-    arrCategories: [],
     statusGetCategories: "",
     statusCreateCategories: "",
     categoryName: "",
