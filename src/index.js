@@ -4,6 +4,9 @@ import Dashboard from "./pages/Dashboard";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Header from "./components/header";
 import Navbar from "./components/navbar";
 import Product from "./pages/Product";
@@ -67,6 +70,6 @@ root.render(
     <Header />
     <Navbar />
     <RouterProvider router={router} />
-    {/* <Modal /> */}
+    <ToastContainer />
   </Provider>
 );

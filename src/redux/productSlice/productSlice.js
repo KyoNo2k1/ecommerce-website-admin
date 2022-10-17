@@ -38,6 +38,7 @@ export const updateProduct = createAsyncThunk(
     if (response == null) {
       return rejectWithValue(response);
     }
+
     return response;
   }
 );
@@ -108,16 +109,22 @@ export const deleteCategory = createAsyncThunk(
 export const productSlice = createSlice({
   name: "product",
   initialState: {
+    //product
     arrProducts: [],
+    productCreatedId: null,
     statusGetProduct: "",
+    statusCreateProduct: "",
+    statusDeleteProduct: "",
+    statusUpdateProduct: "",
+
+    //category
+    arrCategories: [],
+    statusGetCategory: "",
     arrCategories: [],
     statusGetCategories: "",
     statusCreateCategories: "",
     categoryName: "",
-    statusCreateProduct: "",
     statusUpdateCategories: "",
-    statusDeleteProduct: "",
-    statusUpdateProduct: "",
   },
   extraReducers: {
     [getProducts.pending]: (state, action) => {
@@ -129,7 +136,7 @@ export const productSlice = createSlice({
     },
     [createProduct.fulfilled]: (state, action) => {
       state.statusCreateProduct = "success";
-      return action.payload;
+      state.productCreatedId = action.payload;
     },
     [getProducts.rejected]: (state, action) => {
       state.statusGetProduct = "failed";
@@ -157,9 +164,16 @@ export const productSlice = createSlice({
       state.statusDeleteProduct = "success";
     },
   },
-  reducers: {},
+  reducers: {
+    resetStatusProduct: (state, action) => {
+      state.statusCreateProduct = "";
+      state.statusDeleteProduct = "";
+      state.statusUpdateProduct = "";
+      state.productCreatedId = "";
+    },
+  },
 });
 //aciton products
-// export const {  } = productSlice.actions;
+export const { resetStatusProduct } = productSlice.actions;
 //reducer products
 export default productSlice.reducer;

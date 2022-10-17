@@ -4,16 +4,23 @@ import { useNavigate } from "react-router-dom";
 
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../redux/productSlice/productSlice";
+import {
+  getProducts,
+  resetStatusProduct,
+} from "../redux/productSlice/productSlice";
 import ButtonIcon from "../components/buttonIcon";
 
 //setting
 import { getCategories } from "./../redux/productSlice/productSlice";
 import ProductList from "./../components/productList";
+import { toast } from "react-toastify";
 
 const Product = () => {
   //get data product from store redux
-  const { arrProducts } = useSelector((store) => store.products);
+  const { arrProducts, statusCreateProduct, statusUpdateProduct } = useSelector(
+    (store) => store.products
+  );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //get data firsttime
@@ -21,6 +28,17 @@ const Product = () => {
     dispatch(getProducts());
     dispatch(getCategories());
   }, []);
+  useEffect(() => {
+    if (statusCreateProduct === "success") toast("Create product success!");
+
+    if (statusUpdateProduct === "success") toast("Update product success!");
+    if (
+      statusCreateProduct === "success" ||
+      statusUpdateProduct === "success"
+    ) {
+      dispatch(resetStatusProduct());
+    }
+  }, [statusUpdateProduct, statusCreateProduct]);
   const handleAddProduct = () => {
     navigate("/Product/Add");
   };

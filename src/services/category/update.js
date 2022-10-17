@@ -7,12 +7,18 @@ import { CATEGORIES } from "../constant/firestore";
 // oldCategory: Pass Old Catetory Object
 // name: New name
 const updateOneCategory = async (data) => {
-  const categoryItem = doc(db, CATEGORIES, data.id);
+  try {
+    const categoryItem = await doc(db, CATEGORIES, data.id);
 
-  await updateDoc(categoryItem, {
-    name: data.name,
-    update_date: serverTimestamp(),
-  });
+    await updateDoc(categoryItem, {
+      name: data.name,
+      update_date: serverTimestamp(),
+    });
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+  return true;
 };
 
 export default updateOneCategory;

@@ -17,6 +17,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { storage } from "../services/firebase.config";
+import { toast } from "react-toastify";
 
 const RUDProduct = () => {
   //get category from store
@@ -25,6 +26,7 @@ const RUDProduct = () => {
     statusCreateProduct,
     statusDeleteProduct,
     statusUpdateProduct,
+    productCreatedId,
   } = useSelector((store) => store.products);
   //fire data after change (add, update)
   const [fileData, setFileData] = useState([]);
@@ -45,13 +47,42 @@ const RUDProduct = () => {
     remain: "",
     arrImg: [],
   });
+  //get data from params and set to input value
   useEffect(() => {
     if (location.state) {
       setInputValue(location.state);
     }
   }, [location.state]);
+
   useEffect(() => {
-    if (statusCreateProduct || statusDeleteProduct || statusUpdateProduct)
+    if (productCreatedId) {
+      try {
+        let arrUrl = [];
+        fileData.forEach(async function (link, i) {
+          //get Ref and add to storage
+          const imgRef = ref(storage, `products/${productCreatedId}/${i}`);
+          const snap = await uploadBytes(imgRef, fileData[i]);
+          const pictureURL = await getDownloadURL(
+            ref(storage, snap.ref.fullPath)
+          );
+          arrUrl.push(pictureURL);
+          //update firestore
+          await dispatch(
+            updateArrImg({ uuid: productCreatedId, arrImg: arrUrl })
+          );
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [productCreatedId]);
+  //check status CUD products
+  useEffect(() => {
+    if (
+      statusCreateProduct === "success" ||
+      statusDeleteProduct === "success" ||
+      statusUpdateProduct === "success"
+    )
       navigate("../Product");
   }, [statusUpdateProduct, statusDeleteProduct, statusCreateProduct]);
 
@@ -70,23 +101,8 @@ const RUDProduct = () => {
       }
     });
     if (checkField) return;
-
-    const idAdded = await dispatch(createProduct(inputValue));
-    if (idAdded) {
-      let arrUrl = [];
-      await fileData.forEach(async function (link, i) {
-        //get Ref and add to storage
-        const imgRef = ref(storage, `products/${idAdded.payload}/${i}`);
-        const snap = await uploadBytes(imgRef, fileData[i]);
-        const pictureURL = await getDownloadURL(
-          ref(storage, snap.ref.fullPath)
-        );
-        arrUrl.push(pictureURL);
-        //update firestore
-        await dispatch(updateArrImg({ uuid: idAdded.payload, arrImg: arrUrl }));
-      });
-    }
-    navigate("../Product");
+    //get ID product after create and set folder name of image storare
+    await dispatch(createProduct(inputValue));
   };
 
   //function update product
@@ -109,8 +125,8 @@ const RUDProduct = () => {
     if (fileData) {
       await fileData.forEach(async function (link, i) {
         //delete old image on storage
-        const oldImg = ref(storage, `products/${Id}/${i}`);
-        await deleteObject(oldImg)
+        const oldImgRef = ref(storage, `products/${Id}/${i}`);
+        await deleteObject(oldImgRef)
           .then(async () => {
             //add new image to storage
             var newArrUrl = [...inputValue.arrImg];
@@ -127,9 +143,9 @@ const RUDProduct = () => {
     }
 
     dispatch(updateProduct(inputValue));
-    navigate("../Product");
   };
 
+  //delete product
   const handleDelete = async (id) => {
     let text = "You want to delete this product?";
     if (window.confirm(text) === true) {

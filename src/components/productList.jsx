@@ -7,18 +7,28 @@ import { timeConvert } from "./convertTime";
 import { useDispatch } from "react-redux";
 import { deleteProduct } from "../redux/productSlice/productSlice";
 import { useNavigate } from "react-router-dom";
+import { deleteObject, ref } from "firebase/storage";
+import { storage } from "../services/firebase.config";
+import { toast } from "react-toastify";
 
 const ProductList = ({ product, stt }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   var timeCreate = timeConvert(product?.create_date?.seconds);
+
   const handleUpdate = () => {
     navigate(`/Product/Update/${product.uuid}`, { state: product });
   };
   const handleDelete = async (id) => {
     let text = "You want to delete this product?";
     if (window.confirm(text) === true) {
+      for (let i = 0; i < 4; i++) {
+        const oldProductImgRef = ref(storage, `products/${id}/${i}`);
+        await deleteObject(oldProductImgRef);
+      }
       dispatch(deleteProduct(id));
+      toast("Delete product success!");
+      navigate(0);
     }
   };
   return (

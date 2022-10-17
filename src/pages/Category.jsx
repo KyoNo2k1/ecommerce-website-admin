@@ -23,7 +23,7 @@ const Category = () => {
   const [modalUpdate, setModalUpdate] = useState(false);
   // value id,newname of category name change
   const [categoryId, setCategoryId] = useState("");
-  const [newNameCategory, setNewNameCategory] = useState("");
+  const [getNewName, setGetNewName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const dataCreateCate = [
     {
@@ -47,7 +47,7 @@ const Category = () => {
     dispatch(
       updateCategory({
         id: categoryId,
-        name: newNameCategory,
+        name: getNewName,
       })
     );
     setModalUpdate(false);
@@ -126,8 +126,8 @@ const Category = () => {
           arrInput={dataCreateCate}
           onSubmit={handleUpdate}
           update={true}
-          setNewNameCategory={setNewNameCategory}
-          newNameCategory={newNameCategory}
+          getNewName={getNewName}
+          setGetNewName={setGetNewName}
         />
       ) : null}
     </div>

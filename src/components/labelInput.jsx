@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const LabelInput = ({
   name,
@@ -9,8 +9,13 @@ const LabelInput = ({
   textArea = false,
   inputValue,
   setInputValue,
-  setNewNameCategory,
+  setGetNewName,
 }) => {
+  const [newNameCategory, setNewNameCategory] = useState("");
+  useEffect(() => {
+    if (newNameCategory) setGetNewName(newNameCategory);
+  }, [newNameCategory]);
+
   const handleSetInput = (e) => {
     switch (name) {
       case "Product name":
