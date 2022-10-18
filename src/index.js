@@ -11,7 +11,7 @@ import Header from "./components/header";
 import Navbar from "./components/navbar";
 import Product from "./pages/Product";
 import Customer from "./pages/Customer";
-import Checkout from "./pages/Checkout";
+import Transactions from "./pages/Transactions";
 import Report from "./pages/Report";
 import RUDProduct from "./pages/RUDProduct";
 import RUDCustomer from "./pages/RUDCustomer";
@@ -51,8 +51,8 @@ const router = createBrowserRouter([
     element: <RUDCustomer />,
   },
   {
-    path: "/Checkout",
-    element: <Checkout />,
+    path: "/Transactions",
+    element: <Transactions />,
   },
   {
     path: "Checkout/:CheckoutId",

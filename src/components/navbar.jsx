@@ -16,8 +16,8 @@ const Navbar = () => {
         <a href="/Customer" className="active:text-primary cursor-pointer">
           Customer
         </a>
-        <a href="/Checkout" className="active:text-primary cursor-pointer">
-          Checkout
+        <a href="/Transactions" className="active:text-primary cursor-pointer">
+          Transactions
         </a>
         <a href="/Report" className="active:text-primary cursor-pointer">
           Report

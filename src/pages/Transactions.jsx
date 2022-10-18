@@ -2,9 +2,8 @@ import React from "react";
 import { Tabs, Tab, TabPanel, TabList } from "react-tabs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import ButtonIcon from "../components/buttonIcon";
 
-const Checkout = () => {
+const Transactions = () => {
   const checkouts = [
     {
       id: 1,
@@ -250,4 +249,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default Transactions;
