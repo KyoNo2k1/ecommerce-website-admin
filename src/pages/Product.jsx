@@ -17,9 +17,12 @@ import { toast } from "react-toastify";
 
 const Product = () => {
   //get data product from store redux
-  const { arrProducts, statusCreateProduct, statusUpdateProduct } = useSelector(
-    (store) => store.products
-  );
+  const {
+    arrProducts,
+    statusCreateProduct,
+    statusUpdateProduct,
+    statusDeleteProduct,
+  } = useSelector((store) => store.products);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,13 +35,17 @@ const Product = () => {
     if (statusCreateProduct === "success") toast("Create product success!");
 
     if (statusUpdateProduct === "success") toast("Update product success!");
+
+    if (statusDeleteProduct === "success") toast("Delete product success!");
+
     if (
       statusCreateProduct === "success" ||
-      statusUpdateProduct === "success"
+      statusUpdateProduct === "success" ||
+      statusDeleteProduct === "success"
     ) {
       dispatch(resetStatusProduct());
     }
-  }, [statusUpdateProduct, statusCreateProduct]);
+  }, [statusUpdateProduct, statusCreateProduct, statusDeleteProduct]);
   const handleAddProduct = () => {
     navigate("/Product/Add");
   };
@@ -57,9 +64,8 @@ const Product = () => {
             <th></th>
           </tr>
           {arrProducts?.map((product, index) => {
-            //convert time from timestamp to time
             return (
-              <ProductList key={product.name} product={product} stt={index} />
+              <ProductList key={product.uuid} product={product} stt={index} />
             );
           })}
         </tbody>

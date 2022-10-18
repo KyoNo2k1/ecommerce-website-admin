@@ -24,11 +24,10 @@ const ProductList = ({ product, stt }) => {
     if (window.confirm(text) === true) {
       for (let i = 0; i < 4; i++) {
         const oldProductImgRef = ref(storage, `products/${id}/${i}`);
-        await deleteObject(oldProductImgRef);
+        if (oldProductImgRef) deleteObject(oldProductImgRef);
       }
-      dispatch(deleteProduct(id));
-      toast("Delete product success!");
-      navigate(0);
+      await dispatch(deleteProduct(id));
+      navigate("/Product");
     }
   };
   return (

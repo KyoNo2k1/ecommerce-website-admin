@@ -2,7 +2,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { PRODUCTS } from "../constant/firestore";
 
-// Function create new category
+// Function create new product
 const createNewProduct = async (item) => {
   const docRef = await addDoc(collection(db, PRODUCTS), {
     category: item.category,

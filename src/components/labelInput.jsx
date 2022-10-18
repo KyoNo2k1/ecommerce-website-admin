@@ -10,6 +10,7 @@ const LabelInput = ({
   inputValue,
   setInputValue,
   setGetNewName,
+  readOnly = false,
 }) => {
   const [newNameCategory, setNewNameCategory] = useState("");
   useEffect(() => {
@@ -42,6 +43,15 @@ const LabelInput = ({
       case "Category Name":
         setNewNameCategory(e.target.value);
         break;
+      case "User Name":
+        setInputValue({ ...inputValue, fullName: e.target.value });
+        break;
+      case "Email":
+        setInputValue({ ...inputValue, email: e.target.value });
+        break;
+      case "Address":
+        setInputValue({ ...inputValue, addr_default: e.target.value });
+        break;
       default:
     }
   };
@@ -58,6 +68,7 @@ const LabelInput = ({
             }}
             id={id}
             value={value}
+            readOnly={readOnly}
           />
         ) : (
           <textarea

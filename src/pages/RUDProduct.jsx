@@ -17,7 +17,6 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { storage } from "../services/firebase.config";
-import { toast } from "react-toastify";
 
 const RUDProduct = () => {
   //get category from store
@@ -53,7 +52,6 @@ const RUDProduct = () => {
       setInputValue(location.state);
     }
   }, [location.state]);
-
   useEffect(() => {
     if (productCreatedId) {
       try {
@@ -146,10 +144,16 @@ const RUDProduct = () => {
   };
 
   //delete product
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
+    const id = inputValue.uuid;
     let text = "You want to delete this product?";
     if (window.confirm(text) === true) {
-      dispatch(deleteProduct(id));
+      for (let i = 0; i < 4; i++) {
+        const oldProductImgRef = ref(storage, `products/${id}/${i}`);
+        if (oldProductImgRef) deleteObject(oldProductImgRef);
+      }
+      await dispatch(deleteProduct(id));
+      navigate("/Product");
     }
   };
 
