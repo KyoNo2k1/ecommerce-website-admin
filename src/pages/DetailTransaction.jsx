@@ -2,7 +2,7 @@ import React from "react";
 import CheckoutListDetail from "../components/checkoutListDetail";
 import Button from "../components/button";
 
-const DetailCheckout = () => {
+const DetailTransaction = () => {
   const checkoutList = [
     {
       id: 1,
@@ -74,4 +74,4 @@ const DetailCheckout = () => {
   );
 };
 
-export default DetailCheckout;
+export default DetailTransaction;

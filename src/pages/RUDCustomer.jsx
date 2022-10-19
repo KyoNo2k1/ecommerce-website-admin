@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import LabelInput from "../components/labelInput";
-import { deleteUser, updateUser } from "../redux/userSlice/userSlice";
+import { deleteUser } from "../redux/userSlice/userSlice";
 import Button from "./../components/button";
-import { toast } from "react-toastify";
+import { timeConvert } from "./../components/convertTime";
 
 const RUDCustomer = () => {
   const { statusUpdateUser } = useSelector((store) => store.users);
@@ -15,11 +15,13 @@ const RUDCustomer = () => {
     fullName: "",
     email: "",
     type: "",
-    create_date: "",
-    update_date: "",
+    created_date: "",
+    updated_date: "",
     addr_default: "",
     uuid: "",
   });
+
+  var timeCreatedConvert = timeConvert(inputValueUser?.created_date?.seconds);
 
   useEffect(() => {
     if (location.state) {
@@ -32,9 +34,6 @@ const RUDCustomer = () => {
   }, [statusUpdateUser]);
 
   //handle update user
-  const handleUpdateUser = () => {
-    dispatch(updateUser(inputValueUser));
-  };
 
   //handle delete user
   const handleDelete = async () => {
@@ -57,6 +56,7 @@ const RUDCustomer = () => {
               name={"User name"}
               value={inputValueUser?.fullName}
               inputValue={inputValueUser}
+              readOnly={true}
               setInputValue={setInputValueUser}
             />
             {/*Email input*/}
@@ -64,12 +64,14 @@ const RUDCustomer = () => {
               name={"Email"}
               value={inputValueUser?.email}
               inputValue={inputValueUser}
+              readOnly={true}
               setInputValue={setInputValueUser}
             />
             <LabelInput
               name={"Address"}
               value={inputValueUser?.addr_default}
               inputValue={inputValueUser}
+              readOnly={true}
               setInputValue={setInputValueUser}
             />
           </div>
@@ -78,7 +80,7 @@ const RUDCustomer = () => {
             <div className="flex-1">
               <LabelInput
                 name={"Create Date"}
-                value={inputValueUser?.create_date}
+                value={timeCreatedConvert}
                 inputValue={inputValueUser}
                 setInputValue={setInputValueUser}
                 readOnly={true}
@@ -86,9 +88,6 @@ const RUDCustomer = () => {
             </div>
             {/*Group button */}
             <div className="flex-col">
-              <div className="flex" onClick={() => handleUpdateUser()}>
-                <Button Color="primary">Update</Button>
-              </div>
               <div className="flex justify-between mt-2">
                 <div className="w-[48%]" onClick={() => navigate(-1)}>
                   <Button Color="secondary" width="w-[100%]">

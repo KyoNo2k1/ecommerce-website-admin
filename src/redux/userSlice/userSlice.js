@@ -17,17 +17,6 @@ export const getUsers = createAsyncThunk(
   }
 );
 
-export const updateUser = createAsyncThunk(
-  "user/updateUser",
-  async (data, { rejectWithValue }) => {
-    const response = await updateOneUser(data);
-    if (response == null) {
-      return rejectWithValue(response);
-    }
-
-    return response;
-  }
-);
 export const deleteUser = createAsyncThunk(
   "user/deleteUser",
   async (id, { rejectWithValue }) => {
@@ -58,9 +47,6 @@ export const userSlice = createSlice({
     },
     [getUsers.rejected]: (state, action) => {
       state.statusGetUsers = "failed";
-    },
-    [updateUser.fulfilled]: (state, action) => {
-      state.statusUpdateUser = "success";
     },
     [deleteUser.fulfilled]: (state, action) => {
       state.statusDeleteUser = "success";

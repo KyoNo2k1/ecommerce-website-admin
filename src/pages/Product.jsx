@@ -121,35 +121,37 @@ const Product = () => {
           </div>
         </div>
       </div>
-      <table className="w-[100%]">
-        <tbody>
-          <tr>
-            <th>STT</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Remain Quantity</th>
-            <th>Category</th>
-            <th>Import Time</th>
-            <th></th>
-          </tr>
-          {arrProducts?.map((product, index) => {
-            {
-              /* if (product.category == "Tables") */
-            }
-            return (
-              <ProductList
-                key={product.uuid}
-                product={product}
-                stt={index + 1}
-              />
-            );
-          })}
-        </tbody>
-      </table>
-      <ButtonIcon
-        position="bottom"
-        handleEvent={() => handleAddProduct(true)}
-      />
+      <div className="px-24 my-2 mb-24">
+        <table className="w-[100%]">
+          <tbody>
+            <tr>
+              <th>STT</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Remain Quantity</th>
+              <th>Category</th>
+              <th>Import Time</th>
+              <th></th>
+            </tr>
+            {arrProducts?.map((product, index) => {
+              {
+                /* if (product.category == "Tables") */
+              }
+              return (
+                <ProductList
+                  key={product.uuid}
+                  product={product}
+                  stt={index + 1}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+        <ButtonIcon
+          position="bottom"
+          handleEvent={() => handleAddProduct(true)}
+        />
+      </div>
     </div>
   );
 };

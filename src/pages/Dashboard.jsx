@@ -85,9 +85,10 @@ const Dashboard = () => {
         case 12:
           result[5]++;
           break;
+        default:
+          break;
       }
     });
-    console.log(result);
     return result;
   };
 
@@ -123,9 +124,10 @@ const Dashboard = () => {
         case 12:
           result[5] += element.price;
           break;
+        default:
+          break;
       }
     });
-    console.log(result);
     return result;
   };
 

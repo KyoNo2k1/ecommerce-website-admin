@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faEye } from "@fortawesome/free-solid-svg-icons";
 import ButtonIcon from "../components/buttonIcon";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -31,8 +31,8 @@ const Customer = () => {
     }
   }, [statusUpdateUser, statusDeleteUser]);
 
-  //update user
-  const handleUpdate = (customer) => {
+  //show user information
+  const handleShow = (customer) => {
     navigate(`/Customer/${customer.uuid}`, { state: customer });
   };
   //delete user
@@ -57,7 +57,7 @@ const Customer = () => {
             <th></th>
           </tr>
           {arrUsers?.map((customer, index) => {
-            var timeCreate = timeConvert(customer?.create_date?.seconds);
+            var timeCreate = timeConvert(customer?.created_date?.seconds);
 
             return (
               <tr className="border-b-2" key={customer.uuid}>
@@ -69,9 +69,9 @@ const Customer = () => {
                 <td className="border-none flex">
                   <div
                     className="cursor-pointer"
-                    onClick={() => handleUpdate(customer)}
+                    onClick={() => handleShow(customer)}
                   >
-                    <FontAwesomeIcon icon={faPenToSquare} />
+                    <FontAwesomeIcon icon={faEye} />
                   </div>
                   <div
                     className="ml-3 cursor-pointer"
@@ -85,7 +85,7 @@ const Customer = () => {
           })}
         </tbody>
       </table>
-      <ButtonIcon position="bottom" />
+      {/*<ButtonIcon position="bottom" />*/}
     </div>
   );
 };
