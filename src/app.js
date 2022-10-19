@@ -38,18 +38,17 @@ const App = () => {
           path="/Product"
           exact
           element={!user ? <Navigate to="/Login" /> : <Product />}
-        >
-          <Route
-            path="/Product/:Type"
-            exact
-            element={!user ? <Navigate to="/Login" /> : <RUDProduct />}
-          />
-          <Route
-            path="/Product/:Type/:Id"
-            exact
-            element={!user ? <Navigate to="/Login" /> : <RUDProduct />}
-          />
-        </Route>
+        />
+        <Route
+          path="/Product/:Type"
+          exact
+          element={!user ? <Navigate to="/Login" /> : <RUDProduct />}
+        />
+        <Route
+          path="/Product/:Type/:Id"
+          exact
+          element={!user ? <Navigate to="/Login" /> : <RUDProduct />}
+        />
         <Route
           path="/Category"
           exact
@@ -59,25 +58,22 @@ const App = () => {
           path="/Customer"
           exact
           element={!user ? <Navigate to="/Login" /> : <Customer />}
-        >
-          <Route
-            path="/Customer/:Id"
-            exact
-            element={!user ? <Navigate to="/Login" /> : <RUDCustomer />}
-          />
-        </Route>
+        />
+        <Route
+          path="/Customer/:Id"
+          exact
+          element={!user ? <Navigate to="/Login" /> : <RUDCustomer />}
+        />
         <Route
           path="/Transactions"
           exact
           element={!user ? <Navigate to="/Login" /> : <Transactions />}
-        >
-          <Route
-            path="/Transactions/:Id"
-            exact
-            element={!user ? <Navigate to="/Login" /> : <DetailTransaction />}
-          />
-        </Route>
-
+        />
+        <Route
+          path="/Transactions/:Id"
+          exact
+          element={!user ? <Navigate to="/Login" /> : <DetailTransaction />}
+        />
         <Route
           path="*"
           exact

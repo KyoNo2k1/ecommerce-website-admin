@@ -34,7 +34,7 @@ const ProductList = ({ product, stt }) => {
     <tr className="border-b-2">
       <td>{stt}</td>
       <td>{product.name}</td>
-      <td>{product.price}</td>
+      <td>{product.price} USD</td>
       <td>{product.quantity}</td>
       <td>{product.category}</td>
       <td>{timeCreate}</td>
