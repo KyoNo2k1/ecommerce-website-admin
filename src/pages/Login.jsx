@@ -1,14 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserValue } from "../redux/userSlice/userSlice";
 
-const Login = ({ setUser }) => {
+const Login = () => {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (values.email === "avion" && values.password === "avion") {
-      setUser(values);
+      dispatch(setUserValue(values));
+      navigate("/Dashboard");
     }
   };
   return (
@@ -18,7 +25,7 @@ const Login = ({ setUser }) => {
           <h1 className="font-satoshi font-bold flex justify-center p-5">
             Login
           </h1>
-          <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={(e) => handleSubmit(e)} noValidate>
             <div className="flex flex-col">
               <label className="font-bold mb-2">Email Address</label>
               <div className="control">

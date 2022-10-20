@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Routes } from "react-router-dom";
 import Header from "./components/header";
 import Navbar from "./components/navbar";
@@ -12,10 +12,11 @@ import Transactions from "./pages/Transactions";
 import DetailTransaction from "./pages/DetailTransaction";
 import Product from "./pages/Product";
 import Login from "./pages/Login";
+import { useSelector } from "react-redux";
 
 const App = () => {
-  const [user, setUser] = useState({});
-
+  const { user } = useSelector((store) => store.users);
+  console.log(user);
   return (
     <BrowserRouter>
       <Header user={user} />
@@ -25,60 +26,64 @@ const App = () => {
         <Route
           path="/Login"
           exact
-          element={
-            user ? <Navigate to="/Dashboard" /> : <Login setUser={setUser} />
-          }
+          element={!!user.email ? <Navigate to="/Dashboard" /> : <Login />}
         />
         <Route
           path="/Dashboard"
           exact
-          element={!user ? <Navigate to="/Login" /> : <Dashboard />}
+          element={!user.email ? <Navigate to="/Login" /> : <Dashboard />}
         />
         <Route
           path="/Product"
           exact
-          element={!user ? <Navigate to="/Login" /> : <Product />}
+          element={!user.email ? <Navigate to="/Login" /> : <Product />}
         />
         <Route
           path="/Product/:Type"
           exact
-          element={!user ? <Navigate to="/Login" /> : <RUDProduct />}
+          element={!user.email ? <Navigate to="/Login" /> : <RUDProduct />}
         />
         <Route
           path="/Product/:Type/:Id"
           exact
-          element={!user ? <Navigate to="/Login" /> : <RUDProduct />}
+          element={!user.email ? <Navigate to="/Login" /> : <RUDProduct />}
         />
         <Route
           path="/Category"
           exact
-          element={!user ? <Navigate to="/Login" /> : <Category />}
+          element={!user.email ? <Navigate to="/Login" /> : <Category />}
         />
         <Route
           path="/Customer"
           exact
-          element={!user ? <Navigate to="/Login" /> : <Customer />}
+          element={!user.email ? <Navigate to="/Login" /> : <Customer />}
         />
         <Route
           path="/Customer/:Id"
           exact
-          element={!user ? <Navigate to="/Login" /> : <RUDCustomer />}
+          element={!user.email ? <Navigate to="/Login" /> : <RUDCustomer />}
         />
         <Route
           path="/Transactions"
           exact
-          element={!user ? <Navigate to="/Login" /> : <Transactions />}
+          element={!user.email ? <Navigate to="/Login" /> : <Transactions />}
         />
         <Route
           path="/Transactions/:Id"
           exact
-          element={!user ? <Navigate to="/Login" /> : <DetailTransaction />}
+          element={
+            !user.email ? <Navigate to="/Login" /> : <DetailTransaction />
+          }
         />
         <Route
           path="*"
           exact
           element={
-            !user ? <Navigate to="/Login" /> : <Navigate to="/Dashboard" />
+            !user.email ? (
+              <Navigate to="/Login" />
+            ) : (
+              <Navigate to="/Dashboard" />
+            )
           }
         />
       </Routes>

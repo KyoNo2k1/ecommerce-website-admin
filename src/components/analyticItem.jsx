@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightDots } from "@fortawesome/free-solid-svg-icons";
 
 const AnalyticItem = ({ item }) => {
-  console.log(item);
   return (
     <div className=" p-3 flex justify-between shadow-xl" key={item.title}>
       {/*Title items analytics*/}

@@ -1,34 +1,35 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ user }) => {
-  if (user)
+  if (!!user.email)
     return (
       <div className="flex justify-around p-5 border-b-2 border-primary-300 w-[100%] flex-1">
         <div className="align-middle w-[40%] flex justify-between">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="active:text-primary cursor-pointer text-[16px]"
           >
             Dashboard
-          </a>
-          <a href="/Product" className="active:text-primary cursor-pointer">
+          </Link>
+          <Link to="/Product" className="active:text-primary cursor-pointer">
             Product
-          </a>
-          <a href="/Category" className="active:text-primary cursor-pointer">
+          </Link>
+          <Link to="/Category" className="active:text-primary cursor-pointer">
             Category
-          </a>
-          <a href="/Customer" className="active:text-primary cursor-pointer">
+          </Link>
+          <Link to="/Customer" className="active:text-primary cursor-pointer">
             Customer
-          </a>
-          <a
-            href="/Transactions"
+          </Link>
+          <Link
+            to="/Transactions"
             className="active:text-primary cursor-pointer"
           >
             Transactions
-          </a>
-          <a href="/Report" className="active:text-primary cursor-pointer">
+          </Link>
+          <Link to="/Report" className="active:text-primary cursor-pointer">
             Report
-          </a>
+          </Link>
         </div>
       </div>
     );

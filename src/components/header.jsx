@@ -22,7 +22,7 @@ const Header = ({ user }) => {
       document.removeEventListener("mousedown", handler);
     };
   });
-  if (user)
+  if (!!user.email)
     return (
       <div>
         <div className="flex justify-between p-5 border-b-2 border-primary-300">

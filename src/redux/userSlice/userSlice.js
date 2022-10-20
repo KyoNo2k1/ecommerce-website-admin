@@ -33,6 +33,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     arrUsers: [],
+    user: {},
     statusGetUsers: "",
     statusUpdateUser: "",
     statusDeleteUser: "",
@@ -57,9 +58,12 @@ export const userSlice = createSlice({
       state.statusUpdateUser = "";
       state.statusDeleteUser = "";
     },
+    setUserValue: (state, action) => {
+      state.user = action.payload;
+    },
   },
 });
 //aciton products
-export const { resetStatusUser } = userSlice.actions;
+export const { resetStatusUser, setUserValue } = userSlice.actions;
 //reducer products
 export default userSlice.reducer;

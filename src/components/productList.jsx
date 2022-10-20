@@ -9,7 +9,6 @@ import { deleteProduct } from "../redux/productSlice/productSlice";
 import { useNavigate } from "react-router-dom";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "../services/firebase.config";
-import { toast } from "react-toastify";
 
 const ProductList = ({ product, stt }) => {
   const navigate = useNavigate();
