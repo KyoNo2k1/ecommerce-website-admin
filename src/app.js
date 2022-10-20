@@ -13,6 +13,7 @@ import DetailTransaction from "./pages/DetailTransaction";
 import Product from "./pages/Product";
 import Login from "./pages/Login";
 import { useSelector } from "react-redux";
+import Report from "./pages/Report";
 
 const App = () => {
   const { user } = useSelector((store) => store.users);
@@ -74,6 +75,11 @@ const App = () => {
           element={
             !user.email ? <Navigate to="/Login" /> : <DetailTransaction />
           }
+        />
+        <Route
+          path="/Report"
+          exact
+          element={!user.email ? <Navigate to="/Login" /> : <Report />}
         />
         <Route
           path="*"
