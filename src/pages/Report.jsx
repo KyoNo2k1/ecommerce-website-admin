@@ -89,7 +89,6 @@ const Report = () => {
         default:
       }
     });
-    console.log(result);
     return result;
   };
 
@@ -128,7 +127,6 @@ const Report = () => {
         default:
       }
     });
-    console.log(result);
     return result;
   };
 

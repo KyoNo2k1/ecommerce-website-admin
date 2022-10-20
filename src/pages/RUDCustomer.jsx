@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import LabelInput from "../components/labelInput";
-import { deleteUser } from "../redux/userSlice/userSlice";
+import { deleteUser, showUser } from "../redux/userSlice/userSlice";
 import Button from "./../components/button";
 import { timeConvert } from "./../components/convertTime";
 
 const RUDCustomer = () => {
-  const { statusUpdateUser } = useSelector((store) => store.users);
+  const { statusUpdateUser, userData } = useSelector((store) => store.users);
+  const { Id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,14 +27,21 @@ const RUDCustomer = () => {
   useEffect(() => {
     if (location.state) {
       setInputValueUser(location.state);
+    } else {
+      dispatch(showUser(Id));
     }
   }, [location.state]);
 
   useEffect(() => {
+    if (userData) {
+      setInputValueUser(userData);
+    }
+  }, [userData]);
+  console.log(userData);
+
+  useEffect(() => {
     if (statusUpdateUser) navigate("/Customer");
   }, [statusUpdateUser]);
-
-  //handle update user
 
   //handle delete user
   const handleDelete = async () => {

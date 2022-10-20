@@ -33,8 +33,8 @@ const Product = () => {
   const [filtedName, setFiltedName] = useState("");
   //get data firsttime
   useEffect(() => {
-    dispatch(getProducts());
-    dispatch(getCategories());
+    // dispatch(getProducts());
+    // dispatch(getCategories());
   }, []);
   useEffect(() => {
     if (arrProducts) {

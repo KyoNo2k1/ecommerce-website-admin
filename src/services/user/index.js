@@ -1,4 +1,4 @@
-import showListUsers from "./show";
+import showListUsers, { showOneUser } from "./show";
 import deleteOneUser from "./delete";
 
-export { showListUsers, deleteOneUser };
+export { showListUsers, deleteOneUser, showOneUser };

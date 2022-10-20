@@ -17,7 +17,7 @@ import Report from "./pages/Report";
 
 const App = () => {
   const { user } = useSelector((store) => store.users);
-  console.log(user);
+
   return (
     <BrowserRouter>
       <Header user={user} />

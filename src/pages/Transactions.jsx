@@ -1,64 +1,71 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs, Tab, TabPanel, TabList } from "react-tabs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getTransactions,
+  resetStatusTransaction,
+  updateTransaction,
+} from "./../redux/transactionSlice/transactionSlice";
+
+import { timeConvert } from "./../components/convertTime";
+import updateStatusTransaction from "./../services/transaction/update";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Transactions = () => {
-  const checkouts = [
-    {
-      id: 1,
-      checkoutID: "#012",
-      customerEmail: "abcd@gm.uit.edu.vn",
-      price: 20.0,
-      status: "Waiting",
-      checkoutTime: "02-10-2022",
-    },
-    {
-      id: 2,
-      checkoutID: "#022",
-      customerEmail: "abcd@gm.uit.edu.vn",
-      price: 30.0,
-      status: "Waiting",
-      checkoutTime: "02-10-2022",
-    },
-    {
-      id: 2,
-      checkoutID: "#021",
-      customerEmail: "abcd@gm.uit.edu.vn",
-      price: 50.0,
-      status: "Delivering",
-      checkoutTime: "02-10-2022",
-    },
-  ];
+  const { arrTransactions, statusUpdateTransaction } = useSelector(
+    (store) => store.transactions
+  );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTransactions());
+  }, []);
 
-  const handleGetListByStatus = () => {
-    const result = {
-      Waiting: [],
-      Delivering: [],
-      Completed: [],
-      Canceled: [],
-    };
+  useEffect(() => {
+    if (statusUpdateTransaction) {
+      toast(`Transactions is ${statusUpdateTransaction}`);
+    }
+    dispatch(resetStatusTransaction());
+  }, [statusUpdateTransaction]);
 
-    checkouts.forEach((item) => {
-      // if (item.status != null) {
-      //   arr["Waiting"].push(item);
-      // }
-      result[item.status].push(item);
-    });
-
-    return result;
-  };
+  const navigate = useNavigate();
 
   // options with default values
   const options = {
     defaultTabId: "Waiting",
     activeClasses:
-      "outline-none border-b-2 pt-2 pb-1 my-1 pr-2 text-purple-800 hover:text-purple-800 dark:text-purple-800 dark:hover:text-purple-800 hover:border-purple-800 border-purple-800 dark:border-purple-800 transition ease-in-out delay-150 duration-75",
+      "cursor-pointer outline-none border-b-2 pt-2 pb-1 my-1 pr-2 text-purple-800 hover:text-purple-800 dark:text-purple-800 dark:hover:text-purple-800 hover:border-purple-800 border-purple-800 dark:border-purple-800 transition ease-in-out delay-150 duration-75",
     inactiveClasses:
-      "border-b-2 pt-2 pb-1 my-1 pr-2 text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300 transition ease-in-out delay-100 hover:duration-45",
+      "cursor-pointer border-b-2 pt-2 pb-1 my-1 pr-2 text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300 transition ease-in-out delay-100 hover:duration-45",
     onShow: () => {
       console.log("tab is shown");
     },
+  };
+
+  //handle get
+  const handleGetListByStatus = (data) => {
+    const result = arrTransactions.filter((item) => item.status === data);
+
+    return result;
+  };
+
+  // handle delete
+  const handleDelete = (id) => {
+    let text = "You want to set this transactions is Canceled?";
+    if (window.confirm(text) === true) {
+      try {
+        dispatch(updateTransaction({ id: id, status: "Canceled" }));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  // handle update
+  const handleUpdate = (id) => {
+    navigate(`/Transactions/${id}`);
   };
 
   return (
@@ -88,17 +95,25 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {checkouts.map((checkout) => (
-                  <tr className="border-b-2" key={checkout.id}>
-                    <td>{checkout.id}</td>
-                    <td>{checkout.checkoutID}</td>
-                    <td>{checkout.customerEmail}</td>
-                    <td>{checkout.price}</td>
-                    <td>{checkout.status}</td>
-                    <td>{checkout.checkoutTime}</td>
-                    <td className="border-none w-[8%]">
-                      <FontAwesomeIcon icon={faPenToSquare} />
-                      <div className="ml-3 inline">
+                {arrTransactions.map((tran, index) => (
+                  <tr className="border-b-2" key={tran.uid}>
+                    <td>{index}</td>
+                    <td>{tran.uid}</td>
+                    <td>{tran.contact}</td>
+                    <td>{tran.price}</td>
+                    <td>{tran.status}</td>
+                    <td>{timeConvert(tran.updated_date)}</td>
+                    <td className="border-none flex">
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => handleUpdate(tran.uid)}
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                      </div>
+                      <div
+                        className="ml-3 cursor-pointer"
+                        onClick={() => handleDelete(tran.uid)}
+                      >
                         <FontAwesomeIcon icon={faTrashCan} />
                       </div>
                     </td>
@@ -122,17 +137,25 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {handleGetListByStatus().Waiting?.map((checkout) => (
-                  <tr className="border-b-2" key={checkout.id}>
-                    <td>{checkout.id}</td>
-                    <td>{checkout.checkoutID}</td>
-                    <td>{checkout.customerEmail}</td>
-                    <td>{checkout.price}</td>
-                    <td>{checkout.status}</td>
-                    <td>{checkout.checkoutTime}</td>
-                    <td className="border-none w-[8%]">
-                      <FontAwesomeIcon icon={faPenToSquare} />
-                      <div className="ml-3 inline">
+                {handleGetListByStatus("Waiting")?.map((tran, index) => (
+                  <tr className="border-b-2" key={tran.uid}>
+                    <td>{index}</td>
+                    <td>{tran.uid}</td>
+                    <td>{tran.contact}</td>
+                    <td>{tran.price}</td>
+                    <td>{tran.status}</td>
+                    <td>{timeConvert(tran.updated_date)}</td>
+                    <td className="border-none flex">
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => handleUpdate(tran.uid)}
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                      </div>
+                      <div
+                        className="ml-3 cursor-pointer"
+                        onClick={() => handleDelete(tran.uid)}
+                      >
                         <FontAwesomeIcon icon={faTrashCan} />
                       </div>
                     </td>
@@ -156,17 +179,25 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {handleGetListByStatus().Delivering?.map((checkout) => (
-                  <tr className="border-b-2" key={checkout.id}>
-                    <td>{checkout.id}</td>
-                    <td>{checkout.checkoutID}</td>
-                    <td>{checkout.customerEmail}</td>
-                    <td>{checkout.price}</td>
-                    <td>{checkout.status}</td>
-                    <td>{checkout.checkoutTime}</td>
-                    <td className="border-none w-[8%]">
-                      <FontAwesomeIcon icon={faPenToSquare} />
-                      <div className="ml-3 inline">
+                {handleGetListByStatus("Delivering")?.map((tran, index) => (
+                  <tr className="border-b-2" key={tran.uid}>
+                    <td>{index}</td>
+                    <td>{tran.uid}</td>
+                    <td>{tran.contact}</td>
+                    <td>{tran.price}</td>
+                    <td>{tran.status}</td>
+                    <td>{timeConvert(tran.updated_date)}</td>
+                    <td className="border-none flex">
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => handleUpdate(tran.uid)}
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                      </div>
+                      <div
+                        className="ml-3 cursor-pointer"
+                        onClick={() => handleDelete(tran.uid)}
+                      >
                         <FontAwesomeIcon icon={faTrashCan} />
                       </div>
                     </td>
@@ -190,17 +221,25 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {checkouts?.map((checkout) => (
-                  <tr className="border-b-2" key={checkout.id}>
-                    <td>{checkout.id}</td>
-                    <td>{checkout.checkoutID}</td>
-                    <td>{checkout.customerEmail}</td>
-                    <td>{checkout.price}</td>
-                    <td>{checkout.status}</td>
-                    <td>{checkout.checkoutTime}</td>
-                    <td className="border-none w-[8%]">
-                      <FontAwesomeIcon icon={faPenToSquare} />
-                      <div className="ml-3 inline">
+                {handleGetListByStatus("Completed")?.map((tran, index) => (
+                  <tr className="border-b-2" key={tran.uid}>
+                    <td>{index}</td>
+                    <td>{tran.uid}</td>
+                    <td>{tran.contact}</td>
+                    <td>{tran.price}</td>
+                    <td>{tran.status}</td>
+                    <td>{timeConvert(tran.updated_date)}</td>
+                    <td className="border-none flex">
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => handleUpdate(tran.uid)}
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                      </div>
+                      <div
+                        className="ml-3 cursor-pointer"
+                        onClick={() => handleDelete(tran.uid)}
+                      >
                         <FontAwesomeIcon icon={faTrashCan} />
                       </div>
                     </td>
@@ -224,17 +263,25 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {checkouts?.map((checkout) => (
-                  <tr className="border-b-2" key={checkout.id}>
-                    <td>{checkout.id}</td>
-                    <td>{checkout.checkoutID}</td>
-                    <td>{checkout.customerEmail}</td>
-                    <td>{checkout.price}</td>
-                    <td>{checkout.status}</td>
-                    <td>{checkout.checkoutTime}</td>
-                    <td className="border-none w-[8%]">
-                      <FontAwesomeIcon icon={faPenToSquare} />
-                      <div className="ml-3 inline">
+                {handleGetListByStatus("Canceled")?.map((tran, index) => (
+                  <tr className="border-b-2" key={tran.uid}>
+                    <td>{index}</td>
+                    <td>{tran.uid}</td>
+                    <td>{tran.contact}</td>
+                    <td>{tran.price}</td>
+                    <td>{tran.status}</td>
+                    <td>{timeConvert(tran.updated_date)}</td>
+                    <td className="border-none flex">
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => handleUpdate(tran.uid)}
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                      </div>
+                      <div
+                        className="ml-3 cursor-pointer"
+                        onClick={() => handleDelete(tran.uid)}
+                      >
                         <FontAwesomeIcon icon={faTrashCan} />
                       </div>
                     </td>

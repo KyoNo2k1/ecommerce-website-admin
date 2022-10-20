@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { USERS } from "../constant/firestore";
 
@@ -8,8 +8,16 @@ const showListUsers = async () => {
   const listUSERS = [];
   querySnapshot.forEach((doc) => {
     listUSERS.push(doc.data());
+    listUSERS[listUSERS.length - 1].uuid = doc.id;
   });
   return listUSERS;
+};
+
+export const showOneUser = async (id) => {
+  const querySnapshot = await getDoc(doc(db, USERS, id));
+  var user = querySnapshot.data();
+  user.uuid = querySnapshot.id;
+  return user;
 };
 
 export default showListUsers;

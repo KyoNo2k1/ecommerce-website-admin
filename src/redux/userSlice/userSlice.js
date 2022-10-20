@@ -1,9 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  deleteOneUser,
-  showListUsers,
-  updateOneUser,
-} from "../../services/user";
+import { deleteOneUser, showListUsers, showOneUser } from "../../services/user";
 
 //Users
 export const getUsers = createAsyncThunk(
@@ -28,6 +24,17 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+export const showUser = createAsyncThunk(
+  "user/showOneUser",
+  async (id, { rejectWithValue }) => {
+    const response = await showOneUser(id);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    return response;
+  }
+);
+
 //create user slice
 export const userSlice = createSlice({
   name: "user",
@@ -37,6 +44,7 @@ export const userSlice = createSlice({
     statusGetUsers: "",
     statusUpdateUser: "",
     statusDeleteUser: "",
+    userData: {},
   },
   extraReducers: {
     [getUsers.pending]: (state, action) => {
@@ -51,6 +59,9 @@ export const userSlice = createSlice({
     },
     [deleteUser.fulfilled]: (state, action) => {
       state.statusDeleteUser = "success";
+    },
+    [showUser.fulfilled]: (state, action) => {
+      state.userData = action.payload;
     },
   },
   reducers: {
