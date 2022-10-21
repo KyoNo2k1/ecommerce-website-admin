@@ -23,7 +23,6 @@ const DetailTransaction = () => {
   }, []);
 
   useEffect(() => {
-    console.log(statusUpdateTransaction);
     if (statusUpdateTransaction) {
       navigate("/Transactions");
     }

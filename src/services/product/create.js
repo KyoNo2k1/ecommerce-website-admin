@@ -10,8 +10,10 @@ const createNewProduct = async (item) => {
     quantity: item.quantity,
     price: item.price,
     remain: item.remain,
-    dimension: item.dimension,
     description: item.description,
+    width: item.width,
+    height: item.height,
+    depth: item.depth,
     create_date: serverTimestamp(),
     update_date: serverTimestamp(),
   });

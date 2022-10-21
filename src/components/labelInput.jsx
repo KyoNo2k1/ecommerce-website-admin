@@ -22,12 +22,6 @@ const LabelInput = ({
       case "Product name":
         setInputValue({ ...inputValue, name: e.target.value });
         break;
-      case "Dimension ( width x height x lengtht)":
-        setInputValue({
-          ...inputValue,
-          dimension: e.target.value,
-        });
-        break;
       case "Description":
         setInputValue({ ...inputValue, description: e.target.value });
         break;
@@ -52,7 +46,17 @@ const LabelInput = ({
       case "Address":
         setInputValue({ ...inputValue, addr_default: e.target.value });
         break;
+      case "Width":
+        setInputValue({ ...inputValue, width: e.target.value });
+        break;
+      case "Height":
+        setInputValue({ ...inputValue, height: e.target.value });
+        break;
+      case "Depth":
+        setInputValue({ ...inputValue, depth: e.target.value });
+        break;
       default:
+        break;
     }
   };
   return (

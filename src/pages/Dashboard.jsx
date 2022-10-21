@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Analytics from "../components/analytics";
 import Chart from "../components/chart";
 import TopProduct from "../components/topProduct";
 import ChartUser from "../components/chartUser";
+import { useDispatch, useSelector } from "react-redux";
+import { getTransactions } from "./../redux/transactionSlice/transactionSlice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const { arrTransactions } = useSelector((store) => store.transactions);
+  useEffect(() => {
+    dispatch(getTransactions());
+  }, []);
   //fake api
   const checkouts = [
     {

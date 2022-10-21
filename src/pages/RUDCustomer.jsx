@@ -13,31 +13,37 @@ const RUDCustomer = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [inputValueUser, setInputValueUser] = useState({
-    fullName: "",
+    fullname: "",
     email: "",
     type: "",
     created_date: "",
     updated_date: "",
     addr_default: "",
     uuid: "",
+    img: "",
+    gender: "",
+    dob: "",
+    phone: "",
   });
 
   var timeCreatedConvert = timeConvert(inputValueUser?.created_date?.seconds);
 
   useEffect(() => {
     if (location.state) {
+      console.log(location.state);
       setInputValueUser(location.state);
     } else {
       dispatch(showUser(Id));
     }
   }, [location.state]);
+  console.log(inputValueUser);
 
   useEffect(() => {
+    console.log(userData);
     if (userData) {
       setInputValueUser(userData);
     }
   }, [userData]);
-  console.log(userData);
 
   useEffect(() => {
     if (statusUpdateUser) navigate("/Customer");
@@ -62,7 +68,7 @@ const RUDCustomer = () => {
           <div className="w-[54%]">
             <LabelInput
               name={"User name"}
-              value={inputValueUser?.fullName}
+              value={inputValueUser?.fullname}
               inputValue={inputValueUser}
               readOnly={true}
               setInputValue={setInputValueUser}

@@ -62,7 +62,7 @@ const Customer = () => {
             return (
               <tr className="border-b-2" key={customer.uuid}>
                 <td>{index}</td>
-                <td>{customer.fullName}</td>
+                <td>{customer.fullname}</td>
                 <td>{customer.email}</td>
                 <td>{customer.addr_default}</td>
                 <td>{timeCreate}</td>

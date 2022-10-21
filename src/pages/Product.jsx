@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/topProduct.css";
 import { useNavigate } from "react-router-dom";
 
@@ -31,6 +31,11 @@ const Product = () => {
   const [currentArrProducts, setCurrentArrProducts] = useState(arrProducts);
   // filter name value
   const [filtedName, setFiltedName] = useState("");
+  //ref filter data
+  const remainRef = useRef();
+  const priceRef = useRef();
+  const categoryRef = useRef();
+  const nameRef = useRef();
   //get data firsttime
   useEffect(() => {
     dispatch(getProducts());
@@ -68,78 +73,88 @@ const Product = () => {
   };
 
   //handle filter
-  const handleFilterCategory = (e) => {
-    if (e.target.value) {
-      const filtedProduct = arrProducts.filter(
-        (data) => data.category === e.target.value
+  const handleFilterCategory = (oldArrFilted) => {
+    let filtedProduct = [];
+    if (categoryRef.current.value !== "All") {
+      filtedProduct = oldArrFilted.filter(
+        (data) => data.category === categoryRef.current.value
       );
-      setCurrentArrProducts(filtedProduct);
+      return filtedProduct;
+    } else {
+      return oldArrFilted;
     }
   };
-  const handleFilterName = (e) => {
-    setFiltedName(e.target.value);
-    const filtedProduct = arrProducts.filter((data) =>
-      data.name.toLowerCase().includes(e.target.value)
-    );
-    setCurrentArrProducts(filtedProduct);
+  const handleFilterName = (oldArrFilted) => {
+    setFiltedName(nameRef.current.value);
+    let filtedProduct = [];
+    if (nameRef.current.value !== "") {
+      filtedProduct = oldArrFilted.filter((data) =>
+        data.name.toLowerCase().includes(nameRef.current.value)
+      );
+      return filtedProduct;
+    } else return oldArrFilted;
   };
-  const handleFilterRemain = (e) => {
-    var filtedProduct = [];
-    switch (Number(e.target.value)) {
+  const handleFilterRemain = (oldArrFilted) => {
+    let filtedProduct = [];
+
+    switch (Number(remainRef.current.value)) {
       case 0:
-        filtedProduct = arrProducts;
-        setCurrentArrProducts(filtedProduct);
+        filtedProduct = oldArrFilted;
         break;
       case 1:
-        filtedProduct = arrProducts.filter((data) => Number(data.remain) < 20);
-        setCurrentArrProducts(filtedProduct);
+        filtedProduct = oldArrFilted.filter((data) => Number(data.remain) < 20);
         break;
       case 2:
-        filtedProduct = arrProducts.filter(
+        filtedProduct = oldArrFilted.filter(
           (data) => Number(data.remain) <= 50 && Number(data.remain) > 20
         );
-        setCurrentArrProducts(filtedProduct);
         break;
       case 3:
-        filtedProduct = arrProducts.filter(
+        filtedProduct = oldArrFilted.filter(
           (data) => Number(data.remain) <= 100 && Number(data.remain) > 50
         );
-        setCurrentArrProducts(filtedProduct);
         break;
       case 4:
-        filtedProduct = arrProducts.filter((data) => Number(data.remain) > 100);
-        setCurrentArrProducts(filtedProduct);
+        filtedProduct = oldArrFilted.filter(
+          (data) => Number(data.remain) > 100
+        );
         break;
       default:
         break;
     }
+    return filtedProduct;
   };
 
-  const handleFilterPrice = (e) => {
-    var filtedProduct = [];
+  const handleFilterPrice = (oldArrFilted) => {
+    let filtedProduct = [];
 
-    switch (Number(e.target.value.trim())) {
+    switch (Number(priceRef.current.value.trim())) {
       case 0:
-        filtedProduct = arrProducts;
-        setCurrentArrProducts(filtedProduct);
+        filtedProduct = oldArrFilted;
         break;
       case 1:
-        filtedProduct = arrProducts.filter((data) => Number(data.price) < 50);
-        setCurrentArrProducts(filtedProduct);
+        filtedProduct = oldArrFilted.filter((data) => Number(data.price) < 50);
         break;
       case 2:
-        filtedProduct = arrProducts.filter(
+        filtedProduct = oldArrFilted.filter(
           (data) => Number(data.price) <= 100 && Number(data.price) > 50
         );
-        setCurrentArrProducts(filtedProduct);
         break;
       case 3:
-        filtedProduct = arrProducts.filter((data) => Number(data.price) > 100);
-        setCurrentArrProducts(filtedProduct);
+        filtedProduct = oldArrFilted.filter((data) => Number(data.price) > 100);
         break;
       default:
         break;
     }
+    return filtedProduct;
+  };
+
+  const handleFilter = () => {
+    let arrFilted = handleFilterCategory(arrProducts);
+    arrFilted = handleFilterPrice(arrFilted);
+    arrFilted = handleFilterRemain(arrFilted);
+    arrFilted = handleFilterName(arrFilted);
+    setCurrentArrProducts(arrFilted);
   };
 
   return (
@@ -152,9 +167,10 @@ const Product = () => {
             <label className="text-h6 mr-2">Search by name</label>
             <input
               value={filtedName}
+              ref={nameRef}
               className="w-[100%] h-[44px] border-primary border-2 px-4"
               placeholder="All"
-              onChange={(e) => handleFilterName(e)}
+              onChange={(e) => handleFilter()}
             />
           </div>
           {/* choose remain quantity type */}
@@ -162,7 +178,8 @@ const Product = () => {
             <label className="text-h6 mr-2">Remain</label>
             <select
               className="w-[150px] h-[44px] border-primary border-2 px-4"
-              onChange={(e) => handleFilterRemain(e)}
+              onChange={(e) => handleFilter()}
+              ref={remainRef}
             >
               <option value="" disabled hidden>
                 Select your option
@@ -181,7 +198,8 @@ const Product = () => {
             <label className="text-h6 mr-2">Price Level</label>
             <select
               className="w-[150px] h-[44px] border-primary border-2 px-4"
-              onChange={(e) => handleFilterPrice(e)}
+              onChange={(e) => handleFilter()}
+              ref={priceRef}
             >
               <option value="" disabled hidden>
                 Select your option
@@ -200,10 +218,11 @@ const Product = () => {
             <label className="text-h6 mr-2">Category Type</label>
             <select
               className="w-[150px] h-[44px] border-primary border-2 px-4"
-              onChange={(e) => handleFilterCategory(e)}
+              onChange={(e) => handleFilter()}
+              ref={categoryRef}
             >
-              <option value="">All</option>
-              {arrCategories?.map((item) => {
+              <option value="All">All</option>
+              {arrCategories?.map((item, index) => {
                 return (
                   <option value={item.name} key={item.uuid}>
                     {item.name}

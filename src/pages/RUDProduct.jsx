@@ -39,10 +39,12 @@ const RUDProduct = () => {
   const [inputValue, setInputValue] = useState({
     name: "",
     category: "",
-    dimension: "",
     description: "",
     price: "",
     quantity: "",
+    width: "",
+    height: "",
+    depth: "",
     remain: "",
     arrImg: [],
   });
@@ -266,7 +268,7 @@ const RUDProduct = () => {
                 setInputValue={setInputValue}
               />
               <LabelInput
-                name={"Length"}
+                name={"Depth"}
                 halfWidth="w-[30%]"
                 value={inputValue?.depth}
                 inputValue={inputValue}
