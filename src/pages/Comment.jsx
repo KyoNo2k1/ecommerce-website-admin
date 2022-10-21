@@ -23,6 +23,40 @@ const Comment = () => {
 
   return (
     <div className="px-24 my-2">
+      <div className="flex justify-end">
+        {/* Start search by name */}
+        <div className="mr-3 flex flex-col">
+          <label className="text-h6 mr-2">Search by name</label>
+          <input
+            className="w-[100%] h-[44px] border-primary border-2 px-4"
+            placeholder="All"
+          />
+        </div>
+        {/* End search by name */}
+
+        {/* Start search by customer */}
+        <div className="mr-3 flex flex-col">
+          <label className="text-h6 mr-2">Search by customer</label>
+          <input
+            className="w-[100%] h-[44px] border-primary border-2 px-4"
+            placeholder="All"
+          />
+        </div>
+        {/* End search by customer */}
+
+        {/* Start search by time */}
+        <div className="mr-3 flex flex-col">
+          <label className="text-h6 mr-2">Time</label>
+          <select className="w-[150px] h-[44px] border-primary border-2 px-4">
+            <option value="" disabled hidden>
+              Select your option
+            </option>
+          </select>
+        </div>
+        {/* End search by time */}
+      </div>
+
+      {/* table start */}
       <table className="w-[100%]">
         <thead>
           <tr>
@@ -92,6 +126,7 @@ const Comment = () => {
           </tbody>
         ))}
       </table>
+      {/* table end */}
     </div>
   );
 };
