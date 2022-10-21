@@ -250,12 +250,29 @@ const RUDProduct = () => {
                 </select>
               </div>
             </div>
-            <LabelInput
-              name={"Dimension ( width x height x lengtht)"}
-              value={inputValue?.dimension}
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-            />
+            <div className="flex justify-between">
+              <LabelInput
+                name={"Width"}
+                halfWidth="w-[30%]"
+                value={inputValue?.width}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+              />
+              <LabelInput
+                name={"Height"}
+                halfWidth="w-[30%]"
+                value={inputValue?.height}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+              />
+              <LabelInput
+                name={"Length"}
+                halfWidth="w-[30%]"
+                value={inputValue?.depth}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+              />
+            </div>
             <LabelInput
               name={"Description"}
               className="py-12 col-span-10 row-span-5 text-start"

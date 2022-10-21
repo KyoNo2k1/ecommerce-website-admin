@@ -37,15 +37,17 @@ const ProductList = ({ product, stt }) => {
       <td>{product.quantity}</td>
       <td>{product.category}</td>
       <td>{timeCreate}</td>
-      <td className="border-none flex">
-        <div className="cursor-pointer" onClick={() => handleUpdate()}>
-          <FontAwesomeIcon icon={faPenToSquare} />
-        </div>
-        <div
-          className="ml-3 cursor-pointer"
-          onClick={() => handleDelete(product.uuid)}
-        >
-          <FontAwesomeIcon icon={faTrashCan} />
+      <td>
+        <div className="border-none flex">
+          <div className="cursor-pointer" onClick={() => handleUpdate()}>
+            <FontAwesomeIcon icon={faPenToSquare} />
+          </div>
+          <div
+            className="ml-3 cursor-pointer"
+            onClick={() => handleDelete(product.uuid)}
+          >
+            <FontAwesomeIcon icon={faTrashCan} />
+          </div>
         </div>
       </td>
     </tr>
