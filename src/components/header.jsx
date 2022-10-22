@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBell, faUser } from "@fortawesome/free-solid-svg-icons";
 import inbox from "../images/envelope.png";
 import "../styles/notification.css";
+import NotificationList from "../components/notificationList";
 import React, { useState, useEffect, useRef } from "react";
 
 const Header = ({ user }) => {
@@ -40,23 +41,8 @@ const Header = ({ user }) => {
             </div>
 
             <div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
-              <h3>
-                Admin
-                <br />
-                <span>E-commerce website</span>
-              </h3>
-              <ul>
-                {/* <DropdownItem img={user} text={"My Profile"} />
-              <DropdownItem img={edit} text={"Edit Profile"} /> */}
-                <DropdownItem img={inbox} text={"Notification"} />
-                <DropdownItem img={inbox} text={"Notification"} />
-                <DropdownItem img={inbox} text={"Notification"} />
-                <DropdownItem img={inbox} text={"Notification"} />
-
-                {/* <DropdownItem img={settings} text={"Settings"} />
-              <DropdownItem img={help} text={"Helps"} />
-              <DropdownItem img={logout} text={"Logout"} /> */}
-              </ul>
+              <h3>Notification</h3>
+              <NotificationList />
             </div>
           </div>
         </div>

@@ -233,7 +233,7 @@ const Product = () => {
           </div>
         </div>
       </div>
-      <div className="px-24 my-2 mb-24">
+      <div className="my-2 mb-24">
         <table className="w-[100%]">
           <tbody>
             <tr>
