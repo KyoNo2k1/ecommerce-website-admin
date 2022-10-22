@@ -22,7 +22,38 @@ ChartJS.register(
 );
 const Chart = ({ d }) => {
   const data = {
-    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+    ],
     datasets: [
       {
         label: d.d1.title,
@@ -39,31 +70,6 @@ const Chart = ({ d }) => {
       },
     ],
   };
-  // const legend = {
-  //   display: true,
-  //   position: "bottom",
-  //   labels: {
-  //     fontColor: "#323130",
-  //     fontSize: 14,
-  //   },
-  // };
-
-  // const options = {
-  //   title: {
-  //     display: true,
-  //     text: "Chart Title",
-  //   },
-  //   scales: {
-  //     yAxes: [
-  //       {
-  //         ticks: {
-  //           suggestedMin: 0,
-  //           suggestedMax: 100,
-  //         },
-  //       },
-  //     ],
-  //   },
-  // };
 
   return (
     <div className="w-[98%] mt-5 bg-gray-100">
