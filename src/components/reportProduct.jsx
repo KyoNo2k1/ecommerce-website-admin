@@ -5,7 +5,7 @@ const ReportProduct = () => {
   const reportProduct = [
     {
       id: 1,
-      name: "Product Name",
+      name: "Chairs",
       profit: 20.0,
       sold: 200,
     },
@@ -19,24 +19,49 @@ const ReportProduct = () => {
   return (
     <div className="mt-3">
       <table className="w-[90%]">
-        <tbody>
+        <thead>
           <tr>
             <th>STT</th>
             <th>Category Name</th>
+            <th>Total Profit</th>
+            <th>Total Sold</th>
+            <th>Product Name</th>
             <th>Profit</th>
-            <th className="pl-10">Sold Quantity</th>
-            <th></th>
+            <th>Sold Quantity</th>
           </tr>
-          {reportProduct?.map((item) => (
-            <tr className="border-b-2" key={item.id}>
+        </thead>
+
+        {reportProduct?.map((item) => (
+          <tbody>
+            <tr className="" key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.profit}</td>
-              <td className="border-none pl-20">{item.sold}</td>
-              <td className="border-none"></td>
+              <td>{item.sold}</td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
-          ))}
-        </tbody>
+            <tr className="" key={item.id}>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td className="border-y-[1px]">name</td>
+              <td className="border-y-[1px]">{item.profit}</td>
+              <td className="border-y-[1px]">{item.sold}</td>
+            </tr>
+            <tr className="border-b-2" key={item.id}>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>name</td>
+              <td>{item.profit}</td>
+              <td>{item.sold}</td>
+            </tr>
+          </tbody>
+        ))}
       </table>
     </div>
   );

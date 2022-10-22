@@ -25,45 +25,20 @@ const Chart = ({ d }) => {
     labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
       {
-        label: d.d1.title,
-        data: d.d1.data != null ? d.d1.data : [33, 53, 85, 41, 44, 65],
+        label: d?.d1?.title != null ? d.d1.title : "data1",
+        data: d?.d1?.data != null ? d.d1.data : [33, 53, 85, 41, 44, 65],
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)",
       },
       {
-        label: d.d2.title,
-        data: d.d2.data != null ? d.d2.data : [33, 25, 35, 51, 54, 76],
+        label: d?.d2?.title != null ? d.d2.title : "data2",
+        data: d?.d2?.data != null ? d.d2.data : [33, 25, 35, 51, 54, 76],
         fill: false,
         borderColor: "#742774",
       },
     ],
   };
-  // const legend = {
-  //   display: true,
-  //   position: "bottom",
-  //   labels: {
-  //     fontColor: "#323130",
-  //     fontSize: 14,
-  //   },
-  // };
-
-  // const options = {
-  //   title: {
-  //     display: true,
-  //     text: "Chart Title",
-  //   },
-  //   scales: {
-  //     yAxes: [
-  //       {
-  //         ticks: {
-  //           suggestedMin: 0,
-  //           suggestedMax: 100,
-  //         },
-  //       },
-  //     ],
-  //   },
-  // };
 
   return (
     <div className="w-[98%] mt-5 bg-gray-100">
