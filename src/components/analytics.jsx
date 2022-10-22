@@ -8,115 +8,46 @@ import {
   faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import AnalyticItem from "./analyticItem";
+import { useSelector } from "react-redux";
 
 const Analytics = () => {
-  const checkouts = [
-    {
-      address: "Ho chi minh, Viet Nam",
-      checkoutId: 201,
-      customer: "abcd@gm.uit.edu.vn",
-      price: 20,
-      status: "Waiting",
-      checkoutTime: "2022/10/16",
-    },
-    {
-      address: "Ho chi minh, Viet Nam",
-      checkoutId: 203,
-      customer: "abcd@gm.uit.edu.vn",
-      price: 40,
-      status: "Waiting",
-      checkoutTime: "2022/10/02",
-    },
-    {
-      address: "Ho chi minh, Viet Nam",
-      checkoutId: 203,
-      customer: "abcd@gm.uit.edu.vn",
-      price: 10,
-      status: "Delivering",
-      checkoutTime: "2022/09/02",
-    },
-  ];
-
-  const calQuantityOfPendingCheckout = () => {
-    var result = 0;
-
-    checkouts.forEach((element) => {
-      if (element.status == "Waiting") result++;
+  const { arrTransactions } = useSelector((store) => store.transactions);
+  var totalEarnings = 0;
+  var pendingOrders = 0;
+  console.log(arrTransactions);
+  if (arrTransactions.length) {
+    arrTransactions.forEach((transactions) => {
+      totalEarnings += Number(transactions.total);
+      if (transactions.status === "Waiting") pendingOrders += 1;
     });
-
-    return result;
-  };
-
-  const calTotalEarning = () => {
-    var result = 0;
-
-    checkouts.forEach((element) => {
-      const date = new Date(element.checkoutTime);
-      if (
-        date.getMonth() === today.getMonth() &&
-        date.getYear() === today.getYear()
-      )
-        result += element.price;
-    });
-
-    return result;
-  };
-
-  const timeElapsed = Date.now();
-  const today = new Date(timeElapsed);
-
-  const calSalesToday = () => {
-    var result = 0;
-
-    checkouts.forEach((element) => {
-      const date = new Date(element.checkoutTime);
-      if (date.getDate() === today.getDate()) result += element.price;
-    });
-
-    return result;
-  };
-
-  const calTotalEarningInLastMonth = () => {
-    var result = 0;
-
-    checkouts.forEach((element) => {
-      const date = new Date(element.checkoutTime);
-      if (
-        date.getMonth() === today.getMonth() - 1 &&
-        date.getYear() === today.getYear()
-      )
-        result += element.price;
-    });
-
-    return result;
-  };
+  }
 
   const analytics = [
     {
       id: 1,
       title: "Sales Today",
-      count: calSalesToday(),
+      count: 1,
       percent: 0.05,
       icon: faCircleDollarToSlot,
     },
     {
       id: 2,
       title: "Last month",
-      count: calTotalEarningInLastMonth(),
+      count: 1,
       percent: 0.05,
       icon: faCoins,
     },
     {
       id: 3,
       title: "Total Earning",
-      count: calTotalEarning(),
+      count: totalEarnings,
       percent: 0.05,
       icon: faSackDollar,
     },
     {
       id: 4,
       title: "Pending Orders",
-      count: calQuantityOfPendingCheckout(),
+      count: pendingOrders,
       percent: 0.05,
       icon: faListCheck,
     },

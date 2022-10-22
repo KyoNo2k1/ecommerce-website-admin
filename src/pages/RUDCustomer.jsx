@@ -26,21 +26,16 @@ const RUDCustomer = () => {
     phone: "",
   });
 
-  var timeCreatedConvert = timeConvert(inputValueUser?.created_date?.seconds);
-
   useEffect(() => {
     if (location.state) {
-      console.log(location.state);
       setInputValueUser(location.state);
     } else {
       dispatch(showUser(Id));
     }
   }, [location.state]);
-  console.log(inputValueUser);
 
   useEffect(() => {
-    console.log(userData);
-    if (userData) {
+    if (!!userData.uuid) {
       setInputValueUser(userData);
     }
   }, [userData]);
@@ -94,7 +89,7 @@ const RUDCustomer = () => {
             <div className="flex-1">
               <LabelInput
                 name={"Create Date"}
-                value={timeCreatedConvert}
+                value={inputValueUser?.created_date}
                 inputValue={inputValueUser}
                 setInputValue={setInputValueUser}
                 readOnly={true}

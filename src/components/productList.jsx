@@ -13,7 +13,7 @@ import { storage } from "../services/firebase.config";
 const ProductList = ({ product, stt }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  var timeCreate = timeConvert(product?.create_date?.seconds);
+  var timeCreate = timeConvert(product?.create_date?.toDate());
 
   const handleUpdate = () => {
     navigate(`/Product/Update/${product.uuid}`, { state: product });
