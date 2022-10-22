@@ -73,8 +73,8 @@ const Category = () => {
           </tr>
           {arrCategories?.map((category) => {
             //convert time from timestamp to time
-            var timeCreate = timeConvert(category.create_date);
-            var timeUpdate = timeConvert(category.update_date);
+            var timeCreate = timeConvert(category.create_date.toDate());
+            var timeUpdate = timeConvert(category.update_date.toDate());
             return (
               <tr className="border-b-2" key={category.uuid}>
                 <td>1</td>

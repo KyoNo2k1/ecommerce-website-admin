@@ -28,6 +28,7 @@ export const showUser = createAsyncThunk(
   "user/showOneUser",
   async (id, { rejectWithValue }) => {
     const response = await showOneUser(id);
+    console.log(response);
     if (response == null) {
       return rejectWithValue(response);
     }

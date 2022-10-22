@@ -8,10 +8,10 @@ import { getTransactions } from "./../redux/transactionSlice/transactionSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { arrTransactions } = useSelector((store) => store.transactions);
   useEffect(() => {
     dispatch(getTransactions());
   }, []);
+
   //fake api
   const checkouts = [
     {

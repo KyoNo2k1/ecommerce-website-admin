@@ -9,7 +9,6 @@ import {
 } from "./../redux/transactionSlice/transactionSlice";
 
 import { timeConvert } from "./../components/convertTime";
-import updateStatusTransaction from "./../services/transaction/update";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -58,7 +57,6 @@ const Transactions = () => {
       }
     }
   };
-  console.log(arrTransactions);
   // handle update
   const handleUpdate = (id) => {
     navigate(`/Transactions/${id}`);
@@ -91,30 +89,33 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {arrTransactions.map((tran, index) => (
-                  <tr className="border-b-2" key={tran.uid}>
-                    <td>{index}</td>
-                    <td>{tran.uid}</td>
-                    <td>{tran.contact}</td>
-                    <td>{tran.price}</td>
-                    <td>{tran.status}</td>
-                    <td>{timeConvert(tran.updated_date)}</td>
-                    <td className="border-none flex">
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => handleUpdate(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                      </div>
-                      <div
-                        className="ml-3 cursor-pointer"
-                        onClick={() => handleDelete(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {arrTransactions.map((tran, index) => {
+                  const timeConverted = timeConvert(tran.updated_date.toDate());
+                  return (
+                    <tr className="border-b-2" key={tran.uid}>
+                      <td>{index}</td>
+                      <td>{tran.uid}</td>
+                      <td>{tran.contact}</td>
+                      <td>{tran.total}</td>
+                      <td>{tran.status}</td>
+                      <td>{timeConverted}</td>
+                      <td className="border-none flex">
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => handleUpdate(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </div>
+                        <div
+                          className="ml-3 cursor-pointer"
+                          onClick={() => handleDelete(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -133,30 +134,34 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {handleGetListByStatus("Waiting")?.map((tran, index) => (
-                  <tr className="border-b-2" key={tran.uid}>
-                    <td>{index}</td>
-                    <td>{tran.uid}</td>
-                    <td>{tran.contact}</td>
-                    <td>{tran.price}</td>
-                    <td>{tran.status}</td>
-                    <td>{timeConvert(tran.updated_date)}</td>
-                    <td className="border-none flex">
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => handleUpdate(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                      </div>
-                      <div
-                        className="ml-3 cursor-pointer"
-                        onClick={() => handleDelete(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {handleGetListByStatus("Waiting")?.map((tran, index) => {
+                  const timeConverted = timeConvert(tran.updated_date.toDate());
+
+                  return (
+                    <tr className="border-b-2" key={tran.uid}>
+                      <td>{index}</td>
+                      <td>{tran.uid}</td>
+                      <td>{tran.contact}</td>
+                      <td>{tran.price}</td>
+                      <td>{tran.status}</td>
+                      <td>{timeConverted}</td>
+                      <td className="border-none flex">
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => handleUpdate(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </div>
+                        <div
+                          className="ml-3 cursor-pointer"
+                          onClick={() => handleDelete(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -175,30 +180,34 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {handleGetListByStatus("Delivering")?.map((tran, index) => (
-                  <tr className="border-b-2" key={tran.uid}>
-                    <td>{index}</td>
-                    <td>{tran.uid}</td>
-                    <td>{tran.contact}</td>
-                    <td>{tran.price}</td>
-                    <td>{tran.status}</td>
-                    <td>{timeConvert(tran.updated_date)}</td>
-                    <td className="border-none flex">
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => handleUpdate(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                      </div>
-                      <div
-                        className="ml-3 cursor-pointer"
-                        onClick={() => handleDelete(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {handleGetListByStatus("Delivering")?.map((tran, index) => {
+                  const timeConverted = timeConvert(tran.updated_date.toDate());
+
+                  return (
+                    <tr className="border-b-2" key={tran.uid}>
+                      <td>{index}</td>
+                      <td>{tran.uid}</td>
+                      <td>{tran.contact}</td>
+                      <td>{tran.price}</td>
+                      <td>{tran.status}</td>
+                      <td>{timeConverted}</td>
+                      <td className="border-none flex">
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => handleUpdate(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </div>
+                        <div
+                          className="ml-3 cursor-pointer"
+                          onClick={() => handleDelete(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -217,30 +226,34 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {handleGetListByStatus("Completed")?.map((tran, index) => (
-                  <tr className="border-b-2" key={tran.uid}>
-                    <td>{index}</td>
-                    <td>{tran.uid}</td>
-                    <td>{tran.contact}</td>
-                    <td>{tran.price}</td>
-                    <td>{tran.status}</td>
-                    <td>{timeConvert(tran.updated_date)}</td>
-                    <td className="border-none flex">
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => handleUpdate(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                      </div>
-                      <div
-                        className="ml-3 cursor-pointer"
-                        onClick={() => handleDelete(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {handleGetListByStatus("Completed")?.map((tran, index) => {
+                  const timeConverted = timeConvert(tran.updated_date.toDate());
+
+                  return (
+                    <tr className="border-b-2" key={tran.uid}>
+                      <td>{index}</td>
+                      <td>{tran.uid}</td>
+                      <td>{tran.contact}</td>
+                      <td>{tran.price}</td>
+                      <td>{tran.status}</td>
+                      <td>{timeConverted}</td>
+                      <td className="border-none flex">
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => handleUpdate(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </div>
+                        <div
+                          className="ml-3 cursor-pointer"
+                          onClick={() => handleDelete(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -259,30 +272,34 @@ const Transactions = () => {
                   <th>Checkout Time</th>
                   <th></th>
                 </tr>
-                {handleGetListByStatus("Canceled")?.map((tran, index) => (
-                  <tr className="border-b-2" key={tran.uid}>
-                    <td>{index}</td>
-                    <td>{tran.uid}</td>
-                    <td>{tran.contact}</td>
-                    <td>{tran.price}</td>
-                    <td>{tran.status}</td>
-                    <td>{timeConvert(tran.updated_date)}</td>
-                    <td className="border-none flex">
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => handleUpdate(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                      </div>
-                      <div
-                        className="ml-3 cursor-pointer"
-                        onClick={() => handleDelete(tran.uid)}
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {handleGetListByStatus("Canceled")?.map((tran, index) => {
+                  const timeConverted = timeConvert(tran.updated_date.toDate());
+
+                  return (
+                    <tr className="border-b-2" key={tran.uid}>
+                      <td>{index}</td>
+                      <td>{tran.uid}</td>
+                      <td>{tran.contact}</td>
+                      <td>{tran.price}</td>
+                      <td>{tran.status}</td>
+                      <td>{timeConverted}</td>
+                      <td className="border-none flex">
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => handleUpdate(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </div>
+                        <div
+                          className="ml-3 cursor-pointer"
+                          onClick={() => handleDelete(tran.uid)}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
