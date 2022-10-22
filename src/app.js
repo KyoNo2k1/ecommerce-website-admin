@@ -17,11 +17,13 @@ import Report from "./pages/Report";
 import Comment from "./pages/Comment";
 const App = () => {
   const { user } = useSelector((store) => store.users);
+  const [isNavbarShown, setIsNavbarShown] = useState(true);
 
   return (
     <BrowserRouter>
       <Header user={user} />
-      <Navbar user={user} />
+      {isNavbarShown && <Navbar user={user} />}
+
       <Routes>
         <Route path="/" exact element={<Navigate to="/Login" />} />
         <Route
@@ -43,6 +45,7 @@ const App = () => {
           path="/Product/:Type"
           exact
           element={!user.email ? <Navigate to="/Login" /> : <RUDProduct />}
+          setIsNavbarShown={false}
         />
         <Route
           path="/Product/:Type/:Id"

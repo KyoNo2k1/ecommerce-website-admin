@@ -5,7 +5,7 @@ const Navbar = ({ user }) => {
   if (!!user.email)
     return (
       <div className="flex justify-around p-5 border-b-2 border-primary-300 w-[100%] flex-1">
-        <div className="align-middle w-[40%] flex justify-between">
+        <div className="align-middle w-[50%] flex justify-between">
           <Link
             to="/"
             className="active:text-primary cursor-pointer text-[16px]"

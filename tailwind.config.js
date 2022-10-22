@@ -8,6 +8,7 @@ module.exports = {
       h4: "20px",
       h5: "16px",
       h6: "14px",
+      caption: "12px",
     },
     screens: {
       mobile: "320px",
