@@ -35,11 +35,10 @@ export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async (data, { rejectWithValue }) => {
     const response = await updateOneProduct(data);
-    console.log(data);
-    console.log(response);
     if (response == null) {
       return rejectWithValue(response);
     }
+
     return response;
   }
 );
@@ -110,9 +109,17 @@ export const deleteCategory = createAsyncThunk(
 export const productSlice = createSlice({
   name: "product",
   initialState: {
+    //product
     arrProducts: [],
+    productCreatedId: null,
     statusGetProduct: "",
+    statusCreateProduct: "",
+    statusDeleteProduct: "",
+    statusUpdateProduct: "",
+
+    //category
     arrCategories: [],
+    statusGetCategory: "",
     statusGetCategories: "",
     statusCreateCategories: "",
     categoryName: "",
@@ -127,7 +134,8 @@ export const productSlice = createSlice({
       state.arrProducts = action.payload;
     },
     [createProduct.fulfilled]: (state, action) => {
-      return action.payload;
+      state.statusCreateProduct = "success";
+      state.productCreatedId = action.payload;
     },
     [getProducts.rejected]: (state, action) => {
       state.statusGetProduct = "failed";
@@ -148,10 +156,23 @@ export const productSlice = createSlice({
     [updateCategory.fulfilled]: (state, action) => {
       state.statusUpdateCategories = "success";
     },
+    [updateProduct.fulfilled]: (state, action) => {
+      state.statusUpdateProduct = "success";
+    },
+    [deleteCategory.fulfilled]: (state, action) => {
+      state.statusDeleteProduct = "success";
+    },
   },
-  reducers: {},
+  reducers: {
+    resetStatusProduct: (state, action) => {
+      state.statusCreateProduct = "";
+      state.statusDeleteProduct = "";
+      state.statusUpdateProduct = "";
+      state.productCreatedId = "";
+    },
+  },
 });
 //aciton products
-// export const {  } = productSlice.actions;
+export const { resetStatusProduct } = productSlice.actions;
 //reducer products
 export default productSlice.reducer;

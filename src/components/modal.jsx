@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "./button";
 import ButtonIcon from "./buttonIcon";
 import LabelInput from "./labelInput";
@@ -10,8 +10,8 @@ const Modal = ({
   onSubmit,
   update,
   handleClose,
-  setNewNameCategory,
-  newNameCategory,
+  getNewName,
+  setGetNewName,
 }) => {
   if (!isInvisible) return false;
   //data form input to submit
@@ -24,9 +24,9 @@ const Modal = ({
             <React.Fragment key={data.id}>
               <LabelInput
                 name={data.label}
-                value={data.input || newNameCategory}
+                value={data.input || getNewName}
                 id={data.id}
-                setNewNameCategory={setNewNameCategory}
+                setGetNewName={setGetNewName}
               />
             </React.Fragment>
           );

@@ -7,18 +7,23 @@ import { CATEGORIES } from "../constant/firestore";
 // Fail delete: return false
 
 const deleteOneCategory = async (id) => {
-  const currentCategoryRef = doc(db, CATEGORIES, id);
-  const currentCategorySnap = await getDoc(currentCategoryRef);
+  try {
+    const currentCategoryRef = doc(db, CATEGORIES, id);
+    const currentCategorySnap = await getDoc(currentCategoryRef);
 
-  if (currentCategorySnap.exists()) {
-    // The number of product in the category
-    const quantityOfCategory = currentCategorySnap.data().quantity;
+    if (currentCategorySnap.exists()) {
+      // The number of product in the category
+      const quantityOfCategory = currentCategorySnap.data().quantity;
 
-    // If the number of products in the category is still there, it is not allowed to delete
-    if (quantityOfCategory > 0) return false;
+      // If the number of products in the category is still there, it is not allowed to delete
+      if (quantityOfCategory > 0) return false;
+    }
+
+    deleteDoc(doc(db, CATEGORIES, id));
+  } catch (error) {
+    console.log(error);
+    return false;
   }
-
-  await deleteDoc(doc(db, CATEGORIES, id));
   return true;
 };
 

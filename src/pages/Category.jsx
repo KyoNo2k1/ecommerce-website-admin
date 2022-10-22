@@ -23,7 +23,7 @@ const Category = () => {
   const [modalUpdate, setModalUpdate] = useState(false);
   // value id,newname of category name change
   const [categoryId, setCategoryId] = useState("");
-  const [newNameCategory, setNewNameCategory] = useState("");
+  const [getNewName, setGetNewName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const dataCreateCate = [
     {
@@ -47,7 +47,7 @@ const Category = () => {
     dispatch(
       updateCategory({
         id: categoryId,
-        name: newNameCategory,
+        name: getNewName,
       })
     );
     setModalUpdate(false);
@@ -73,8 +73,8 @@ const Category = () => {
           </tr>
           {arrCategories?.map((category) => {
             //convert time from timestamp to time
-            var timeCreate = timeConvert(category.create_date);
-            var timeUpdate = timeConvert(category.update_date);
+            var timeCreate = timeConvert(category.create_date.toDate());
+            var timeUpdate = timeConvert(category.update_date.toDate());
             return (
               <tr className="border-b-2" key={category.uuid}>
                 <td>1</td>
@@ -126,8 +126,8 @@ const Category = () => {
           arrInput={dataCreateCate}
           onSubmit={handleUpdate}
           update={true}
-          setNewNameCategory={setNewNameCategory}
-          newNameCategory={newNameCategory}
+          getNewName={getNewName}
+          setGetNewName={setGetNewName}
         />
       ) : null}
     </div>

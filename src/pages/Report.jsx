@@ -5,8 +5,6 @@ import Chart from "../components/chart";
 import ReportAnalyticItem from "../components/reportAnalyticItem";
 import ReportProduct from "../components/reportProduct";
 
-//img
-import BtnMedium from "../images/Button-Medium.png";
 const Report = () => {
   return (
     <div className="w-[100%] bg-[#F9F9F9]">
@@ -93,36 +91,6 @@ const Report = () => {
                   icon="user"
                 />
               </div>
-              {/* <div className="grid grid-cols-4 mt-4">
-                <div
-                  className="p-[20px] w-[169px] h-[87px] pt-5"
-                  style={box_shadow}
-                >
-                  <p className="text-h6">Visited Page</p>
-                  <label className="text-[#4E4D93] text-h3" htmlFor="">
-                    2.056
-                    <img
-                      src={BtnMedium}
-                      alt=""
-                      className="float-right mr-[-7px] mt-[-7px]"
-                    />
-                  </label>
-                </div>
-                <div
-                  className="p-[20px] w-[169px] h-[87px] pt-5 ml-[20%]"
-                  style={box_shadow}
-                >
-                  <p className="text-h6">Visited Page</p>
-                  <label className="text-[#4E4D93] text-h3" htmlFor="">
-                    2.056
-                    <img
-                      src={BtnMedium}
-                      className="float-right mr-[-7px] mt-[-7px]"
-                      alt=""
-                    />
-                  </label>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

@@ -2,8 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-function Counter() {
-  let [count, setCount] = useState(0);
+function Counter({ number }) {
+  let [count, setCount] = useState(Number(number));
 
   const increaseCount = () => {
     setCount(count + 1);

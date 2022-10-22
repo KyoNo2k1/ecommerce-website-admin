@@ -3,40 +3,88 @@ import Button from "../components/button";
 import LabelInput from "../components/labelInput";
 import ImageHover from "../components/imageHover";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import {
   createProduct,
   deleteProduct,
   updateArrImg,
 } from "../redux/productSlice/productSlice";
 import { updateProduct } from "./../redux/productSlice/productSlice";
-import { getDownloadURL, uploadBytes, ref } from "firebase/storage";
+import {
+  getDownloadURL,
+  uploadBytes,
+  ref,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "../services/firebase.config";
 
 const RUDProduct = () => {
-  const { arrCategories } = useSelector((store) => store.products);
-  const [fileDataURL, setFileDataURL] = useState([]);
+  //get category from store
+  const {
+    arrCategories,
+    statusCreateProduct,
+    statusDeleteProduct,
+    statusUpdateProduct,
+    productCreatedId,
+  } = useSelector((store) => store.products);
+  //fire data after change (add, update)
+  const [fileData, setFileData] = useState([]);
   const [imgName, setImgName] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  let { Type } = useParams();
+  const { Type, Id } = useParams();
+
   //All value in input fields
   const [inputValue, setInputValue] = useState({
     name: "",
     category: "",
-    dimension: "",
     description: "",
     price: "",
     quantity: "",
+    width: "",
+    height: "",
+    depth: "",
     remain: "",
     arrImg: [],
   });
+  //get data from params and set to input value
   useEffect(() => {
     if (location.state) {
       setInputValue(location.state);
     }
   }, [location.state]);
+  useEffect(() => {
+    if (productCreatedId) {
+      try {
+        let arrUrl = [];
+        fileData.forEach(async function (link, i) {
+          //get Ref and add to storage
+          const imgRef = ref(storage, `products/${productCreatedId}/${i}`);
+          const snap = await uploadBytes(imgRef, fileData[i]);
+          const pictureURL = await getDownloadURL(
+            ref(storage, snap.ref.fullPath)
+          );
+          arrUrl.push(pictureURL);
+          //update firestore
+          await dispatch(
+            updateArrImg({ uuid: productCreatedId, arrImg: arrUrl })
+          );
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [productCreatedId]);
+  //check status CUD products
+  useEffect(() => {
+    if (
+      statusCreateProduct === "success" ||
+      statusDeleteProduct === "success" ||
+      statusUpdateProduct === "success"
+    )
+      navigate("../Product");
+  }, [statusUpdateProduct, statusDeleteProduct, statusCreateProduct]);
 
   //function add product
   const handleAddProduct = async () => {
@@ -53,27 +101,13 @@ const RUDProduct = () => {
       }
     });
     if (checkField) return;
-
-    const idAdded = await dispatch(createProduct(inputValue));
-    if (idAdded) {
-      let arrUrl = [];
-      await fileDataURL.forEach(async function (link, i) {
-        const imgRef = ref(
-          storage,
-          `products/${idAdded.payload}/${imgName[i]}`
-        );
-        const snap = await uploadBytes(imgRef, fileDataURL[i]);
-        const pictureURL = await getDownloadURL(
-          ref(storage, snap.ref.fullPath)
-        );
-        arrUrl.push(pictureURL);
-        await dispatch(updateArrImg({ uuid: idAdded.payload, arrImg: arrUrl }));
-      });
-    }
+    //get ID product after create and set folder name of image storare
+    await dispatch(createProduct(inputValue));
   };
 
   //function update product
-  const handleUpdateProduct = () => {
+  const handleUpdateProduct = async () => {
+    // Check fill all blank
     var checkField = false;
     Object.values(inputValue).forEach(function check(value) {
       if (check.stop) {
@@ -87,17 +121,43 @@ const RUDProduct = () => {
     });
     if (checkField) return;
 
+    //update image storage
+    if (fileData) {
+      await fileData.forEach(async function (link, i) {
+        //delete old image on storage
+        const oldImgRef = ref(storage, `products/${Id}/${i}`);
+        await deleteObject(oldImgRef)
+          .then(async () => {
+            //add new image to storage
+            var newArrUrl = [...inputValue.arrImg];
+            const newImgRef = ref(storage, `products/${Id}/${i}`);
+            const snap = await uploadBytes(newImgRef, fileData[i]);
+            const pictureURL = await getDownloadURL(
+              ref(storage, snap.ref.fullPath)
+            );
+            newArrUrl[i] = pictureURL;
+            await dispatch(updateArrImg({ uuid: Id, arrImg: newArrUrl }));
+          })
+          .catch((error) => console.log(error));
+      });
+    }
+
     dispatch(updateProduct(inputValue));
-    navigate("../Product");
   };
 
-  const handleDelete = async (id) => {
+  //delete product
+  const handleDelete = async () => {
+    const id = inputValue.uuid;
     let text = "You want to delete this product?";
     if (window.confirm(text) === true) {
-      dispatch(deleteProduct(id));
+      for (let i = 0; i < 4; i++) {
+        const oldProductImgRef = ref(storage, `products/${id}/${i}`);
+        if (oldProductImgRef) deleteObject(oldProductImgRef);
+      }
+      await dispatch(deleteProduct(id));
+      navigate("/Product");
     }
   };
-  console.log(inputValue);
 
   return (
     <div className="w-[100%]">
@@ -108,8 +168,8 @@ const RUDProduct = () => {
             index={0}
             top="top-[48%]"
             left="left-[48%]"
-            fileDataURL={fileDataURL}
-            setFileDataURL={setFileDataURL}
+            fileData={fileData}
+            setFileData={setFileData}
             setImgName={setImgName}
             imgName={imgName}
             inputValue={inputValue}
@@ -121,8 +181,8 @@ const RUDProduct = () => {
                 index={1}
                 top="top-[40%]"
                 left="left-[40%]"
-                fileDataURL={fileDataURL}
-                setFileDataURL={setFileDataURL}
+                fileData={fileData}
+                setFileData={setFileData}
                 imgName={imgName}
                 setImgName={setImgName}
                 inputValue={inputValue}
@@ -133,8 +193,8 @@ const RUDProduct = () => {
                 index={2}
                 top="top-[40%]"
                 left="left-[40%]"
-                fileDataURL={fileDataURL}
-                setFileDataURL={setFileDataURL}
+                fileData={fileData}
+                setFileData={setFileData}
                 imgName={imgName}
                 setImgName={setImgName}
                 inputValue={inputValue}
@@ -145,8 +205,8 @@ const RUDProduct = () => {
                 index={3}
                 top="top-[40%]"
                 left="left-[40%]"
-                fileDataURL={fileDataURL}
-                setFileDataURL={setFileDataURL}
+                fileData={fileData}
+                setFileData={setFileData}
                 imgName={imgName}
                 setImgName={setImgName}
                 inputValue={inputValue}
@@ -192,12 +252,29 @@ const RUDProduct = () => {
                 </select>
               </div>
             </div>
-            <LabelInput
-              name={"Dimension ( width x height x lengtht)"}
-              value={inputValue?.dimension}
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-            />
+            <div className="flex justify-between">
+              <LabelInput
+                name={"Width"}
+                halfWidth="w-[30%]"
+                value={inputValue?.width}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+              />
+              <LabelInput
+                name={"Height"}
+                halfWidth="w-[30%]"
+                value={inputValue?.height}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+              />
+              <LabelInput
+                name={"Depth"}
+                halfWidth="w-[30%]"
+                value={inputValue?.depth}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+              />
+            </div>
             <LabelInput
               name={"Description"}
               className="py-12 col-span-10 row-span-5 text-start"

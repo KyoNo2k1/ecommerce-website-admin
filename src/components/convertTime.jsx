@@ -1,6 +1,5 @@
 //Functions conver time from firebase
 export function timeConvert(UNIX_timestamp) {
-  var a = new Date(UNIX_timestamp * 1000);
   var months = [
     "Jan",
     "Feb",
@@ -15,12 +14,12 @@ export function timeConvert(UNIX_timestamp) {
     "Nov",
     "Dec",
   ];
-  var year = a.getFullYear();
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var hour = a.getHours();
-  var min = a.getMinutes();
-  var sec = a.getSeconds();
+  var year = UNIX_timestamp.getFullYear();
+  var month = months[UNIX_timestamp.getMonth()];
+  var date = UNIX_timestamp.getDate();
+  var hour = UNIX_timestamp.getHours();
+  var min = UNIX_timestamp.getMinutes();
+  var sec = UNIX_timestamp.getSeconds();
   var time =
     date + " " + month + " " + year + " " + hour + ":" + min + ":" + sec;
   return time;

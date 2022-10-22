@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const LabelInput = ({
   name,
@@ -9,18 +9,18 @@ const LabelInput = ({
   textArea = false,
   inputValue,
   setInputValue,
-  setNewNameCategory,
+  setGetNewName,
+  readOnly = false,
 }) => {
+  const [newNameCategory, setNewNameCategory] = useState("");
+  useEffect(() => {
+    if (newNameCategory) setGetNewName(newNameCategory);
+  }, [newNameCategory]);
+
   const handleSetInput = (e) => {
     switch (name) {
       case "Product name":
         setInputValue({ ...inputValue, name: e.target.value });
-        break;
-      case "Dimension ( width x height x lengtht)":
-        setInputValue({
-          ...inputValue,
-          dimension: e.target.value,
-        });
         break;
       case "Description":
         setInputValue({ ...inputValue, description: e.target.value });
@@ -37,7 +37,26 @@ const LabelInput = ({
       case "Category Name":
         setNewNameCategory(e.target.value);
         break;
+      case "User Name":
+        setInputValue({ ...inputValue, fullName: e.target.value });
+        break;
+      case "Email":
+        setInputValue({ ...inputValue, email: e.target.value });
+        break;
+      case "Address":
+        setInputValue({ ...inputValue, addr_default: e.target.value });
+        break;
+      case "Width":
+        setInputValue({ ...inputValue, width: e.target.value });
+        break;
+      case "Height":
+        setInputValue({ ...inputValue, height: e.target.value });
+        break;
+      case "Depth":
+        setInputValue({ ...inputValue, depth: e.target.value });
+        break;
       default:
+        break;
     }
   };
   return (
@@ -53,6 +72,7 @@ const LabelInput = ({
             }}
             id={id}
             value={value}
+            readOnly={readOnly}
           />
         ) : (
           <textarea

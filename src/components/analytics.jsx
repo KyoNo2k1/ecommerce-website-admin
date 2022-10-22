@@ -2,70 +2,62 @@ import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCircleDollarToSlot,
   faSackDollar,
-  faArrowUpRightDots,
+  faListCheck,
+  faCoins,
 } from "@fortawesome/free-solid-svg-icons";
+import AnalyticItem from "./analyticItem";
+import { useSelector } from "react-redux";
+
 const Analytics = () => {
+  const { arrTransactions } = useSelector((store) => store.transactions);
+  var totalEarnings = 0;
+  var pendingOrders = 0;
+  console.log(arrTransactions);
+  if (arrTransactions.length) {
+    arrTransactions.forEach((transactions) => {
+      totalEarnings += Number(transactions.total);
+      if (transactions.status === "Waiting") pendingOrders += 1;
+    });
+  }
+
   const analytics = [
     {
+      id: 1,
       title: "Sales Today",
-      count: 2.056,
+      count: 1,
       percent: 0.05,
+      icon: faCircleDollarToSlot,
     },
     {
-      title: "Visitors Today",
-      count: 2.056,
+      id: 2,
+      title: "Last month",
+      count: 1,
       percent: 0.05,
+      icon: faCoins,
     },
     {
+      id: 3,
       title: "Total Earning",
-      count: 2.056,
+      count: totalEarnings,
       percent: 0.05,
+      icon: faSackDollar,
     },
     {
+      id: 4,
       title: "Pending Orders",
-      count: 2.056,
+      count: pendingOrders,
       percent: 0.05,
+      icon: faListCheck,
     },
   ];
 
   return (
     <div>
-      <div className="grid grid-rows-2 grid-flow-col gap-4 h-[270px] ">
+      <div className="grid grid-rows-2 grid-flow-col gap-4 h-[240px] ">
         {analytics.map((item) => {
-          return (
-            <div
-              className=" p-3 flex justify-between shadow-xl"
-              key={item.title}
-            >
-              {/*Title items analytics*/}
-              <div>
-                <p className="text-[15px]">{item.title}</p>
-                <p className="text-primary text-[24px]">{item.count}</p>
-              </div>
-              <div>
-                {/*Icon analytics*/}
-                <div className="bg-primary rounded w-[80%] h-[45%] overflow-hidden flex justify-center align-middle cursor-pointer">
-                  <FontAwesomeIcon
-                    icon={faSackDollar}
-                    className="block my-auto"
-                    inverse
-                    fade
-                  />
-                </div>
-                <div className="flex mt-6 align-middle">
-                  <p className="text-[12px] text-green-500">{item.percent}%</p>
-                  <div className="text-green-500 rounded w-[20px] h-[20px] overflow-hidden flex justify-center align-middle cursor-pointer ml-3">
-                    <FontAwesomeIcon
-                      icon={faArrowUpRightDots}
-                      className="block my-auto"
-                      beatFade
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
+          return <AnalyticItem item={item} key={item.id} />;
         })}
       </div>
     </div>
