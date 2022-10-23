@@ -11,10 +11,29 @@ export const amountTranByDate = ({ arrTransactions, date }) => {
   return amount;
 };
 
+//get count of transaction by hour
+export const amountTranByHour = ({ arrTransactions, hour }) => {
+  let amount = 0;
+  arrTransactions.forEach((tran) => {
+    if (tran.created_date.toDate().getHours() === hour) {
+      amount += 1;
+    }
+  });
+  return amount;
+};
+
 //total sales by date
 export const totalTranByDate = ({ arrTransactions, date }) => {
   const total = arrTransactions
     .filter((tran) => tran.created_date.toDate().getDate() === date)
+    .reduce((total, saleTrans) => total + saleTrans.total, 0);
+  return total;
+};
+
+//total sales by hour
+export const totalTranByHour = ({ arrTransactions, hour }) => {
+  const total = arrTransactions
+    .filter((tran) => tran.created_date.toDate().getHours() === hour)
     .reduce((total, saleTrans) => total + saleTrans.total, 0);
   return total;
 };
@@ -75,6 +94,19 @@ export const arrCountTranByDate = ({ arrTransactions, date }) => {
   }
   return newArr;
 };
+
+export const arrCountTranByHour = ({ arrTransactions, hour }) => {
+  const newArr = new Array(hour).fill(0);
+  console.log(arrTransactions[5].created_date.toDate().getHours());
+  for (let i = 0; i < hour; i++) {
+    for (let j = 0; j < arrTransactions.length; j++) {
+      if (arrTransactions[j]?.created_date?.toDate()?.getHours() - 1 === i) {
+        newArr[i] += 1;
+      }
+    }
+  }
+  return newArr;
+};
 export const arrCountTranByMonth = ({ arrTransactions, month }) => {
   const newArr = new Array(month).fill(0);
   console.log(month);
@@ -100,6 +132,18 @@ export const arrTotalTranByDate = ({ arrTransactions, date }) => {
   }
   return newArr;
 };
+
+export const arrTotalTranByHour = ({ arrTransactions, hour }) => {
+  const newArr = new Array(hour).fill(0);
+  for (let i = 0; i < hour; i++) {
+    for (let j = 0; j < arrTransactions.length; j++) {
+      if (arrTransactions[j]?.created_date?.toDate()?.getHours() - 1 === i) {
+        newArr[i] += arrTransactions[j].total;
+      }
+    }
+  }
+  return newArr;
+};
 export const arrTotalTranByMonth = ({ arrTransactions, month }) => {
   const newArr = new Array(month).fill(0);
   for (let i = 0; i < month; i++) {
@@ -117,6 +161,17 @@ export const arrCusCreateByDate = ({ arrUsers, date }) => {
   for (let i = 0; i < date; i++) {
     for (let j = 0; j < arrUsers.length; j++) {
       if (arrUsers[j]?.created_date?.toDate()?.getDate() - 1 === i) {
+        newArr[i] += 1;
+      }
+    }
+  }
+  return newArr;
+};
+export const arrCusCreateByHour = ({ arrUsers, hour }) => {
+  const newArr = new Array(hour).fill(0);
+  for (let i = 0; i < hour; i++) {
+    for (let j = 0; j < arrUsers.length; j++) {
+      if (arrUsers[j]?.created_date?.toDate()?.getHours() - 1 === i) {
         newArr[i] += 1;
       }
     }

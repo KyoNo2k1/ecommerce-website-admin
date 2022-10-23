@@ -4,21 +4,27 @@ import Chart from "../components/chart";
 import TopProduct from "../components/topProduct";
 import ChartUser from "../components/chartUser";
 import { useSelector } from "react-redux";
-import { arrCountTranByDate } from "./../services/analytic/tranAnalytic";
 import {
-  arrCountTranByMonth,
+  arrCountTranByDate,
   arrCusCreateByDate,
   arrTotalTranByDate,
 } from "./../services/analytic/tranAnalytic";
-
+import { arrCountTranByMonth } from "./../services/analytic/tranAnalytic";
 import { arrTotalTranByMonth } from "./../services/analytic/tranAnalytic";
 import { arrCusCreateByMonth } from "./../services/analytic/tranAnalytic";
+
+import {
+  arrCountTranByHour,
+  arrCusCreateByHour,
+  arrTotalTranByHour,
+} from "./../services/analytic/tranAnalytic";
 
 const Dashboard = () => {
   const { arrTransactions } = useSelector((store) => store.transactions);
   const { arrUsers } = useSelector((store) => store.users);
   const [typeFilter] = useState("Daily");
   const today = new Date().getDate();
+  const hour = new Date().getHours();
   const month = new Date().getMonth() + 1;
 
   const dataDaily = {
@@ -33,6 +39,21 @@ const Dashboard = () => {
     d3: {
       title: "Total User Create By Date",
       data: arrCusCreateByDate({ arrUsers, date: today }),
+    },
+  };
+
+  const dataHourly = {
+    d1: {
+      title: "Count Transaction By Hour",
+      data: arrCountTranByHour({ arrTransactions, hour: hour }),
+    },
+    d2: {
+      title: "Total Transaction By Hour",
+      data: arrTotalTranByHour({ arrTransactions, hour: hour }),
+    },
+    d3: {
+      title: "Total User Create By Hour",
+      data: arrCusCreateByHour({ arrUsers, hour: hour }),
     },
   };
 
@@ -71,7 +92,7 @@ const Dashboard = () => {
         {/*Chart something */}
         <div className="h-[300px]">
           <Chart
-            d={typeFilter === "Daily" ? dataDaily : dataMonthly}
+            d={typeFilter === "Daily" ? dataHourly : dataDaily}
             labels={
               typeFilter === "Daily"
                 ? Array.from({ length: today }, (_, i) => i + 1)
