@@ -39,7 +39,6 @@ const DetailTransaction = () => {
   const handleDelivering = () => {
     dispatch(updateTransaction({ id: Id, status: "Completed" }));
   };
-
   return (
     <div className="px-24">
       <span className="text-[24px]">#{transaction?.uid}</span>
@@ -68,16 +67,16 @@ const DetailTransaction = () => {
           <div className="flex justify-between mt-4">
             <div className="">
               <p>Name</p>
-              <p>{transaction?.username}</p>
+              <p>{transaction?.ship_to?.name}</p>
             </div>
             <div className="">
               <p>Phone</p>
-              <p>{transaction?.phone}</p>
+              <p>{transaction?.ship_to?.phone_num}</p>
             </div>
           </div>
           <div className="mt-3">
             <p>Address</p>
-            <p>{transaction?.ship_to?.address}</p>
+            <p>{transaction?.ship_to?.detail}</p>
           </div>
 
           <br />

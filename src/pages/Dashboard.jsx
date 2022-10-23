@@ -5,12 +5,22 @@ import TopProduct from "../components/topProduct";
 import ChartUser from "../components/chartUser";
 import { useDispatch, useSelector } from "react-redux";
 import { getTransactions } from "./../redux/transactionSlice/transactionSlice";
+import {
+  arrCountTranByDate,
+  totalTranByDate,
+} from "./../services/analytic/tranAnalytic";
+import { getUsers } from "../redux/userSlice/userSlice";
 
 const Dashboard = () => {
+  const { arrTransactions } = useSelector((store) => store.transactions);
+  const { arrUsers } = useSelector((store) => store.users);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTransactions());
+    dispatch(getUsers());
   }, []);
+  console.log(arrTransactions);
+  console.log(arrUsers);
 
   //fake api
   const checkouts = [
@@ -165,7 +175,9 @@ const Dashboard = () => {
     <div className="flex px-24 my-4 justify-between">
       <div className="w-[58%]">
         {/*Chart something */}
-        <Chart d={chartData} />
+        <div className="h-[300px]">
+          <Chart d={chartData} />
+        </div>
         <TopProduct />
       </div>
       <div className="w-[38%]">

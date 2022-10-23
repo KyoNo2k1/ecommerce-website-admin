@@ -1,6 +1,5 @@
 import React from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleDollarToSlot,
   faSackDollar,
@@ -9,38 +8,40 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import AnalyticItem from "./analyticItem";
 import { useSelector } from "react-redux";
+import {
+  amountTranByDate,
+  totalAllTran,
+  totalTranByDate,
+} from "../services/analytic/tranAnalytic";
+import { pendingOrdersTran } from "./../services/analytic/tranAnalytic";
 
 const Analytics = () => {
   const { arrTransactions } = useSelector((store) => store.transactions);
-  var totalEarnings = 0;
-  var pendingOrders = 0;
-  console.log(arrTransactions);
-  if (arrTransactions.length) {
-    arrTransactions.forEach((transactions) => {
-      totalEarnings += Number(transactions.total);
-      if (transactions.status === "Waiting") pendingOrders += 1;
-    });
-  }
+  const today = new Date().getDate();
+  var totalEarnings = totalAllTran({ arrTransactions });
+  var pendingOrders = pendingOrdersTran({ arrTransactions });
 
   const analytics = [
     {
       id: 1,
-      title: "Sales Today",
-      count: 1,
+      title: "Amount Sales Today",
+      count: amountTranByDate({ arrTransactions, date: today }),
       percent: 0.05,
       icon: faCircleDollarToSlot,
     },
     {
       id: 2,
-      title: "Last month",
-      count: 1,
+      title: "Total sales today",
+      count:
+        Math.round(totalTranByDate({ arrTransactions, date: today }) * 100) /
+        100,
       percent: 0.05,
       icon: faCoins,
     },
     {
       id: 3,
       title: "Total Earning",
-      count: totalEarnings,
+      count: Math.round(totalEarnings * 100) / 100,
       percent: 0.05,
       icon: faSackDollar,
     },

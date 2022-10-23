@@ -32,8 +32,8 @@ const ReportProduct = () => {
         </thead>
 
         {reportProduct?.map((item) => (
-          <tbody>
-            <tr className="" key={item.id}>
+          <tbody key={item.id}>
+            <tr className="">
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.profit}</td>
@@ -42,7 +42,7 @@ const ReportProduct = () => {
               <td></td>
               <td></td>
             </tr>
-            <tr className="" key={item.id}>
+            <tr className="">
               <td></td>
               <td></td>
               <td></td>
@@ -51,7 +51,7 @@ const ReportProduct = () => {
               <td className="border-y-[1px]">{item.profit}</td>
               <td className="border-y-[1px]">{item.sold}</td>
             </tr>
-            <tr className="border-b-2" key={item.id}>
+            <tr className="border-b-2">
               <td></td>
               <td></td>
               <td></td>

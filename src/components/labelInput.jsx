@@ -26,7 +26,7 @@ const LabelInput = ({
         setInputValue({ ...inputValue, description: e.target.value });
         break;
       case "Price":
-        setInputValue({ ...inputValue, price: e.target.value });
+        setInputValue({ ...inputValue, price: Number(e.target.value) });
         break;
       case "Quantity":
         setInputValue({ ...inputValue, quantity: e.target.value });

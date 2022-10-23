@@ -7,6 +7,7 @@ const ReportAnalyticItem = ({
   value,
   type = "primary",
   icon = "money",
+  onClick = () => {},
 }) => {
   const box_shadow = { boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" };
 
@@ -22,8 +23,9 @@ const ReportAnalyticItem = ({
 
   return (
     <div
-      className={`text-center ${style[type]} h-[122px] pt-4`}
+      className={`cursor-pointer hover:bg-[rgba(0,0,0,0.1)] text-center ${style[type]} h-[122px] pt-4`}
       style={box_shadow}
+      onClick={onClick}
     >
       <p>{title}</p>
       <p className="text-h3">{value}</p>

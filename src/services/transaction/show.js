@@ -1,10 +1,10 @@
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase.config";
-import { TRACSACTIONS } from "../constant/firestore";
+import { TRANSACTIONS } from "../constant/firestore";
 
 // Listing array object category get from firestore of firebase
 const showListTransactions = async () => {
-  const querySnapshot = await getDocs(collection(db, TRACSACTIONS));
+  const querySnapshot = await getDocs(collection(db, TRANSACTIONS));
   const listTransactions = [];
   querySnapshot.forEach((doc) => {
     listTransactions.push(doc.data());
@@ -13,7 +13,7 @@ const showListTransactions = async () => {
   return listTransactions;
 };
 export const showOneTransaction = async (id) => {
-  const querySnapshot = await getDoc(doc(db, TRACSACTIONS, id));
+  const querySnapshot = await getDoc(doc(db, TRANSACTIONS, id));
   var transaction = querySnapshot.data();
   transaction.uid = querySnapshot.id;
   return transaction;
