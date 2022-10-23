@@ -2,8 +2,15 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import productImage from "../images/productImage.png";
+import showListComments from "./../services/comment/show";
+import createNewComment from "./../services/comment/create";
+import deleteOneComment from "./../services/comment/delete";
 
 const Comment = () => {
+  deleteOneComment({
+    idProduct: "0fhwc9FDjka1E4uBacOW",
+    idComment: "yRyrRD6I5SnHZBRMvnLN",
+  });
   const comments = [
     {
       id: 1,
