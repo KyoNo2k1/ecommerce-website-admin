@@ -1,3 +1,23 @@
+//dashboard
+export const arrUserTranByHour = ({ arrUsers }) => {
+  const hour = new Date().getHours();
+
+  const arrCount = new Array(hour).fill(0);
+  const newArrValidDate = arrUsers.filter(
+    (user) => user.created_date.toDate().getDate() === new Date().getDate()
+  );
+
+  for (let i = 0; i < hour; i++) {
+    for (let j = 0; j < newArrValidDate.length; j++) {
+      if (newArrValidDate[j]?.created_date?.toDate()?.getHours() - 1 === i) {
+        arrCount[i] += 1;
+      }
+    }
+  }
+  return arrCount;
+};
+
+//report
 export const arrCusCreateByDate = ({ arrUsers, date }) => {
   const newArr = new Array(date[2]).fill(0);
   for (let i = 0; i < date[2]; i++) {

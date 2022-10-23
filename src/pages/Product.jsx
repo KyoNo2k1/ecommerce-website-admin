@@ -38,10 +38,6 @@ const Product = () => {
   const nameRef = useRef();
   //get data firsttime
   useEffect(() => {
-    dispatch(getProducts());
-    dispatch(getCategories());
-  }, []);
-  useEffect(() => {
     if (arrProducts) {
       setCurrentArrProducts(arrProducts);
     }

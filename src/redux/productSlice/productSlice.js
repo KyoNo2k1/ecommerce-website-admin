@@ -35,7 +35,6 @@ export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async (data, { rejectWithValue }) => {
     const response = await updateOneProduct(data);
-    console.log(response);
     if (response == null) {
       return rejectWithValue(response);
     }

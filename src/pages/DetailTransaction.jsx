@@ -17,7 +17,6 @@ const DetailTransaction = () => {
   const { statusUpdateTransaction } = useSelector(
     (store) => store.transactions
   );
-  console.log(transaction);
 
   useEffect(() => {
     dispatch(getOneTransaction(Id));

@@ -21,9 +21,9 @@ ChartJS.register(
   Legend
 );
 
-const ChartUser = ({ d }) => {
+const ChartUser = ({ d, labels }) => {
   const data = {
-    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: labels,
     datasets: [
       {
         label: d.d1.title,
@@ -40,39 +40,15 @@ const ChartUser = ({ d }) => {
       },
     ],
   };
-  // const legend = {
-  //   display: true,
-  //   position: "bottom",
-  //   labels: {
-  //     fontColor: "#323130",
-  //     fontSize: 14,
-  //   },
-  // };
-
-  // const options = {
-  //   title: {
-  //     display: true,
-  //     text: "Chart Title",
-  //   },
-  //   scales: {
-  //     yAxes: [
-  //       {
-  //         ticks: {
-  //           suggestedMin: 0,
-  //           suggestedMax: 100,
-  //         },
-  //       },
-  //     ],
-  //   },
-  // };
 
   return (
-    <div className="w-[98%] mt-5 bg-gray-100">
+    <div className="w-[98%] mt-5 bg-gray-100 h-[100%]">
       <div
         style={{
           height: "30vh",
           position: "relative",
           padding: "2%",
+          height: "100%",
         }}
       >
         <Line data={data} options={{ maintainAspectRatio: false }} />

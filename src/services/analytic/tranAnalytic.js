@@ -1,5 +1,4 @@
-//number
-
+//report
 //get count of transaction by date
 export const amountTranByDate = ({ arrTransactions, date }) => {
   let amount = 0;
@@ -23,7 +22,7 @@ export const totalTranByDate = ({ arrTransactions, date }) => {
 export const totalAllTran = ({ arrTransactions }) => {
   let totalAllTran = 0;
   arrTransactions.forEach((transaction) => {
-    totalAllTran += transaction.total;
+    if (transaction.status !== "Canceled") totalAllTran += transaction.total;
   });
   return totalAllTran;
 };
@@ -54,9 +53,74 @@ export const totalProductCount = ({ arrTransactions }) => {
 };
 
 //arr
+
+//dashboard
+export const arrCountTranByHour = ({ arrTransactions }) => {
+  const hour = new Date().getHours();
+
+  const arrCount = new Array(hour).fill(0);
+  const newArrValidDate = arrTransactions.filter(
+    (transaction) =>
+      transaction.created_date.toDate().getDate() === new Date().getDate()
+  );
+
+  for (let i = 0; i < hour; i++) {
+    for (let j = 0; j < newArrValidDate.length; j++) {
+      if (newArrValidDate[j]?.created_date?.toDate()?.getHours() - 1 === i) {
+        arrCount[i] += 1;
+      }
+    }
+  }
+  return arrCount;
+};
+export const arrCountTranByCate = ({ arrProducts, arrCate }) => {
+  let arrCountByCate = new Array(arrCate.length).fill(0);
+  for (let i = 0; i < arrCate?.length; i++) {
+    for (let j = 0; j < arrProducts?.length; j++) {
+      if (arrProducts[j]?.category === arrCate[i]) {
+        arrCountByCate[i] += 1;
+      }
+    }
+  }
+  return arrCountByCate;
+};
+export const arrSalesTranByCate = ({ arrProducts, arrCate }) => {
+  let arrSalesByCate = new Array(arrCate.length).fill(0);
+  for (let i = 0; i < arrCate?.length; i++) {
+    for (let j = 0; j < arrProducts?.length; j++) {
+      if (arrProducts[j]?.category === arrCate[i]) {
+        arrSalesByCate[i] += arrProducts[j].price;
+      }
+    }
+  }
+  return arrSalesByCate;
+};
+
+//report
+export const arrTotalTranByHour = ({ arrTransactions }) => {
+  const hour = new Date().getHours();
+
+  const arrTotal = new Array(hour).fill(0);
+  const newArrValidDate = arrTransactions.filter(
+    (transaction) =>
+      transaction.created_date.toDate().getDate() === new Date().getDate()
+  );
+
+  for (let i = 0; i < hour; i++) {
+    for (let j = 0; j < newArrValidDate.length; j++) {
+      if (newArrValidDate[j]?.created_date?.toDate()?.getHours() - 1 === i) {
+        arrTotal[i] += newArrValidDate[j]?.total;
+      }
+    }
+  }
+  return arrTotal;
+};
+
+//report
 //count transactions
 export const arrCountTranByDate = ({ arrTransactions, date }) => {
   const newArr = new Array(date[2]).fill(0);
+
   for (let i = 0; i < date[2]; i++) {
     for (let j = 0; j < arrTransactions.length; j++) {
       if (
