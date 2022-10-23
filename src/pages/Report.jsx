@@ -1,5 +1,3 @@
-//
-
 import React, { useState } from "react";
 import Chart from "../components/chart";
 import ReportAnalyticItem from "../components/reportAnalyticItem";
