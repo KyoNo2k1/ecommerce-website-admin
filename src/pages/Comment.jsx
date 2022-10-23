@@ -1,32 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import productImage from "../images/productImage.png";
-import showListComments from "./../services/comment/show";
-import createNewComment from "./../services/comment/create";
-import deleteOneComment from "./../services/comment/delete";
+import { getComments } from "../redux/productSlice/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteComment } from "./../redux/productSlice/productSlice";
 
 const Comment = () => {
-  deleteOneComment({
-    idProduct: "0fhwc9FDjka1E4uBacOW",
-    idComment: "yRyrRD6I5SnHZBRMvnLN",
-  });
-  const comments = [
-    {
-      id: 1,
-      productName: "Chair",
-      customer: "abcd@gm.uit.edu.vn",
-      content: "Very ugly, loremmmmmmmmmmmmmmmmmmmm",
-      postDate: "02-02-2022",
-    },
-    {
-      id: 2,
-      productName: "Chair",
-      customer: "abcd@gm.uit.edu.vn",
-      content: "Very ugly, loremmmmmmmmmmmmmmmmmmmm",
-      postDate: "02-02-2022",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { arrProducts, arrComments } = useSelector((store) => store.products);
+  const listProductId = arrProducts.map((product) => product.uuid);
+  useEffect(() => {
+    dispatch(getComments(listProductId));
+  }, []);
+  const handleDeleteCmt = ({ idProduct, idComment }) => {
+    dispatch(deleteComment({ idProduct: idProduct, idComment: idComment }));
+  };
 
   return (
     <div className="px-24 my-2">
@@ -75,63 +64,62 @@ const Comment = () => {
             <th></th>
           </tr>
         </thead>
-        {comments?.map((comment) => (
-          <tbody className="border-b-2" key={comment.id}>
-            <tr>
-              <td>{comment.id}</td>
-              <td>{comment.productName}</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td rowSpan={3} colSpan={2}>
-                <img src={productImage} alt="" className="mt-[-16px]"></img>
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                {comment.customer}
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                {comment.content}
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                {comment.postDate}
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                <FontAwesomeIcon icon={faTrashCan} />
-              </td>
-            </tr>
-            <tr>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                {comment.customer}
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                {comment.content}
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                {comment.postDate}
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                <FontAwesomeIcon icon={faTrashCan} />
-              </td>
-            </tr>
-            <tr>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                {comment.customer}
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                {comment.content}
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                {comment.postDate}
-              </td>
-              <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
-                <FontAwesomeIcon icon={faTrashCan} />
-              </td>
-            </tr>
-          </tbody>
-        ))}
+        {arrComments?.map((comment, index) => {
+          const productById = arrProducts.find(
+            (product) => product.uuid === comment.id
+          );
+          return (
+            <tbody className="border-b-2" key={comment.id}>
+              <tr>
+                <td>{index + 1}</td>
+                <td>{productById.name}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              {comment?.comments?.map((commentData, index) => {
+                return (
+                  <tr key={commentData?.uid}>
+                    {index === 0 && (
+                      <td rowSpan={comment?.comments?.length} colSpan={2}>
+                        <img
+                          src={productById.arrImg[0]}
+                          alt=""
+                          width={240}
+                          height={400}
+                          className="mt-[-16px]"
+                        ></img>
+                      </td>
+                    )}
+                    <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
+                      {commentData?.user?.fullname}
+                    </td>
+                    <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
+                      {commentData?.content}
+                    </td>
+                    <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
+                      1
+                    </td>
+                    <td className="border-y-[1px] border-y-[rgb(82 82 82)]">
+                      <div
+                        className="cursor-pointer"
+                        onClick={() =>
+                          handleDeleteCmt({
+                            idProduct: comment.id,
+                            idComment: commentData?.uid,
+                          })
+                        }
+                      >
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          );
+        })}
       </table>
       {/* table end */}
     </div>

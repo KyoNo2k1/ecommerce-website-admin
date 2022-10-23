@@ -9,6 +9,8 @@ import updateOneProduct, {
 import updateOneCategory from "./../../services/category/update";
 import deleteOneCategory from "./../../services/category/delete";
 import deleteOneProduct from "./../../services/product/delete";
+import { getListComments } from "./../../services/comment/show";
+import deleteOneComment from "./../../services/comment/delete";
 
 //PRODUCTS
 export const getProducts = createAsyncThunk(
@@ -105,6 +107,30 @@ export const deleteCategory = createAsyncThunk(
   }
 );
 
+//comment
+export const getComments = createAsyncThunk(
+  "product/getComments",
+  async (arrIdProduct, { rejectWithValue }) => {
+    const response = await getListComments(arrIdProduct);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    return response;
+  }
+);
+export const deleteComment = createAsyncThunk(
+  "product/deleteComments",
+  async (data, { rejectWithValue }) => {
+    console.log(data);
+    const response = await deleteOneComment(data);
+    console.log(response);
+    if (response == null) {
+      return rejectWithValue(response);
+    }
+    return response;
+  }
+);
+
 //create product slice
 export const productSlice = createSlice({
   name: "product",
@@ -124,6 +150,10 @@ export const productSlice = createSlice({
     statusCreateCategories: "",
     categoryName: "",
     statusUpdateCategories: "",
+
+    //comment
+    arrComments: [],
+    statusGetArrComments: "",
   },
   extraReducers: {
     [getProducts.pending]: (state, action) => {
@@ -161,6 +191,10 @@ export const productSlice = createSlice({
     },
     [deleteCategory.fulfilled]: (state, action) => {
       state.statusDeleteProduct = "success";
+    },
+    [getComments.fulfilled]: (state, action) => {
+      state.statusGetArrComments = "success";
+      state.arrComments = action.payload;
     },
   },
   reducers: {

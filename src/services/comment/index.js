@@ -1,5 +1,5 @@
 import createOneComment from "./create";
-import showListComments from "./show";
+import getCommentById from "./show";
 import deleteOneComment from "./delete";
 
-export { createOneComment, showListComments, deleteOneComment };
+export { createOneComment, getCommentById, deleteOneComment };
