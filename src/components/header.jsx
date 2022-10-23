@@ -28,7 +28,7 @@ const Header = ({ user }) => {
       <div>
         <div className="flex justify-between p-5 border-b-2 border-primary-300">
           <FontAwesomeIcon icon={faSearch} />
-          <p className="text-h4 font-semibold">Ecommerce</p>
+          <p className="text-h4 font-semibold">Avion</p>
           <div className="menu-container" ref={menuRef}>
             <div
               className="menu-trigger"

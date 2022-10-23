@@ -7,10 +7,15 @@ import {
   deleteUser,
   getUsers,
   resetStatusUser,
+  updateRealtimeUser,
 } from "../redux/userSlice/userSlice";
 import { timeConvert } from "../components/convertTime";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { onSnapshot } from "firebase/firestore";
+import { USERS } from "../services/constant/firestore";
+import { db } from "../services/firebase.config";
+import { collection } from "firebase/firestore";
 
 const Customer = () => {
   const dispatch = useDispatch();
@@ -20,6 +25,12 @@ const Customer = () => {
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(getUsers());
+    const updateUsers = onSnapshot(collection(db, USERS), async (snap) => {
+      const arrNew = [];
+      await snap.forEach((data) => arrNew.push(data.data()));
+      await dispatch(updateRealtimeUser(arrNew));
+    });
+    return updateUsers;
   }, []);
 
   useEffect(() => {
@@ -63,9 +74,9 @@ const Customer = () => {
             return (
               <tr className="border-b-2" key={customer.uuid}>
                 <td>{index}</td>
-                <td>{customer.fullname}</td>
-                <td>{customer.email}</td>
-                <td>{customer.addr_default}</td>
+                <td>{customer?.fullname}</td>
+                <td>{customer?.email}</td>
+                <td>{customer?.addr_default}</td>
                 <td>{timeCreate}</td>
                 <td className="border-none flex">
                   <div

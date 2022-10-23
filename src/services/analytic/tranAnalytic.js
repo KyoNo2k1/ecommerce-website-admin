@@ -53,84 +53,132 @@ export const totalProductCount = ({ arrTransactions }) => {
   return productCount;
 };
 
-//count new users created
-export const countUserToday = ({ arrUsers, date }) => {
-  let countUser = 0;
-  arrUsers.forEach((user) => {
-    if (user.created_date.toDate().getDate() === date) countUser += 1;
-  });
-  return countUser;
-};
-
 //arr
 //count transactions
 export const arrCountTranByDate = ({ arrTransactions, date }) => {
-  const newArr = new Array(date).fill(0);
-  for (let i = 0; i < date; i++) {
+  const newArr = new Array(date[2]).fill(0);
+  for (let i = 0; i < date[2]; i++) {
     for (let j = 0; j < arrTransactions.length; j++) {
-      if (arrTransactions[j]?.created_date?.toDate()?.getDate() - 1 === i) {
-        newArr[i] += 1;
-      }
+      if (
+        arrTransactions[j]?.created_date?.toDate()?.getMonth() + 1 ===
+          date[1] &&
+        arrTransactions[j]?.created_date?.toDate()?.getFullYear() === date[0]
+      )
+        if (arrTransactions[j]?.created_date?.toDate()?.getDate() - 1 === i) {
+          newArr[i] += 1;
+        }
     }
   }
   return newArr;
 };
 export const arrCountTranByMonth = ({ arrTransactions, month }) => {
-  const newArr = new Array(month).fill(0);
-  console.log(month);
-  for (let i = 0; i < month; i++) {
+  const newArr = new Array(month[1]).fill(0);
+  for (let i = 0; i < month[1]; i++) {
     for (let j = 0; j < arrTransactions.length; j++) {
-      if (arrTransactions[j]?.created_date?.toDate()?.getMonth() === i) {
-        newArr[i] += 1;
-      }
+      if (
+        arrTransactions[j]?.created_date?.toDate()?.getFullYear() === month[0]
+      )
+        if (arrTransactions[j]?.created_date?.toDate()?.getMonth() === i) {
+          newArr[i] += 1;
+        }
     }
   }
-  console.log(newArr);
   return newArr;
 };
 //arr Total transactions
 export const arrTotalTranByDate = ({ arrTransactions, date }) => {
-  const newArr = new Array(date).fill(0);
-  for (let i = 0; i < date; i++) {
+  const newArr = new Array(date[2]).fill(0);
+  for (let i = 0; i < date[2]; i++) {
     for (let j = 0; j < arrTransactions.length; j++) {
-      if (arrTransactions[j]?.created_date?.toDate()?.getDate() - 1 === i) {
-        newArr[i] += arrTransactions[j].total;
-      }
+      if (
+        arrTransactions[j]?.created_date?.toDate()?.getMonth() + 1 ===
+          date[1] &&
+        arrTransactions[j]?.created_date?.toDate().getFullYear() === date[0]
+      )
+        if (arrTransactions[j]?.created_date?.toDate()?.getDate() - 1 === i) {
+          newArr[i] += arrTransactions[j].total;
+        }
     }
   }
   return newArr;
 };
 export const arrTotalTranByMonth = ({ arrTransactions, month }) => {
-  const newArr = new Array(month).fill(0);
-  for (let i = 0; i < month; i++) {
+  const newArr = new Array(month[1]).fill(0);
+  for (let i = 0; i < month[1]; i++) {
     for (let j = 0; j < arrTransactions.length; j++) {
-      if (arrTransactions[j]?.created_date?.toDate()?.getMonth() === i) {
-        newArr[i] += arrTransactions[j].total;
-      }
+      if (
+        arrTransactions[j]?.created_date?.toDate()?.getFullYear() === month[0]
+      )
+        if (arrTransactions[j]?.created_date?.toDate()?.getMonth() === i) {
+          newArr[i] += arrTransactions[j].total;
+        }
     }
   }
   return newArr;
 };
 
-export const arrCusCreateByDate = ({ arrUsers, date }) => {
-  const newArr = new Array(date).fill(0);
-  for (let i = 0; i < date; i++) {
-    for (let j = 0; j < arrUsers.length; j++) {
-      if (arrUsers[j]?.created_date?.toDate()?.getDate() - 1 === i) {
-        newArr[i] += 1;
-      }
-    }
+//By date onchange
+export const arrLabelFromTo = ({ from, to }) => {
+  let arrLabels = [];
+  for (let d = from; d <= to; d.setDate(d.getDate() + 1)) {
+    arrLabels.push(d.getDate());
   }
-  return newArr;
+  return arrLabels;
 };
-export const arrCusCreateByMonth = ({ arrUsers, month }) => {
-  const newArr = new Array(month).fill(0);
-  for (let i = 0; i < month; i++) {
-    for (let j = 0; j < arrUsers.length; j++) {
-      if (arrUsers[j]?.created_date?.toDate()?.getMonth() === i) {
-        newArr[i] += 1;
+export const arrCountTranByDateTimeline = ({ arrTransactions, from, to }) => {
+  if (from > to) {
+    alert("From need lower To");
+    return;
+  }
+
+  var arrCountByDate = [];
+
+  const newArrValidDate = arrTransactions.filter(
+    (transaction) =>
+      transaction.created_date.toDate() > from &&
+      transaction.created_date.toDate() < to
+  );
+
+  for (let d = from; d <= to; d.setDate(d.getDate() + 1)) {
+    var count = 0;
+    for (let i = 0; i < newArrValidDate.length; i++) {
+      if (
+        d.toISOString().split("T")[0] ===
+        newArrValidDate[i].created_date.toDate().toISOString().split("T")[0]
+      ) {
+        count++;
       }
     }
+    arrCountByDate.push(count);
   }
-  return newArr;
+  return arrCountByDate;
+};
+
+export const arrSaleTranByDateTimeline = ({ arrTransactions, from, to }) => {
+  if (from > to) {
+    alert("From need lower To");
+    return;
+  }
+
+  var arrSalesByDate = [];
+
+  const newArrValidDate = arrTransactions.filter(
+    (transaction) =>
+      transaction.created_date.toDate() > from &&
+      transaction.created_date.toDate() < to
+  );
+
+  for (let d = from; d <= to; d.setDate(d.getDate() + 1)) {
+    var total = 0;
+    for (let i = 0; i < newArrValidDate.length; i++) {
+      if (
+        d.toISOString().split("T")[0] ===
+        newArrValidDate[i].created_date.toDate().toISOString().split("T")[0]
+      ) {
+        total += newArrValidDate[i].total;
+      }
+    }
+    arrSalesByDate.push(total);
+  }
+  return arrSalesByDate;
 };

@@ -73,9 +73,13 @@ export const userSlice = createSlice({
     setUserValue: (state, action) => {
       state.user = action.payload;
     },
+    updateRealtimeUser: (state, action) => {
+      state.arrUsers = action.payload;
+    },
   },
 });
 //aciton products
-export const { resetStatusUser, setUserValue } = userSlice.actions;
+export const { resetStatusUser, setUserValue, updateRealtimeUser } =
+  userSlice.actions;
 //reducer products
 export default userSlice.reducer;

@@ -4,12 +4,19 @@ import Chart from "../components/chart";
 import TopProduct from "../components/topProduct";
 import ChartUser from "../components/chartUser";
 import { useDispatch, useSelector } from "react-redux";
-import { getTransactions } from "./../redux/transactionSlice/transactionSlice";
+import {
+  getTransactions,
+  updateRealtimeTransaction,
+} from "./../redux/transactionSlice/transactionSlice";
 import {
   arrCountTranByDate,
   totalTranByDate,
 } from "./../services/analytic/tranAnalytic";
 import { getUsers } from "../redux/userSlice/userSlice";
+import { onSnapshot } from "firebase/firestore";
+import { db } from "../services/firebase.config";
+import { TRANSACTIONS } from "../services/constant/firestore";
+import { collection } from "firebase/firestore";
 
 const Dashboard = () => {
   const { arrTransactions } = useSelector((store) => store.transactions);
@@ -18,7 +25,17 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getTransactions());
     dispatch(getUsers());
+    const updateRealtimeTrans = onSnapshot(
+      collection(db, TRANSACTIONS),
+      async (snap) => {
+        const arrNew = [];
+        await snap.forEach((data) => arrNew.push(data.data()));
+        await dispatch(updateRealtimeTransaction(arrNew));
+      }
+    );
+    return updateRealtimeTrans;
   }, []);
+
   console.log(arrTransactions);
   console.log(arrUsers);
 

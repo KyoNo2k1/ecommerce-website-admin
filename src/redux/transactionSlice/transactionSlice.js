@@ -34,6 +34,7 @@ export const getOneTransaction = createAsyncThunk(
     if (response == null) {
       return rejectWithValue(response);
     }
+    console.log(response);
     return response;
   }
 );
@@ -72,9 +73,13 @@ export const transactionSlice = createSlice({
     resetStatusTransaction: (state, action) => {
       state.statusUpdateTransaction = "";
     },
+    updateRealtimeTransaction: (state, action) => {
+      state.arrTransactions = action.payload;
+    },
   },
 });
 //aciton products
-export const { resetStatusTransaction } = transactionSlice.actions;
+export const { resetStatusTransaction, updateRealtimeTransaction } =
+  transactionSlice.actions;
 //reducer products
 export default transactionSlice.reducer;
