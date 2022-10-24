@@ -16,6 +16,7 @@ const RUDCustomer = () => {
     fullname: "",
     email: "",
     type: "",
+    avatar: "",
     created_date: "",
     updated_date: "",
     addr_default: "",
@@ -33,6 +34,8 @@ const RUDCustomer = () => {
       dispatch(showUser(Id));
     }
   }, [location.state]);
+
+  console.log(inputValueUser);
 
   useEffect(() => {
     if (!!userData.uuid) {
@@ -56,7 +59,15 @@ const RUDCustomer = () => {
   };
 
   return (
-    <div className="w-[100%]">
+    <div className="w-[100%] flex">
+      <img
+        className="w-[20%] h-[300px] m-5"
+        src={
+          inputValueUser.avatar ||
+          "https://thumbs.dreamstime.com/b/no-image-available-icon-flat-vector-no-image-available-icon-flat-vector-illustration-132482953.jpg"
+        }
+        alt="User Avatar"
+      />
       <div className="w-[60%] mx-auto flex justify-between">
         {/*Col middle : Product name, category, dimension description*/}
         <div className="w-[100%] flex justify-between">
