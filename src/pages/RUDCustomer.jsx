@@ -35,8 +35,6 @@ const RUDCustomer = () => {
     }
   }, [location.state]);
 
-  console.log(inputValueUser);
-
   useEffect(() => {
     if (!!userData.uuid) {
       setInputValueUser(userData);
@@ -100,7 +98,7 @@ const RUDCustomer = () => {
             <div className="flex-1">
               <LabelInput
                 name={"Create Date"}
-                value={inputValueUser?.created_date}
+                value={inputValueUser?.created_date.toDate().toDateString()}
                 inputValue={inputValueUser}
                 setInputValue={setInputValueUser}
                 readOnly={true}

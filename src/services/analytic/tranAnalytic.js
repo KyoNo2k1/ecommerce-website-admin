@@ -1,9 +1,12 @@
 //report
 //get count of transaction by date
-export const amountTranByDate = ({ arrTransactions, date }) => {
+export const amountTranByDate = ({ arrTransactions, date, month }) => {
   let amount = 0;
   arrTransactions.forEach((tran) => {
-    if (tran.created_date.toDate().getDate() === date) {
+    if (
+      tran.created_date.toDate().getDate() === date &&
+      tran.created_date.toDate().getMonth() + 1 === month
+    ) {
       amount += 1;
     }
   });
@@ -11,9 +14,14 @@ export const amountTranByDate = ({ arrTransactions, date }) => {
 };
 
 //total sales by date
-export const totalTranByDate = ({ arrTransactions, date }) => {
+export const totalTranByDate = ({ arrTransactions, date, month }) => {
   const total = arrTransactions
-    .filter((tran) => tran.created_date.toDate().getDate() === date)
+    .filter(
+      (tran) =>
+        tran.created_date.toDate().getDate() === date &&
+        tran.created_date.toDate().getMonth() + 1 === month &&
+        tran.status !== "Canceled"
+    )
     .reduce((total, saleTrans) => total + saleTrans.total, 0);
   return total;
 };

@@ -18,6 +18,7 @@ import { pendingOrdersTran } from "./../services/analytic/tranAnalytic";
 const Analytics = () => {
   const { arrTransactions } = useSelector((store) => store.transactions);
   const today = new Date().getDate();
+  const month = new Date().getMonth() + 1;
   var totalEarnings = totalAllTran({ arrTransactions });
   var pendingOrders = pendingOrdersTran({ arrTransactions });
 
@@ -25,7 +26,7 @@ const Analytics = () => {
     {
       id: 1,
       title: "Amount Sales Today",
-      count: amountTranByDate({ arrTransactions, date: today }),
+      count: amountTranByDate({ arrTransactions, date: today, month: month }),
       percent: 0.05,
       icon: faCircleDollarToSlot,
     },
@@ -33,8 +34,9 @@ const Analytics = () => {
       id: 2,
       title: "Total sales today",
       count:
-        Math.round(totalTranByDate({ arrTransactions, date: today }) * 100) /
-        100,
+        Math.round(
+          totalTranByDate({ arrTransactions, date: today, month: month }) * 100
+        ) / 100,
       percent: 0.05,
       icon: faCoins,
     },

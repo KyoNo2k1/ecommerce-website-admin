@@ -1,23 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import productImage from "../images/productImage.png";
 import { getComments } from "../redux/productSlice/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteComment } from "./../redux/productSlice/productSlice";
+import ProgressBarComponent from "./../components/progressBar";
 
 const Comment = () => {
   const dispatch = useDispatch();
   const { arrProducts, arrComments } = useSelector((store) => store.products);
   const listProductId = arrProducts.map((product) => product.uuid);
+
   useEffect(() => {
     dispatch(getComments(listProductId));
   }, []);
   const handleDeleteCmt = ({ idProduct, idComment }) => {
     dispatch(deleteComment({ idProduct: idProduct, idComment: idComment }));
   };
-
-  return (
+  return arrComments.length ? (
     <div className="px-24 my-2">
       <div className="flex justify-end">
         {/* Start search by name */}
@@ -123,6 +123,8 @@ const Comment = () => {
       </table>
       {/* table end */}
     </div>
+  ) : (
+    <ProgressBarComponent />
   );
 };
 

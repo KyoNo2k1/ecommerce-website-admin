@@ -46,9 +46,8 @@ const Customer = () => {
   }, [statusUpdateUser, statusDeleteUser]);
 
   //show user information
-  const handleShow = (customer, timeCreate) => {
-    const customerConvertTime = { ...customer, created_date: timeCreate };
-    navigate(`/Customer/${customer.uuid}`, { state: customerConvertTime });
+  const handleShow = (customer) => {
+    navigate(`/Customer/${customer.uuid}`, { state: customer });
   };
   //delete user
   const handleDelete = async (id) => {
@@ -72,19 +71,17 @@ const Customer = () => {
             <th></th>
           </tr>
           {arrUsers?.map((customer, index) => {
-            var timeCreate = timeConvert(customer?.created_date?.toDate());
-
             return (
               <tr className="border-b-2" key={customer.uuid}>
                 <td>{index}</td>
                 <td>{customer?.fullname}</td>
                 <td>{customer?.email}</td>
                 <td>{customer?.addr_default}</td>
-                <td>{timeCreate}</td>
+                <td>{customer?.created_date?.toDate().toDateString()}</td>
                 <td className="border-none flex">
                   <div
                     className="cursor-pointer"
-                    onClick={() => handleShow(customer, timeCreate)}
+                    onClick={() => handleShow(customer)}
                   >
                     <FontAwesomeIcon icon={faEye} />
                   </div>
