@@ -26,7 +26,6 @@ const Transactions = () => {
   }, [statusUpdateTransaction]);
 
   const navigate = useNavigate();
-
   // options with default values
   const options = {
     defaultTabId: "Waiting",
@@ -45,7 +44,6 @@ const Transactions = () => {
 
     return result;
   };
-
   // handle delete
   const handleDelete = (id) => {
     let text = "You want to set this transactions is Canceled?";

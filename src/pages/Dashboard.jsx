@@ -10,11 +10,9 @@ import {
 } from "./../redux/transactionSlice/transactionSlice";
 import {
   arrCountTranByCate,
-  arrCountTranByDate,
   arrCountTranByHour,
   arrSalesTranByCate,
   arrTotalTranByHour,
-  totalTranByDate,
 } from "./../services/analytic/tranAnalytic";
 import { getUsers } from "../redux/userSlice/userSlice";
 import { onSnapshot } from "firebase/firestore";
@@ -41,7 +39,10 @@ const Dashboard = () => {
       collection(db, TRANSACTIONS),
       async (snap) => {
         const arrNew = [];
-        await snap.forEach((data) => arrNew.push(data.data()));
+        await snap.forEach((data) => {
+          arrNew.push(data.data());
+          arrNew[arrNew.length - 1].uid = data.id;
+        });
         await dispatch(updateRealtimeTransaction(arrNew));
       }
     );

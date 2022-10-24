@@ -34,7 +34,6 @@ export const getOneTransaction = createAsyncThunk(
     if (response == null) {
       return rejectWithValue(response);
     }
-    console.log(response);
     return response;
   }
 );
@@ -65,7 +64,6 @@ export const transactionSlice = createSlice({
       state.transaction = action.payload;
     },
     [updateTransaction.fulfilled]: (state, action) => {
-      console.log(action.payload);
       state.statusUpdateTransaction = action.payload;
     },
   },

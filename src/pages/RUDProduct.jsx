@@ -40,7 +40,7 @@ const RUDProduct = () => {
     name: "",
     category: "",
     description: "",
-    price: "",
+    price: 0,
     quantity: "",
     width: "",
     height: "",

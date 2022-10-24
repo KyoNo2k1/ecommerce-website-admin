@@ -27,7 +27,10 @@ const Customer = () => {
     dispatch(getUsers());
     const updateUsers = onSnapshot(collection(db, USERS), async (snap) => {
       const arrNew = [];
-      await snap.forEach((data) => arrNew.push(data.data()));
+      await snap.forEach((data) => {
+        arrNew.push(data.data());
+        arrNew[arrNew.length - 1].uuid = data.id;
+      });
       await dispatch(updateRealtimeUser(arrNew));
     });
     return updateUsers;
