@@ -1,5 +1,6 @@
 import React from "react";
 import NotificationItem from "../components/notificationItem";
+import { useSelector } from "react-redux";
 
 const List = [
   {
@@ -25,22 +26,27 @@ const List = [
   },
 ];
 
-function NotificationList() {
+const NotificationList = () => {
+  const { arrTransactions } = useSelector((store) => store.transactions);
+  const transPending = arrTransactions.filter(
+    (data) => data.status === "Waiting"
+  );
   return (
-    <ul className="">
-      {List?.map((item) => {
+    <ul className="max-h-[400px] overflow-auto">
+      {transPending?.map((item) => {
         return (
           <NotificationItem
-            type={item.type}
-            id={item.id}
-            value={item.value}
-            content={item.content}
-            key={item.key}
+            type="order"
+            id={item.uid}
+            value="waiting"
+            content={item.contact}
+            key={item.uid}
+            created_date={item?.created_date?.toDate()?.toDateString()}
           />
         );
       })}
     </ul>
   );
-}
+};
 
 export default NotificationList;

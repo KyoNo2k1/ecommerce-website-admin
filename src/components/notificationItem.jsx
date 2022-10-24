@@ -23,7 +23,7 @@ const values = {
   short: "3 days",
 };
 
-const NotificationItem = ({ type, id, value, content }) => {
+const NotificationItem = ({ type, id, value, content, created_date }) => {
   return (
     <li>
       <div className="flex justify-between items-center">
@@ -33,7 +33,7 @@ const NotificationItem = ({ type, id, value, content }) => {
           </span>
           <p className="text-h6">{content}</p>
           <br />
-          <p className="text-caption font-medium italic">20-10-2022</p>
+          <p className="text-caption font-medium italic">{created_date}</p>
         </div>
         <FontAwesomeIcon icon={icons[type]} />
       </div>
