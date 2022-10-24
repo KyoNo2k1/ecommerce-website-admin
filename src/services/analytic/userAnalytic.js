@@ -4,7 +4,7 @@ export const arrUserTranByHour = ({ arrUsers }) => {
 
   const arrCount = new Array(hour).fill(0);
   const newArrValidDate = arrUsers.filter(
-    (user) => user.created_date.toDate().getDate() === new Date().getDate()
+    (user) => user?.created_date?.toDate()?.getDate() === new Date().getDate()
   );
 
   for (let i = 0; i < hour; i++) {
@@ -51,18 +51,13 @@ export const arrCusCreateByMonth = ({ arrUsers, month }) => {
 export const countUserToday = ({ arrUsers, date }) => {
   let countUser = 0;
   arrUsers.forEach((user) => {
-    if (user.created_date.toDate().getDate() === date) countUser += 1;
+    if (user?.created_date?.toDate()?.getDate() === date) countUser += 1;
   });
   return countUser;
 };
 
 //onchange date
 export const arrCusByDateTimeline = ({ arrUsers, from, to }) => {
-  if (from > to) {
-    alert("From need lower To");
-    return;
-  }
-
   var arrUserByDate = [];
 
   const newArrValidDate = arrUsers.filter(

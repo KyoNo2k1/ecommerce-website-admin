@@ -32,6 +32,7 @@ import { db } from "../services/firebase.config";
 import { updateRealtimeTransaction } from "../redux/transactionSlice/transactionSlice";
 import { updateRealtimeUser } from "../redux/userSlice/userSlice";
 import { arrSaleTranByDateTimeline } from "./../services/analytic/tranAnalytic";
+import { useRef } from "react";
 
 const Report = () => {
   const navigate = useNavigate();
@@ -43,6 +44,9 @@ const Report = () => {
   const year = new Date().getFullYear();
   const date = new Date();
   const [typeFilter, setTypeFilter] = useState("Daily");
+  const [errInput, setErrInput] = useState("");
+  const dateFrom = useRef();
+  const dateTo = useRef();
 
   // onchange date
   const [arrLabelDate, setArrLabelDate] = useState([]);
@@ -114,35 +118,39 @@ const Report = () => {
   };
 
   //handleChangeFrom
-  const handleChangeFrom = (e) => {
-    if (month < Number(e.target.value.split("-")[1]))
-      return alert("Choose a month lower than now");
-    else if (month === Number(e.target.value.split("-")[1])) {
-      if (today < Number(e.target.value.split("-")[2]))
-        return alert("Choose a day lower than now");
-    }
+  const handleChangeFrom = () => {
+    if (
+      new Date(dateTo.current.value) < new Date(dateFrom.current.value) ||
+      date < new Date(dateFrom.current.value)
+    )
+      setErrInput("Choose date from lower than now or to");
+    else setErrInput("");
+
     setArrLabelDate(
-      arrLabelFromTo({ from: new Date(e.target.value), to: date })
+      arrLabelFromTo({
+        from: new Date(dateFrom.current.value),
+        to: !!dateTo.current.value ? new Date(dateTo.current.value) : date,
+      })
     );
     setArrChartCountDate(
       arrCountTranByDateTimeline({
         arrTransactions,
-        from: new Date(e.target.value),
-        to: date,
+        from: new Date(dateFrom.current.value),
+        to: !!dateTo.current.value ? new Date(dateTo.current.value) : date,
       })
     );
     setArrChartSalesDate(
       arrSaleTranByDateTimeline({
         arrTransactions,
-        from: new Date(e.target.value),
-        to: date,
+        from: new Date(dateFrom.current.value),
+        to: !!dateTo.current.value ? new Date(dateTo.current.value) : date,
       })
     );
     setArrChartCusDate(
       arrCusByDateTimeline({
         arrUsers,
-        from: new Date(e.target.value),
-        to: date,
+        from: new Date(dateFrom.current.value),
+        to: !!dateTo.current.value ? new Date(dateTo.current.value) : date,
       })
     );
   };
@@ -174,39 +182,47 @@ const Report = () => {
                 </label>
                 <input
                   type="date"
+                  ref={dateFrom}
                   className=" w-[169px] h-[56px] p-[20px]"
-                  onChange={(e) => handleChangeFrom(e)}
+                  onChange={() => handleChangeFrom()}
                 />
               </div>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
                   To
                 </label>
-                <input type="date" className=" w-[169px] h-[56px] p-[20px]" />
+                <input
+                  type="date"
+                  className=" w-[169px] h-[56px] p-[20px]"
+                  ref={dateTo}
+                  onChange={() => handleChangeFrom()}
+                />
               </div>
-              <div></div>
               <div></div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
-                  Type
-                </label>
-                <select
-                  id="countries"
-                  className=" w-[100%] h-[56px] pl-[20px]"
-                  defaultValue={"DEFAULT"}
-                >
-                  <option value="DEFAULT" disabled>
-                    Profit By Category
-                  </option>
-                  <option value="US">Plant pots</option>
-                  <option value="CA">Ceramics</option>
-                  <option value="FR">Tables</option>
-                  <option value="DE">Chairs</option>
-                  <option value="DE">Crockery</option>
-                  <option value="DE">Tableware</option>
-                  <option value="DE">Cutlery</option>
-                </select>
+                {/*
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                Type
+              </label>
+              <select
+                id="countries"
+                className=" w-[100%] h-[56px] pl-[20px]"
+                defaultValue={"DEFAULT"}
+              >
+                <option value="DEFAULT" disabled>
+                  Profit By Category
+                </option>
+                <option value="US">Plant pots</option>
+                <option value="CA">Ceramics</option>
+                <option value="FR">Tables</option>
+                <option value="DE">Chairs</option>
+                <option value="DE">Crockery</option>
+                <option value="DE">Tableware</option>
+                <option value="DE">Cutlery</option>
+              </select>
+             */}
               </div>
+              <div className="font-bold text-red-700">{errInput}</div>
             </div>
           </div>
           {/* Analytics */}

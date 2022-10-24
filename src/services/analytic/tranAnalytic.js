@@ -190,28 +190,25 @@ export const arrLabelFromTo = ({ from, to }) => {
   return arrLabels;
 };
 export const arrCountTranByDateTimeline = ({ arrTransactions, from, to }) => {
-  if (from > to) {
-    alert("From need lower To");
-    return;
-  }
-
   var arrCountByDate = [];
-
   const newArrValidDate = arrTransactions.filter(
     (transaction) =>
       transaction.created_date.toDate() > from &&
       transaction.created_date.toDate() < to
   );
-
   for (let d = from; d <= to; d.setDate(d.getDate() + 1)) {
     var count = 0;
     for (let i = 0; i < newArrValidDate.length; i++) {
       if (
-        d.toISOString().split("T")[0] ===
-        newArrValidDate[i].created_date.toDate().toISOString().split("T")[0]
-      ) {
-        count++;
-      }
+        d.toISOString().split("T")[1] ===
+        newArrValidDate[i].created_date.toDate().toISOString().split("T")[1]
+      )
+        if (
+          d.toISOString().split("T")[0] ===
+          newArrValidDate[i].created_date.toDate().toISOString().split("T")[0]
+        ) {
+          count++;
+        }
     }
     arrCountByDate.push(count);
   }
@@ -219,11 +216,6 @@ export const arrCountTranByDateTimeline = ({ arrTransactions, from, to }) => {
 };
 
 export const arrSaleTranByDateTimeline = ({ arrTransactions, from, to }) => {
-  if (from > to) {
-    alert("From need lower To");
-    return;
-  }
-
   var arrSalesByDate = [];
 
   const newArrValidDate = arrTransactions.filter(
