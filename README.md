@@ -28,6 +28,7 @@ FrontEnd:
 - react-js-progressbar
 - tailwindcss
 - prettier
+
 BackEnd:
 - firebase
 
