@@ -98,7 +98,11 @@ const RUDCustomer = () => {
             <div className="flex-1">
               <LabelInput
                 name={"Create Date"}
-                value={inputValueUser?.created_date.toDate().toDateString()}
+                value={
+                  inputValueUser.uuid
+                    ? inputValueUser?.created_date?.toDate()?.toDateString()
+                    : ""
+                }
                 inputValue={inputValueUser}
                 setInputValue={setInputValueUser}
                 readOnly={true}
